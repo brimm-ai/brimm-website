@@ -338,5 +338,11 @@
   const io=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:0.12});
   document.querySelectorAll('.reveal').forEach((el,i)=>{el.style.transitionDelay=(i%4*0.08)+'s';io.observe(el)});
 </script>
+  <footer style="text-align:center;padding:40px 24px;border-top:1px solid rgba(255,255,255,0.09);color:#93a6bd;font-size:13px;font-family:'Manrope',sans-serif;position:relative;z-index:2;">
+  © 2026 Brimm.ai ·
+  <a href="/privacy.html" style="color:#7EC8C8;text-decoration:none;">Privacy Policy</a> ·
+  <a href="/terms.html" style="color:#7EC8C8;text-decoration:none;">Terms of Service</a> ·
+  <a href="mailto:support@brimm.ai" style="color:#7EC8C8;text-decoration:none;">support@brimm.ai</a>
+</footer>
 </body>
 </html>
