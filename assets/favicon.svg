@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 108 108" width="1080" height="1080">
+<defs><linearGradient id="wv" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7FD4D4"></stop><stop offset="1" stop-color="#A78BFA"></stop></linearGradient>
+<clipPath id="cv"><path d="M54 22 C41 22 31 32 31 45 C31 61 54 86 54 86 C54 86 77 61 77 45 C77 32 67 22 54 22 Z"></path></clipPath></defs>
+<rect width="108" height="108" fill="#060912"></rect>
+<path d="M54 22 C41 22 31 32 31 45 C31 61 54 86 54 86 C54 86 77 61 77 45 C77 32 67 22 54 22 Z" fill="rgba(126,200,200,0.13)"></path>
+<circle cx="58" cy="39" r="7" fill="#CDB4FF"></circle>
+<path d="M26 47 C36 43 44 48.5 54 45 C63 42 70 45 82 42.5 L82 92 L26 92 Z" fill="url(#wv)" clip-path="url(#cv)"></path>
+<path d="M54 22 C41 22 31 32 31 45 C31 61 54 86 54 86 C54 86 77 61 77 45 C77 32 67 22 54 22 Z" fill="none" stroke="#65B3BB" stroke-width="6.5"></path>
+</svg>

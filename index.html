@@ -4,11 +4,23 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Brimm — What are you brimming today?</title>
-<meta name="description" content="Brimm is the AI travel app that knows you — from your first idea to a beautiful itinerary in 30 seconds. Personal, intelligent, effortless. Coming soon to iOS & Android.">
+<meta name="description" content="Brimm is the AI travel planner that knows your passport — and only ever shows you places you can actually get into. From a first idea to a day-by-day itinerary in seconds. Coming soon to iOS & Android.">
 <meta property="og:title" content="Brimm — What are you brimming today?">
-<meta property="og:description" content="The AI travel app that knows you. From idea to a beautiful itinerary in 30 seconds.">
+<meta property="og:description" content="The AI travel planner that knows your passport — and only ever shows you places you can actually get into.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://brimm.ai">
+<meta property="og:image" content="https://brimm.ai/assets/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="The Brimm mark and wordmark: a location pin brimming with sea, one sun dipping into it.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Brimm — What are you brimming today?">
+<meta name="twitter:description" content="The AI travel planner that knows your passport — and only ever shows you places you can actually get into.">
+<meta name="twitter:image" content="https://brimm.ai/assets/og-image.png">
+<link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700;9..144,900&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -110,30 +122,6 @@
   .store svg{width:22px;height:22px;flex-shrink:0;fill:var(--ink)}
   .soon{font-size:12.5px;color:var(--faint);font-weight:600;letter-spacing:0.3px;margin-top:4px}
 
-  /* PHONE MOCK */
-  .phone-row{position:relative;z-index:2;margin-top:64px;display:flex;justify-content:center;perspective:1400px}
-  .phone{
-    width:280px;border-radius:38px;padding:11px;
-    background:linear-gradient(160deg,#1b2438,#0a0f1c);
-    border:0.5px solid rgba(255,255,255,0.12);
-    box-shadow:0 40px 90px rgba(0,0,0,0.6),0 0 0 1px rgba(255,255,255,0.04) inset;
-    transform:rotateX(6deg);
-  }
-  .phone-screen{border-radius:28px;overflow:hidden;background:var(--night);border:0.5px solid var(--line)}
-  .ps-top{padding:18px 18px 6px;display:flex;justify-content:space-between;align-items:center;font-size:11px;color:var(--faint);font-weight:600}
-  .ps-body{padding:6px 16px 20px}
-  .ps-h{font-family:'Fraunces',serif;font-size:24px;font-weight:800;letter-spacing:-0.01em;margin:8px 0 2px}
-  .ps-sub{font-size:11.5px;color:var(--muted);margin-bottom:14px}
-  .ps-search{font-size:11px;color:var(--faint);padding:10px 12px;border-radius:11px;border:0.5px solid var(--line);background:rgba(255,255,255,0.03);margin-bottom:14px}
-  .ps-card{border-radius:14px;overflow:hidden;border:0.5px solid var(--line);margin-bottom:10px;background:var(--night2)}
-  .ps-img{height:84px;background-size:cover;background-position:center;position:relative}
-  .ps-img .visa{position:absolute;top:8px;right:8px;font-size:9px;font-weight:700;padding:3px 8px;border-radius:999px;background:rgba(6,9,18,0.7);backdrop-filter:blur(4px)}
-  .ps-img .visa.free{color:#9FE1CB}
-  .ps-img .visa.voa{color:#9CCAF5}
-  .ps-meta{padding:9px 11px}
-  .ps-meta .city{font-weight:700;font-size:13px}
-  .ps-meta .country{font-size:10px;color:var(--muted)}
-
   /* SECTION SHELL */
   section.block{padding:100px 0;position:relative}
   .shead{text-align:center;max-width:640px;margin:0 auto 56px}
@@ -164,6 +152,12 @@
   .moat h2{font-family:'Fraunces',serif;font-size:clamp(26px,4.2vw,42px);font-weight:700;letter-spacing:-0.02em;line-height:1.1;margin-bottom:18px}
   .moat h2 .grad{background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
   .moat p{font-size:16.5px;color:var(--muted);max-width:560px;margin:0 auto;font-weight:500}
+  .moat .kicker{font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--purple);margin-bottom:14px}
+  /* the four verdict pills — the app's own visa language, drawn in words and dots, not screenshotted */
+  .pills{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin-top:30px}
+  .pill{display:inline-flex;align-items:center;gap:8px;padding:9px 16px;border-radius:999px;font-size:13.5px;font-weight:700;color:var(--ink);border:0.5px solid var(--line);background:rgba(6,9,18,0.55)}
+  .pill .dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+  .pill .perk{font-size:13px;line-height:1}
 
   /* STEPS */
   .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;counter-reset:s}
@@ -183,7 +177,8 @@
   .ctafoot p{font-size:17px;color:var(--muted);margin-bottom:36px;font-weight:500}
 
   footer{border-top:0.5px solid var(--line);padding:40px 24px;text-align:center}
-  .foot-logo{font-family:'Fraunces',serif;font-weight:900;font-size:18px;margin-bottom:10px}
+  .foot-logo{display:flex;justify-content:center;margin-bottom:14px}
+  .foot-logo img{width:160px;height:auto;display:block}
   .foot-links{display:flex;gap:24px;justify-content:center;flex-wrap:wrap;font-size:13px;color:var(--muted);font-weight:600;margin-bottom:18px}
   .foot-links a:hover{color:var(--ink)}
   .foot-note{font-size:12px;color:var(--faint)}
@@ -198,20 +193,13 @@
 
 <nav id="nav">
   <a href="#" class="logo">
-    <svg class="mark" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-      <defs><linearGradient id="lg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#7EC8C8"/><stop offset="1" stop-color="#A78BFA"/></linearGradient></defs>
-      <rect x="6" y="6" width="88" height="88" rx="22" fill="#0B1120" stroke="rgba(126,200,200,0.3)" stroke-width="1"/>
-      <rect x="34" y="26" width="11" height="50" rx="5.5" fill="url(#lg)"/>
-      <circle cx="56" cy="58" r="19" fill="url(#lg)"/>
-      <path d="M40 54 q4 -3 8 0 q4 3 8 0 q4 -3 8 0" fill="none" stroke="#0B1120" stroke-width="3" stroke-linecap="round"/>
-      <path d="M42 64 q4 -3 8 0 q4 3 8 0" fill="none" stroke="#0B1120" stroke-width="3" stroke-linecap="round"/>
-    </svg>
+    <img class="mark" src="/assets/mark-dark-foreground.svg" alt="" width="34" height="34">
     brimm
   </a>
   <div class="navlinks">
     <a href="#how">How it works</a>
     <a href="#why">Why Brimm</a>
-    <a href="mailto:team@brimm.ai" class="navcta">Get in touch</a>
+    <a href="mailto:support@brimm.ai" class="navcta">Get in touch</a>
   </div>
 </nav>
 
@@ -222,7 +210,7 @@
   <div class="hero-inner">
     <span class="eyebrow"><span class="dot"></span>Coming soon · iOS &amp; Android</span>
     <h1>What are you<br><span class="grad">brimming</span> today?</h1>
-    <p class="lead">The AI travel app that <b>knows you</b> — and takes you from a single spark of an idea to a beautiful itinerary in seconds.</p>
+    <p class="lead">The AI travel planner that <b>knows your passport</b> — and only ever shows you places you can actually get into.</p>
     <div class="stores">
       <div class="store">
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17.05 12.5c0-2.3 1.9-3.4 2-3.5-1.1-1.6-2.8-1.8-3.4-1.8-1.4-.1-2.8.8-3.5.8s-1.8-.8-3-.8c-1.5 0-3 .9-3.8 2.3-1.6 2.8-.4 7 1.2 9.3.8 1.1 1.7 2.4 2.9 2.3 1.2 0 1.6-.7 3-.7s1.8.7 3 .7 2-1.1 2.8-2.2c.9-1.3 1.2-2.5 1.3-2.6-.1 0-2.5-1-2.5-3.8zM14.8 5.3c.6-.8 1-1.9.9-3-.9 0-2 .6-2.7 1.4-.6.7-1.1 1.8-1 2.8 1 .1 2.1-.5 2.8-1.2z"/></svg>
@@ -236,27 +224,26 @@
     <p class="soon">Pilot launching soon — built to be beautiful in your hand.</p>
   </div>
 
-  <div class="phone-row reveal">
-    <div class="phone">
-      <div class="phone-screen">
-        <div class="ps-top"><span>9:41</span><span>brimm 🌊</span></div>
-        <div class="ps-body">
-          <div class="ps-h">Explore</div>
-          <div class="ps-sub">Destinations picked just for you</div>
-          <div class="ps-search">🔍 Search 100+ destinations…</div>
-          <div class="ps-card">
-            <div class="ps-img" style="background-image:url('https://images.unsplash.com/photo-1537996194471-e657df975ab4?w=600&q=70')"></div>
-            <div class="ps-meta"><div class="city">Bali</div><div class="country">Indonesia · IDN</div></div>
-          </div>
-          <div class="ps-card">
-            <div class="ps-img" style="background-image:url('https://images.unsplash.com/photo-1518684079-3c830dcef090?w=600&q=70')"></div>
-            <div class="ps-meta"><div class="city">Dubai</div><div class="country">UAE · ARE</div></div>
-          </div>
+</header>
+
+<section class="block" id="moat" style="padding-top:20px">
+  <div class="wrap">
+    <div class="moat reveal">
+      <div class="mglow"></div>
+      <div class="moat-inner">
+        <div class="kicker">The part nobody else does</div>
+        <h2>Every destination, <span class="grad">checked against your passport</span></h2>
+        <p>Before Brimm shows you a place, it checks whether you can get in — with the passport you hold, the visas and residence permits you carry, and every leg of a multi-city trip counted separately. The answer is on the card before you fall for the city.</p>
+        <div class="pills" aria-label="Examples of the visa verdicts Brimm shows">
+          <span class="pill"><span class="dot" style="background:#6BBEF5"></span>Visa on arrival</span>
+          <span class="pill"><span class="perk" style="color:#5BD6D6">✦</span>Your Schengen</span>
+          <span class="pill"><span class="dot" style="background:#FFC24D"></span>e-Visa · 30 days</span>
+          <span class="pill"><span class="dot" style="background:#FF8F8F"></span>Visa required</span>
         </div>
       </div>
     </div>
   </div>
-</header>
+</section>
 
 <section class="block" id="why">
   <div class="wrap">
@@ -267,28 +254,19 @@
     </div>
     <div class="features">
       <div class="feat reveal">
-        <div class="ico">🧭</div>
-        <h3>Knows your profile</h3>
+        <div class="ico">🛂</div>
+        <h3>Knows what you hold</h3>
+        <p>Your passport, your visas, your residence — every verdict is for you, not for a generic traveller.</p>
       </div>
       <div class="feat reveal">
         <div class="ico">✨</div>
-        <h3>Itinerary in seconds</h3>
+        <h3>A real plan in seconds</h3>
+        <p>Day by day, real places, honest prices — a trip you could actually take, not a list of links.</p>
       </div>
       <div class="feat reveal">
-        <div class="ico">🌊</div>
-        <h3>Beautiful in your hand</h3>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="block" style="padding-top:20px">
-  <div class="wrap">
-    <div class="moat reveal">
-      <div class="mglow"></div>
-      <div class="moat-inner">
-        <h2>“It just <span class="grad">knows you.”</span></h2>
-        <p>Brimm understands the things other travel apps overlook — the details that quietly decide where you can actually go. That's where it begins.</p>
+        <div class="ico">🔀</div>
+        <h3>Yours to change</h3>
+        <p>Drag a day, swap a stop, set your own price. The plan bends to you and stays yours.</p>
       </div>
     </div>
   </div>
@@ -303,7 +281,7 @@
     </div>
     <div class="steps">
       <div class="step reveal"><div class="n">1</div><h4>Spark</h4></div>
-      <div class="step reveal"><div class="n">2</div><h4>Explore</h4></div>
+      <div class="step reveal"><div class="n">2</div><h4>Check</h4></div>
       <div class="step reveal"><div class="n">3</div><h4>Plan</h4></div>
       <div class="step reveal"><div class="n">4</div><h4>Go</h4></div>
     </div>
@@ -323,13 +301,16 @@
 </section>
 
 <footer>
-  <div class="foot-logo">brimm</div>
+  <div class="foot-logo"><img src="/assets/lockup-horizontal-dark.svg" alt="brimm" width="160" height="72"></div>
   <div class="foot-links">
     <a href="#why">Why Brimm</a>
     <a href="#how">How it works</a>
-    <a href="mailto:team@brimm.ai">Contact</a>
+    <a href="/privacy.html">Privacy</a>
+    <a href="/terms.html">Terms</a>
+    <a href="/delete-account.html">Delete account</a>
+    <a href="mailto:support@brimm.ai">Contact</a>
   </div>
-  <p class="foot-note">© 2026 Brimm · <a href="mailto:team@brimm.ai" class="foot-mail">team@brimm.ai</a> · What are you brimming today?</p>
+  <p class="foot-note">© 2026 Brimm.ai · <a href="mailto:support@brimm.ai" class="foot-mail">support@brimm.ai</a> · What are you brimming today?</p>
 </footer>
 
 <script>
@@ -338,11 +319,5 @@
   const io=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:0.12});
   document.querySelectorAll('.reveal').forEach((el,i)=>{el.style.transitionDelay=(i%4*0.08)+'s';io.observe(el)});
 </script>
-  <footer style="text-align:center;padding:40px 24px;border-top:1px solid rgba(255,255,255,0.09);color:#93a6bd;font-size:13px;font-family:'Manrope',sans-serif;position:relative;z-index:2;">
-  © 2026 Brimm.ai ·
-  <a href="/privacy.html" style="color:#7EC8C8;text-decoration:none;">Privacy Policy</a> ·
-  <a href="/terms.html" style="color:#7EC8C8;text-decoration:none;">Terms of Service</a> ·
-  <a href="mailto:support@brimm.ai" style="color:#7EC8C8;text-decoration:none;">support@brimm.ai</a>
-</footer>
 </body>
 </html>
