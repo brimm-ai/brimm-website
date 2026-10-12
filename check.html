@@ -69,8 +69,8 @@
   .gift{display:flex;gap:12px;align-items:flex-start;padding:14px 16px;border-radius:16px;border:1px dashed rgba(250,199,117,.6);background:rgba(250,199,117,.07);margin:4px 0 18px}
   .gift b{display:block;color:var(--gold);font-size:15px}.gift span{font-size:13.5px;color:var(--muted)}
   .storebtn{display:flex;align-items:center;justify-content:center;gap:10px;height:56px;border-radius:16px;font-weight:800;font-size:16px}
-  .storebtn.live{background:var(--teal);color:var(--night)}
   .stores{display:flex;flex-direction:column;gap:10px}
+  .storebtn.soon{border:1px dashed rgba(255,255,255,.22);background:transparent;color:var(--faint);font-weight:700;cursor:default}
   .qr{display:none;align-items:center;gap:16px;margin-top:14px;padding:14px;border-radius:16px;background:var(--card);border:1px solid var(--line)}
   .qr.on{display:flex}.qr img{width:112px;height:112px;border-radius:8px}
   .qr span{font-size:14px;color:var(--muted)}
@@ -160,7 +160,7 @@
       <div class="card"><span class="dot" style="background:var(--gold)"></span><div><b>Budget, bookings and a share card</b><span>Rough costs, the places to book, and a plan to send your crew.</span></div></div>
     </div>
     <div class="gift"><span aria-hidden="true">🎁</span><div><b>Welcome gift</b><span>40% off your first month of Pro, then the usual monthly price. Cancel any time.</span></div></div>
-    <div class="stores"><a class="storebtn live" id="playBtn">Get Brimm on Google Play</a><a class="storebtn live" id="iosBtn">Get Brimm on the App Store</a></div>
+    <div class="stores"><span class="storebtn soon" id="playBtn">Google Play · Coming soon</span><span class="storebtn soon" id="iosBtn">App Store · Coming soon</span></div>
     <p class="fine" style="margin-top:10px">Free to start. No card.</p>
     <div class="qr" id="qr"><img src="/assets/check-qr.svg" alt="QR code to open this visa check on your phone" width="112" height="112"><span>On your phone? Scan this to open the visa check there.</span></div>
     <button class="back" id="edit" type="button">← Change my answers</button>
@@ -182,12 +182,9 @@
     pokhara: ['Pokhara, Nepal', 'Martin Skřivánek'], dubai: ['Dubai, UAE', 'David Rodrigo'], zanzibar: ['Zanzibar, Tanzania', 'Javi Lorbada'],
     'machu-picchu': ['Machu Picchu, Peru', 'Sebastian Tapia Huerta'],
   };
-  // THE STORE LISTINGS — the site reads as LIVE (founder, 12 Oct 2026 ~21:05). Google Play: the package's own page (answers once the
-  // listing is published). App Store: a search for Brimm until Apple issues the app's id — then its own listing (index.html too).
-  const STORE = { android: 'https://play.google.com/store/apps/details?id=ai.brimm.app', ios: 'https://apps.apple.com/search?term=Brimm' };
+  // THE STORE BUTTONS SAY "COMING SOON" AND LINK NOWHERE (founder, 12 Oct 2026 ~21:20) — until the listings exist.
 
   const $ = id => document.getElementById(id);
-  $('playBtn').href = STORE.android; $('iosBtn').href = STORE.ios;
   const slug = s => s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
   const keys = Object.keys(PHOTOS);
   const k0 = keys[Math.floor(Math.random() * keys.length)];
