@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Brimm — Travel thoughts? Brimm it!</title>
-<meta name="description" content="Brimm plans your trip and checks the visa for your passport. Pick a place — Brimm checks the visa and plans the days. Android pilot now, iOS coming soon.">
+<meta name="description" content="Brimm plans your trip and checks the visa for your passport. Pick a place — Brimm checks the visa and plans the days. On Android and iPhone.">
 <meta property="og:title" content="Brimm — Travel thoughts? Brimm it!">
 <meta property="og:description" content="Visa? Checked. Days? Planned. A visa-checked trip planner for your passport.">
 <meta property="og:type" content="website">
@@ -73,8 +73,6 @@
   .store .s-main{display:block;font-size:15px;font-weight:800;line-height:1.15}
   .store svg{width:22px;height:22px;fill:var(--ink);flex-shrink:0}
   a.store:hover{border-color:rgba(255,255,255,.4)}
-  .checklink{display:inline-block;margin-top:18px;font-size:15px;font-weight:800;color:var(--teal);text-shadow:0 1px 10px rgba(0,0,0,.5)}
-  .checklink:hover{color:#A6EBEB}
   .credit{position:absolute;right:16px;bottom:14px;z-index:3;font-size:12px;color:rgba(255,255,255,.78);text-shadow:0 1px 6px rgba(0,0,0,.6);text-align:right}
   .credit b{font-weight:700;color:#fff}
 
@@ -110,14 +108,29 @@
   .why h3{font-size:19px;font-weight:800;margin-bottom:6px}
   .why p{font-size:15px;color:var(--muted)}
 
-  /* STEPS */
-  .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
-  @media(max-width:860px){.steps{grid-template-columns:1fr 1fr}}
-  @media(max-width:520px){.steps{grid-template-columns:1fr}}
-  .step{padding:22px 20px;border-radius:18px;border:1px solid var(--line);background:rgba(255,255,255,.025)}
-  .step .n{font-size:14px;font-weight:800;color:var(--night);width:30px;height:30px;border-radius:9px;display:flex;align-items:center;justify-content:center;background:var(--grad);margin-bottom:12px}
-  .step h4{font-size:16.5px;font-weight:800;margin-bottom:4px}
-  .step p{font-size:14px;color:var(--muted)}
+  /* STEPS — one path from a thought to a trip: an icon per stop, joined by one line (across on desktop, down on a phone) */
+  .path{list-style:none;display:grid;grid-template-columns:repeat(4,1fr);gap:22px;position:relative;counter-reset:step}
+  .path:before{content:'';position:absolute;left:12.5%;right:12.5%;top:30px;height:2px;background:linear-gradient(90deg,var(--teal),var(--purple),var(--gold));opacity:.55}
+  .stop{position:relative;text-align:center;padding:0 6px}
+  .stop .ic{width:60px;height:60px;margin:0 auto 16px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:var(--night);border:2px solid var(--teal);color:var(--teal);position:relative;z-index:1}
+  .stop:nth-child(2) .ic{border-color:#94A9E6;color:#94A9E6}
+  .stop:nth-child(3) .ic{border-color:var(--purple);color:var(--purple)}
+  .stop:nth-child(4) .ic{border-color:var(--gold);color:var(--gold)}
+  .stop .ic svg{width:26px;height:26px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+  .stop .k{font-size:11.5px;font-weight:800;letter-spacing:1.6px;color:var(--faint);margin-bottom:4px}
+  .stop h4{font-size:18px;font-weight:800;margin-bottom:6px}
+  .stop p{font-size:14.5px;color:var(--muted);max-width:24ch;margin:0 auto}
+  .path-cta{display:flex;justify-content:center;margin-top:34px}
+  @media(max-width:760px){
+    .path{grid-template-columns:1fr;gap:26px;padding-left:4px}
+    .path:before{display:none}
+    /* one connector per step, from this circle down to the next — never a tail below the last */
+    .stop:not(:last-child):after{content:'';position:absolute;left:29px;top:62px;bottom:-24px;width:2px;background:linear-gradient(180deg,rgba(126,200,200,.55),rgba(167,139,250,.55))}
+    .stop{display:grid;grid-template-columns:60px 1fr;column-gap:16px;text-align:left;padding:0}
+    .stop .ic{margin:0;grid-row:span 3}
+    .stop p{margin:0;max-width:none}
+    .path-cta{justify-content:flex-start;margin-top:26px}
+  }
 
   /* PRICING */
   .plans{display:grid;grid-template-columns:1fr 1fr;gap:18px;max-width:860px}
@@ -153,7 +166,7 @@
   <div class="navlinks">
     <a href="#app" class="hide-s">The app</a>
     <a href="#pricing" class="hide-s">Pricing</a>
-    <a href="mailto:team@brimm.ai?subject=Join%20the%20Brimm%20pilot" class="navcta">Join the pilot</a>
+    <a href="#get" class="navcta">Get the app</a>
   </div>
 </nav>
 
@@ -166,19 +179,21 @@
     <h1>Travel thoughts? <span class="grad" style="white-space:nowrap">Brimm it!</span></h1>
     <p class="proof">Visa? <span>Checked.</span> Days? <span>Planned.</span></p>
     <p class="brimming">What are you brimming today?</p>
+    <!-- THE VISA CHECK LEADS, AND THE SITE READS AS LIVE (founder, 12 Oct 2026 ~21:05: visa check first, and the
+         site is designed as live). The two store links are the app's listing addresses: Google Play's
+         is the package's own page (it answers once the listing is published); the App Store's is a search for Brimm until
+         Apple issues the app's id — set APP STORE below when it exists (index.html and check.html). -->
     <div class="ctas">
-      <a class="btn primary" href="mailto:team@brimm.ai?subject=Join%20the%20Brimm%20pilot">Join the Android pilot</a>
-      <a class="store" href="mailto:team@brimm.ai?subject=Join%20the%20Brimm%20pilot" aria-label="Google Play: join the pilot">
+      <a class="btn primary" href="/check">Check a visa — free</a>
+      <a class="store" href="https://play.google.com/store/apps/details?id=ai.brimm.app" aria-label="Get it on Google Play">
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3.6 2.4c-.3.3-.5.8-.5 1.4v16.4c0 .6.2 1.1.5 1.4l.1.1 9.2-9.2v-.2L3.6 2.4zm12.3 12.3l-3-3 3-3 3.6 2c1 .6 1 1.5 0 2.1l-3.6 1.9zm-3.6-3.6l3 3-9 5.1 6-8.1zm0-1.4l-6-8.1 9 5.1-3 3z"/></svg>
-        <span><span class="s-sub">Google Play</span><span class="s-main">Pilot · notify me</span></span>
+        <span><span class="s-sub">Get it on</span><span class="s-main">Google Play</span></span>
       </a>
-      <span class="store" aria-label="App Store: coming soon">
+      <a class="store" href="https://apps.apple.com/search?term=Brimm" aria-label="Download on the App Store">
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17.05 12.5c0-2.3 1.9-3.4 2-3.5-1.1-1.6-2.8-1.8-3.4-1.8-1.4-.1-2.8.8-3.5.8s-1.8-.8-3-.8c-1.5 0-3 .9-3.8 2.3-1.6 2.8-.4 7 1.2 9.3.8 1.1 1.7 2.4 2.9 2.3 1.2 0 1.6-.7 3-.7s1.8.7 3 .7 2-1.1 2.8-2.2c.9-1.3 1.2-2.5 1.3-2.6-.1 0-2.5-1-2.5-3.8zM14.8 5.3c.6-.8 1-1.9.9-3-.9 0-2 .6-2.7 1.4-.6.7-1.1 1.8-1 2.8 1 .1 2.1-.5 2.8-1.2z"/></svg>
-        <span><span class="s-sub">App Store</span><span class="s-main">Coming soon</span></span>
-      </span>
+        <span><span class="s-sub">Download on the</span><span class="s-main">App Store</span></span>
+      </a>
     </div>
-    <!-- The visa check (founder queue, 12 Oct 2026 ~20:00, step 3): one quiet way in; the pilot stays the first button. -->
-    <a class="checklink" href="/check">Or check a visa first — free →</a>
   </div></div>
   <p class="credit" id="credit"><b>Petra, Jordan</b> · Photo: Emile Guillemot</p>
 </header>
@@ -245,12 +260,13 @@
       <div class="tag">How it works</div>
       <h2>From a thought to a trip</h2>
     </div>
-    <div class="steps">
-      <div class="step"><div class="n">1</div><h4>Pick a place</h4><p>Or ask where you could go.</p></div>
-      <div class="step"><div class="n">2</div><h4>We check the visa</h4><p>For your passport, on every leg.</p></div>
-      <div class="step"><div class="n">3</div><h4>We plan the days</h4><p>Places, times, food and costs.</p></div>
-      <div class="step"><div class="n">4</div><h4>Go</h4><p>Share it, keep the PDF, book when you're ready.</p></div>
-    </div>
+    <ol class="path">
+      <li class="stop"><div class="ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg></div><div class="k">STEP 1</div><h4>Pick a place</h4><p>Type a city, or ask Brimm AI where your passport can take you.</p></li>
+      <li class="stop"><div class="ic" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="2"/><circle cx="12" cy="10" r="3"/><path d="M8.5 16h7"/></svg></div><div class="k">STEP 2</div><h4>We check the visa</h4><p>For your passport, where you live and the visas you hold. Every stop.</p></li>
+      <li class="stop"><div class="ic" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 2v4M16 2v4M7.5 13h3M7.5 17h6"/></svg></div><div class="k">STEP 3</div><h4>We plan the days</h4><p>Real places, sensible times, food nearby and rough costs. Change anything.</p></li>
+      <li class="stop"><div class="ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M2.5 13.5l19-7.5-7.5 19-2.6-8.9z"/></svg></div><div class="k">STEP 4</div><h4>Off you go</h4><p>Share it, keep the PDF, book when you’re ready.</p></li>
+    </ol>
+    <div class="path-cta"><a class="btn primary" href="/check">Check a visa — free</a></div>
   </div>
 </section>
 
@@ -275,8 +291,9 @@
       <div class="plan pro">
         <h3>Pro</h3>
         <div class="price">AED 18 <small>a month</small></div>
-        <p class="note">or AED 199 a year · on sale when the app launches</p>
+        <p class="note">or AED 199 a year</p>
         <ul>
+          <li><svg class="ico" viewBox="0 0 24 24"><path d="M5 12l5 5 9-10"/></svg>Welcome gift: 40% off your first month, then AED 18 a month</li>
           <li><svg class="ico" viewBox="0 0 24 24"><path d="M5 12l5 5 9-10"/></svg>No counters in your way — fair use applies</li>
           <li><svg class="ico" viewBox="0 0 24 24"><path d="M5 12l5 5 9-10"/></svg>Start a new chat whenever you like</li>
                     <li><svg class="ico" viewBox="0 0 24 24"><path d="M5 12l5 5 9-10"/></svg>A plain purchase — no free trial that turns into a charge, easy to cancel</li>
@@ -287,10 +304,19 @@
   </div>
 </section>
 
-<section class="ctafoot">
+<section class="ctafoot" id="get">
   <h2>Travel thoughts? <span style="white-space:nowrap;background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent">Brimm it!</span></h2>
-  <p>The Android pilot is running now. Tell us you'd like in, and we'll send you the link.</p>
-  <div class="ctas"><a class="btn primary" href="mailto:team@brimm.ai?subject=Join%20the%20Brimm%20pilot">Join the Android pilot</a></div>
+  <p>Free to start. No card. On Android and iPhone.</p>
+  <div class="ctas">
+    <a class="store" href="https://play.google.com/store/apps/details?id=ai.brimm.app" aria-label="Get it on Google Play">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3.6 2.4c-.3.3-.5.8-.5 1.4v16.4c0 .6.2 1.1.5 1.4l.1.1 9.2-9.2v-.2L3.6 2.4zm12.3 12.3l-3-3 3-3 3.6 2c1 .6 1 1.5 0 2.1l-3.6 1.9zm-3.6-3.6l3 3-9 5.1 6-8.1zm0-1.4l-6-8.1 9 5.1-3 3z"/></svg>
+      <span><span class="s-sub">Get it on</span><span class="s-main">Google Play</span></span>
+    </a>
+    <a class="store" href="https://apps.apple.com/search?term=Brimm" aria-label="Download on the App Store">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17.05 12.5c0-2.3 1.9-3.4 2-3.5-1.1-1.6-2.8-1.8-3.4-1.8-1.4-.1-2.8.8-3.5.8s-1.8-.8-3-.8c-1.5 0-3 .9-3.8 2.3-1.6 2.8-.4 7 1.2 9.3.8 1.1 1.7 2.4 2.9 2.3 1.2 0 1.6-.7 3-.7s1.8.7 3 .7 2-1.1 2.8-2.2c.9-1.3 1.2-2.5 1.3-2.6-.1 0-2.5-1-2.5-3.8zM14.8 5.3c.6-.8 1-1.9.9-3-.9 0-2 .6-2.7 1.4-.6.7-1.1 1.8-1 2.8 1 .1 2.1-.5 2.8-1.2z"/></svg>
+      <span><span class="s-sub">Download on the</span><span class="s-main">App Store</span></span>
+    </a>
+  </div>
 </section>
 
 <footer>
