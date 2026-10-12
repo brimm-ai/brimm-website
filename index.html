@@ -73,6 +73,8 @@
   .store .s-main{display:block;font-size:15px;font-weight:800;line-height:1.15}
   .store svg{width:22px;height:22px;fill:var(--ink);flex-shrink:0}
   a.store:hover{border-color:rgba(255,255,255,.4)}
+  .checklink{display:inline-block;margin-top:18px;font-size:15px;font-weight:800;color:var(--teal);text-shadow:0 1px 10px rgba(0,0,0,.5)}
+  .checklink:hover{color:#A6EBEB}
   .credit{position:absolute;right:16px;bottom:14px;z-index:3;font-size:12px;color:rgba(255,255,255,.78);text-shadow:0 1px 6px rgba(0,0,0,.6);text-align:right}
   .credit b{font-weight:700;color:#fff}
 
@@ -175,6 +177,8 @@
         <span><span class="s-sub">App Store</span><span class="s-main">Coming soon</span></span>
       </span>
     </div>
+    <!-- The visa check (founder queue, 12 Oct 2026 ~20:00, step 3): one quiet way in; the pilot stays the first button. -->
+    <a class="checklink" href="/check">Or check a visa first — free →</a>
   </div></div>
   <p class="credit" id="credit"><b>Petra, Jordan</b> · Photo: Emile Guillemot</p>
 </header>
@@ -324,13 +328,15 @@
   let k = 0, cur = document.getElementById('s0');
   const make = p => { const im = new Image(); im.alt = ''; im.sizes = '100vw';
     im.srcset = `/assets/hero/${p[0]}-960.jpg 960w, /assets/hero/${p[0]}.jpg 1920w`; im.src = `/assets/hero/${p[0]}-960.jpg`; return im; };
+  // The credit changes at the MIDDLE of the 1.6 s fade (12 Oct 2026): at its start the old photograph still fills the screen, so
+  // the next place's name sat under the last one's picture.
   const say = p => { credit.innerHTML = `<b>${p[1]}</b> · Photo: ${p[2]}`; };
   // Open on a random photograph (the first paint is Petra; a different one replaces it as soon as it has loaded).
   const first = PHOTOS[order[0]];
-  if (first[0] !== 'petra') { const im = make(first); im.onload = () => { slides.appendChild(im); requestAnimationFrame(() => { im.classList.add('on'); cur.classList.remove('on'); const old = cur; cur = im; say(first); setTimeout(() => old.remove(), 1800); }); }; }
+  if (first[0] !== 'petra') { const im = make(first); im.onload = () => { slides.appendChild(im); requestAnimationFrame(() => { im.classList.add('on'); cur.classList.remove('on'); const old = cur; cur = im; setTimeout(() => say(first), 800); setTimeout(() => old.remove(), 1800); }); }; }
   if (!reduce) setInterval(() => {
     k = (k + 1) % order.length; const p = PHOTOS[order[k]]; const im = make(p);
-    im.onload = () => { slides.appendChild(im); requestAnimationFrame(() => { im.classList.add('on'); cur.classList.remove('on'); const old = cur; cur = im; say(p); setTimeout(() => old.remove(), 1800); }); };
+    im.onload = () => { slides.appendChild(im); requestAnimationFrame(() => { im.classList.add('on'); cur.classList.remove('on'); const old = cur; cur = im; setTimeout(() => say(p), 800); setTimeout(() => old.remove(), 1800); }); };
   }, 8000);
 </script>
 </body>
