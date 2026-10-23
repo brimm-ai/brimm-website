@@ -271,6 +271,13 @@
   async function answer(pp, dd, home) {
     show(MESSAGES.loading);
     try {
+      // The app's own order: the LOCAL rules first (home, where you live, a residence issued here, a held Schengen visa) — when they
+      // answer, nothing is sent and no daily place is used. The profile is the app's shape: country NAMES, never codes.
+      const E = await loadEngine();
+      const holdings = DATA.holdings.filter(h => picked.has(h.id)).map(h => ({ type: h.id, expiry: null, country: h.id === 'GCC' ? ($('gulf').value || null) : null }));
+      const profile = { passport: pp.n, visaHoldings: holdings, homeCountry: home ? home.n : null };
+      let a = E.webLocal(dd.cc, dd.name, dd.country, profile);
+      if (!a) {
       let body;
       if (PREVIEW) {
         const fx = await (await fetch('/preview/fixtures.json')).json();
@@ -285,10 +292,9 @@
         if (j.kind !== 'answer') { const m = MESSAGES[j.kind] ?? MESSAGES.did_not_go_through; if (m) show(m); else $('verdict').hidden = true; return; }
         body = j.body;
       }
-      const E = await loadEngine();
-      const holdings = DATA.holdings.filter(h => picked.has(h.id)).map(h => ({ type: h.id, expiry: null, country: h.id === 'GCC' ? ($('gulf').value || null) : null }));
-      const today = new Date().toISOString().slice(0, 10);
-      const a = E.webAnswer(body, pp.c, dd.cc, dd.name, dd.country, { passport: pp.c, visaHoldings: holdings, homeCountry: home ? home.n : null }, today);
+      a = E.webAnswer(body, dd.cc, dd.name, dd.country, profile, new Date().toISOString().slice(0, 10));
+      if (!a) { show(MESSAGES.did_not_go_through); return; }
+      }
       $('vWord').textContent = a.pill || 'Check before you go';
       $('vDot').style.background = a.color || 'var(--faint)';
       $('vLine').textContent = a.line;

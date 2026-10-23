@@ -7,25 +7,43 @@
 /* tools/website-check/engine-entry.ts */ 0: [function (module, exports, require) {
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.webLocal = webLocal;
 exports.webAnswer = webAnswer;
 // ═══ brimm.ai/check — THE WEBSITE'S VISA ANSWER, FROM THE APP'S OWN CODE (founder, Fri 23 Oct 2026 20:45, plan E) ════════════════════
-// The website shows exactly what the app would: this entry calls the app's own functions, in the app's own order, and nothing else —
-// verdictFromVendorJson (the vendor's body read) → applyEntryRules (the rule layer, residence, held visas) → verdictLabel (the pill's
-// words) → legReasonLine (the line) → legActionLink (the official link — only a link the app already holds; "Apply online → Official
-// site"). tools/website-check/build-engine.js compiles it with the app's own TypeScript and writes the site's assets/check-engine.js.
+// The website shows exactly what the app would: this entry calls the app's own functions, IN THE APP'S OWN ORDER (getVisaRequirement's),
+// and nothing else:
+//   1. webLocal — the LOCAL rules first (resolveLocalVerdict: home country, where you live, a residence issued here, a held Schengen
+//      visa or EU residence covering the place). When they answer, the page asks the server NOTHING (no visitor place, no vendor call).
+//   2. webAnswer — otherwise the server door's vendor body: verdictFromVendorJson (the body's read) → applyEntryRules (the rule layer,
+//      residence, held visas) → verdictLabel / verdictColor (the pill) → legReasonLine (the line) → legActionLink (the official link —
+//      only a link the app already holds; "Apply on the official site ↗").
+// tools/website-check/build-engine.js compiles it with the app's own TypeScript and writes the site's assets/check-engine.js.
 // 🔴 NO LOGIC LIVES HERE. A web answer that differs from the app's is a defect in this file by definition, and a test runs both on the
-// same body and requires they agree.
+// same bodies and travellers and requires they agree — including the cases only step 1 can answer (QA read, 23 Oct 2026: the first
+// version skipped step 1, so a Schengen visa holder read "Visa required" for Paris; the test's app arm skipped it too, so both agreed).
+// 📌 The profile is the app's own shape: `passport` and `homeCountry` are country NAMES (parsePassportISO reads names), never codes.
 const visaService_1 = require("../../services/visaService");
 const visaAggregate_1 = require("../../utils/visaAggregate");
 const visaColors_1 = require("../../utils/visaColors");
-/** The answer for one place, the app's way. `body` is the proxy's web-check answer's body; `today` is YYYY-MM-DD (documents are measured
- *  on it, as the app does with no trip dates). */
-function webAnswer(body, passportISO, destISO, city, country, profile, today) {
-    const read = (0, visaService_1.verdictFromVendorJson)(body, passportISO, destISO, profile, today);
-    const result = (0, visaService_1.applyEntryRules)(read, destISO, passportISO, profile, today);
+function shape(result, destISO, city, country) {
     const leg = { city, country, countryCode: destISO, arrival: null, departure: null, result };
     const link = (0, visaAggregate_1.legActionLink)(leg);
     return { status: result.status, pill: (0, visaColors_1.verdictLabel)(result), color: (0, visaColors_1.verdictColor)(result), line: (0, visaAggregate_1.legReasonLine)(leg, [leg]), link: (link === null || link === void 0 ? void 0 : link.url) ? { label: link.label, url: link.url } : null };
+}
+/** Step 1 — the answer the local rules give with no request at all, or null when only the server can answer. */
+function webLocal(destISO, city, country, profile) {
+    const local = (0, visaService_1.resolveLocalVerdict)(city, profile, destISO);
+    return local ? shape(local, destISO, city, country) : null;
+}
+/** Step 2 — the answer from the server door's vendor body. `today` is YYYY-MM-DD (documents are measured on it, as the app does with no
+ *  trip dates). Null when the profile's passport is not a country the app knows (the page never sends such a request). */
+function webAnswer(body, destISO, city, country, profile, today) {
+    var _a;
+    const passportISO = (0, visaService_1.parsePassportISO)((_a = profile.passport) !== null && _a !== void 0 ? _a : '');
+    if (!passportISO)
+        return null;
+    const read = (0, visaService_1.verdictFromVendorJson)(body, passportISO, destISO, profile, today);
+    return shape((0, visaService_1.applyEntryRules)(read, destISO, passportISO, profile, today), destISO, city, country);
 }
 
 
