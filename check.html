@@ -17,8 +17,12 @@
 <link rel="preload" href="/assets/fonts/Manrope-Bold-latin.ttf" as="font" type="font/ttf" crossorigin>
 <style>
   /* THE VISA CHECK → THE APP (founder queue, 12 Oct 2026 ~20:00, step 3; canvas "Brimm Website Visa Handoff").
-     🔴 THIS PAGE NEVER CALLS THE VISA SERVICE AND NEVER SHOWS A RESULT, AND NAMES NO PROVIDER — it only asks the questions; the
-     answer lives in the app (the moat). Nothing typed here leaves the browser: no request, no storage, no third-party call.
+     ⚖️ THE ANSWER ON THE PAGE, BEHIND A SWITCH (founder, 23 Oct 2026, plan E): with CHECK.on false (today) this page makes NO request and
+     shows no result — nothing typed leaves the browser, as the fine print says. With it on, the two country codes (and nothing else)
+     go to brimm's own server door, which answers from the shared cache or the vendor under its guards; the answer is worked out HERE
+     by the app's own engine (assets/check-engine.js, built by brimm-ai tools/website-check/build-engine.js — the same code, a test
+     holds them equal), with the official link the app holds. It names no provider. The switch is CHECK below and the server's
+     CHECKER_PUBLIC_SWITCH; both stay off until the founder says.
      The lists are generated from the app's own data by brimm-ai tools/website-check/build.js (assets/check-data.json). */
   @font-face{font-family:'Manrope';src:url('/assets/fonts/Manrope-Regular-latin.ttf') format('truetype');font-weight:400 600;font-display:swap}
   @font-face{font-family:'Manrope';src:url('/assets/fonts/Manrope-Bold-latin.ttf') format('truetype');font-weight:700 900;font-display:swap}
@@ -74,6 +78,14 @@
   .qr span{font-size:14px;color:var(--muted)}
   .back{display:inline-block;margin:18px 0 40px;color:var(--teal);font-weight:700;font-size:14.5px;background:none;border:0;font-family:inherit;cursor:pointer}
   [hidden]{display:none!important}
+  .verdict{margin:16px 0 2px;padding:16px;border-radius:18px;background:var(--card);border:1px solid var(--line)}
+  .vpill{display:inline-flex;align-items:center;gap:8px;min-height:32px;padding:4px 14px;border-radius:999px;font-size:14.5px;font-weight:800;border:1px solid var(--line);background:rgba(6,9,18,.6)}
+  .vpill i{width:9px;height:9px;border-radius:50%;flex-shrink:0}
+  .vline{font-size:15px;margin-top:10px}
+  .vlink{display:flex;align-items:center;justify-content:center;min-height:50px;margin-top:14px;padding:0 14px;border-radius:14px;border:1px solid var(--teal);color:var(--teal);font-weight:800;font-size:15px;text-align:center}
+  .vfine{font-size:12.5px;color:var(--faint);margin-top:10px}
+  .vmsg{font-size:14.5px;color:var(--muted)}
+  .hp{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
   footer{border-top:1px solid var(--line);padding:26px 20px;text-align:center;font-size:12.5px;color:var(--faint)}
   footer a{color:var(--teal);font-weight:700}
 </style>
@@ -133,8 +145,9 @@
           <div><label for="to">To</label><input id="to" type="date"></div>
         </div>
       </div>
+      <input class="hp" id="hp" name="website" type="text" tabindex="-1" autocomplete="off" aria-hidden="true">
       <button class="go" type="submit">Check my trip</button>
-      <p class="fine">Free. No sign-up needed. Nothing you type here leaves this page.</p>
+      <p class="fine" id="fine">Free. No sign-up needed. Nothing you type here leaves this page.</p>
     </form>
   </div>
 </main>
@@ -152,8 +165,17 @@
     </div></div>
   </header>
   <div class="wrap">
+    <section class="verdict" id="verdict" hidden aria-live="polite">
+      <div id="vAnswer" hidden>
+        <span class="vpill" id="vPill"><i id="vDot"></i><span id="vWord"></span></span>
+        <p class="vline" id="vLine"></p>
+        <a class="vlink" id="vLink" target="_blank" rel="noopener" hidden></a>
+        <p class="vfine">Rules change, so check again before you book.</p>
+      </div>
+      <p class="vmsg" id="vMsg" hidden></p>
+    </section>
     <div class="cards">
-      <div class="card"><span class="dot" style="background:var(--teal)"></span><div><b>Your visa answer, free</b><span>For your passport, where you live and the visas you hold. What you need, and what to sort out first.</span></div></div>
+      <div class="card" id="visaCard"><span class="dot" style="background:var(--teal)"></span><div><b>Your visa answer, free</b><span>For your passport, where you live and the visas you hold. What you need, and what to sort out first.</span></div></div>
       <div class="card"><span class="dot" style="background:var(--purple)"></span><div><b>A day-by-day plan</b><span id="planLine">Places, times, food and costs, timed so it actually works.</span></div></div>
       <div class="card"><span class="dot" style="background:var(--gold)"></span><div><b>Budget, bookings and a share card</b><span>Rough costs, the places to book, and a plan to send your crew.</span></div></div>
     </div>
@@ -180,6 +202,16 @@
     'machu-picchu': ['Machu Picchu, Peru', 'Sebastian Tapia Huerta'],
   };
   // THE STORE BUTTONS SAY "COMING SOON" AND LINK NOWHERE (founder, 12 Oct 2026 ~21:20) — until the listings exist.
+
+  // ⚖️ THE VISA ANSWER SWITCH (founder, 23 Oct 2026, plan E) — OFF. On: the server door must be on too (api-proxy CHECKER_PUBLIC_SWITCH),
+  // and `key` is the project's public (anon) key, added at switch-on. Off, nothing below sends anything.
+  // PREVIEW (localhost only, ?preview): the answer is worked out from real cached vendor bodies in /preview/fixtures.json (git-ignored),
+  // so the founder can see the card without the door being open. A preview never runs on brimm.ai.
+  const CHECK = { on: false, url: 'https://oejnnujlcmtzlkyifzag.supabase.co/functions/v1/api-proxy', key: '' };
+  const PREVIEW = /^(localhost|127\.0\.0\.1)$/.test(location.hostname) && new URLSearchParams(location.search).has('preview');
+  const answering = CHECK.on || PREVIEW;
+  const pageStart = Date.now();
+  if (answering) document.getElementById('fine').textContent = 'Free. No sign-up needed. Only the two countries are sent, to check the rules.';
 
   const $ = id => document.getElementById(id);
   const slug = s => s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
@@ -214,10 +246,57 @@
   const place = v => {
     if (!DATA) return null; const t = v.trim().toLowerCase();
     const p = DATA.places.find(p => `${p.city}, ${p.country}`.toLowerCase() === t || p.city.toLowerCase() === t);
-    if (p) return { name: p.city, country: p.country };
+    if (p) return { name: p.city, country: p.country, cc: p.cc };
     const c = DATA.places.find(p => p.country.toLowerCase() === t);
-    return c ? { name: c.country, country: c.country } : null;
+    return c ? { name: c.country, country: c.country, cc: c.cc } : null;
   };
+
+  // ── THE ANSWER (only when answering) ──
+  let engine = null;
+  const loadEngine = () => engine || (engine = new Promise((ok, no) => {
+    const sc = document.createElement('script'); sc.src = '/assets/check-engine.js';
+    sc.onload = () => window.brimmCheck ? ok(window.brimmCheck) : no(new Error('no engine')); sc.onerror = no; document.head.appendChild(sc);
+  }));
+  const show = (msg) => { $('verdict').hidden = false; $('vAnswer').hidden = true; $('vMsg').hidden = false; $('vMsg').textContent = msg; };
+  // What each server answer means for the visitor: wait · try again · come back tomorrow — never one message for all of them.
+  const MESSAGES = {
+    loading: 'Checking the rules for your passport…',
+    offline: 'You’re offline. Connect, then check again.',
+    did_not_go_through: 'That didn’t go through. Try again in a minute.',
+    web_busy: 'Lots of people are checking right now. Try again in a little while.',
+    web_limit: 'That’s 3 places today. Check more tomorrow, or in the brimm app.',
+    web_too_fast: 'One moment, then check again.',
+    checker_closed: null,
+  };
+  async function answer(pp, dd, home) {
+    show(MESSAGES.loading);
+    try {
+      let body;
+      if (PREVIEW) {
+        const fx = await (await fetch('/preview/fixtures.json')).json();
+        const hit = fx.corridors.find(c => c.passport === pp.c && c.destination === dd.cc);
+        if (!hit) { show('Preview: no saved answer for that pair. Try an Indian passport to London, Tokyo, Istanbul, Paris or Bali.'); return; }
+        body = hit.body;
+      } else {
+        if (!navigator.onLine) { show(MESSAGES.offline); return; }
+        const r = await fetch(CHECK.url, { method: 'POST', headers: { 'Content-Type': 'application/json', apikey: CHECK.key, Authorization: 'Bearer ' + CHECK.key },
+          body: JSON.stringify({ service: 'web-check', passport: pp.c, destination: dd.cc, hp: $('hp').value, fillMs: Date.now() - pageStart }) });
+        const j = await r.json().catch(() => ({}));
+        if (j.kind !== 'answer') { const m = MESSAGES[j.kind] ?? MESSAGES.did_not_go_through; if (m) show(m); else $('verdict').hidden = true; return; }
+        body = j.body;
+      }
+      const E = await loadEngine();
+      const holdings = DATA.holdings.filter(h => picked.has(h.id)).map(h => ({ type: h.id, expiry: null, country: h.id === 'GCC' ? ($('gulf').value || null) : null }));
+      const today = new Date().toISOString().slice(0, 10);
+      const a = E.webAnswer(body, pp.c, dd.cc, dd.name, dd.country, { passport: pp.c, visaHoldings: holdings, homeCountry: home ? home.n : null }, today);
+      $('vWord').textContent = a.pill || 'Check before you go';
+      $('vDot').style.background = a.color || 'var(--faint)';
+      $('vLine').textContent = a.line;
+      $('vLink').hidden = !a.link; if (a.link) { $('vLink').href = a.link.url; $('vLink').textContent = a.link.label; }
+      $('vMsg').hidden = true; $('vAnswer').hidden = false; $('verdict').hidden = false;
+      $('visaCard').hidden = true;   // the answer is on screen — its promise card would say it twice (PROPOSAL, founder to rule)
+    } catch (e) { show(navigator.onLine ? MESSAGES.did_not_go_through : MESSAGES.offline); }
+  }
 
   $('form').addEventListener('submit', e => {
     e.preventDefault();
@@ -241,6 +320,8 @@
     const ua = navigator.userAgent, android = /Android/i.test(ua), ios = /iPhone|iPad|iPod/i.test(ua) || (/Macintosh/.test(ua) && 'ontouchend' in document);
     $('playBtn').hidden = ios; $('iosBtn').hidden = android;   // a phone sees its own store; a desktop sees both and the QR
     $('qr').classList.toggle('on', !android && !ios);
+    $('verdict').hidden = true; $('visaCard').hidden = false;
+    if (answering) answer(pp, dd, home);
     $('ask').hidden = true; $('ready').hidden = false; window.scrollTo(0, 0);
   });
   $('edit').addEventListener('click', () => { $('ready').hidden = true; $('ask').hidden = false; window.scrollTo(0, 0); });
