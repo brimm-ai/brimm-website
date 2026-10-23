@@ -211,6 +211,7 @@
   const PREVIEW = /^(localhost|127\.0\.0\.1)$/.test(location.hostname) && new URLSearchParams(location.search).has('preview');
   const answering = CHECK.on || PREVIEW;
   const pageStart = Date.now();
+  // the fine print with the answer on (founder #269 → A, 23 Oct 2026 23:15) — the off line would no longer be true
   if (answering) document.getElementById('fine').textContent = 'Free. No sign-up needed. Only the two countries are sent, to check the rules.';
 
   const $ = id => document.getElementById(id);
@@ -300,7 +301,7 @@
       $('vLine').textContent = a.line;
       $('vLink').hidden = !a.link; if (a.link) { $('vLink').href = a.link.url; $('vLink').textContent = a.link.label; }
       $('vMsg').hidden = true; $('vAnswer').hidden = false; $('verdict').hidden = false;
-      $('visaCard').hidden = true;   // the answer is on screen — its promise card would say it twice (PROPOSAL, founder to rule)
+      $('visaCard').hidden = true;   // the answer is on screen — its promise card would say it twice (founder #269 → A, 23 Oct 2026 23:15)
     } catch (e) { show(navigator.onLine ? MESSAGES.did_not_go_through : MESSAGES.offline); }
   }
 
