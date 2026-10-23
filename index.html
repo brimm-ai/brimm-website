@@ -3,18 +3,18 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Brimm — Travel thoughts? Brimm it!</title>
-<meta name="description" content="Brimm plans your trip and checks the visa for your passport. Pick a place — Brimm checks the visa and plans the days. On Android and iPhone.">
-<meta property="og:title" content="Brimm — Travel thoughts? Brimm it!">
+<title>brimm — Travel thoughts? brimm it!</title>
+<meta name="description" content="brimm plans your trip and checks the visa for your passport. Pick a place — brimm checks the visa and plans the days. On Android and iPhone.">
+<meta property="og:title" content="brimm — Travel thoughts? brimm it!">
 <meta property="og:description" content="Visa? Checked. Days? Planned. A visa-checked trip planner for your passport.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://brimm.ai">
 <meta property="og:image" content="https://brimm.ai/assets/og-image.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="The Brimm mark: a location pin brimming with sea, one sun dipping into it.">
+<meta property="og:image:alt" content="The brimm mark: a location pin brimming with sea, one sun dipping into it.">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Brimm — Travel thoughts? Brimm it!">
+<meta name="twitter:title" content="brimm — Travel thoughts? brimm it!">
 <meta name="twitter:description" content="Visa? Checked. Days? Planned.">
 <meta name="twitter:image" content="https://brimm.ai/assets/og-image.png">
 <meta name="theme-color" content="#060912">
@@ -73,6 +73,8 @@
   .store .s-main{display:block;font-size:15px;font-weight:800;line-height:1.15}
   .store svg{width:22px;height:22px;fill:var(--ink);flex-shrink:0}
   a.store:hover{border-color:rgba(255,255,255,.4)}
+  /* "Coming soon" = greyed and not a link (founder, 23 Oct 2026) — the badge's own switch below turns it into the real link */
+  .store.soon{opacity:.5;filter:grayscale(1);cursor:default}
   .credit{position:absolute;right:16px;bottom:14px;z-index:3;font-size:12px;color:rgba(255,255,255,.78);text-shadow:0 1px 6px rgba(0,0,0,.6);text-align:right}
   .credit b{font-weight:700;color:#fff}
 
@@ -83,7 +85,11 @@
   h2{font-size:clamp(28px,4.2vw,44px);font-weight:800;letter-spacing:-.02em;line-height:1.1;margin-bottom:12px}
   .shead p{font-size:17px;color:var(--muted)}
 
-  /* THE APP — real phone screenshots */
+  /* THE APP — the store frames, in a strip you can swipe on a phone and a grid on a desktop */
+  .frames{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+  .frames img{width:100%;height:auto;border-radius:18px;border:1px solid var(--line);background:var(--card)}
+  @media(max-width:900px){.frames{grid-template-columns:none;grid-auto-flow:column;grid-auto-columns:68%;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:6px;-webkit-overflow-scrolling:touch}.frames img{scroll-snap-align:start}}
+  /* THE APP (old screenshot cards — unused since 23 Oct 2026, kept for the PDF/share pair should it return) */
   .shots{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
   @media(max-width:900px){.shots{grid-template-columns:repeat(2,1fr)}}
   @media(max-width:560px){.shots{grid-template-columns:1fr}}
@@ -162,7 +168,7 @@
 <body>
 
 <nav id="nav">
-  <a href="/" class="logo" aria-label="Brimm home"><img class="lmark" src="/assets/mark-dark-foreground.svg" alt="" width="34" height="34"><img class="lword" src="/assets/wordmark-dark.svg" alt="brimm" width="79" height="23"></a>
+  <a href="/" class="logo" aria-label="brimm home"><img class="lmark" src="/assets/mark-dark-foreground.svg" alt="" width="34" height="34"><img class="lword" src="/assets/wordmark-dark.svg" alt="brimm" width="79" height="23"></a>
   <div class="navlinks">
     <a href="#app" class="hide-s">The app</a>
     <a href="#pricing" class="hide-s">Pricing</a>
@@ -176,7 +182,7 @@
   </div>
   <div class="scrim"></div>
   <div class="hero-inner"><div class="wrap">
-    <h1>Travel thoughts? <span class="grad" style="white-space:nowrap">Brimm it!</span></h1>
+    <h1>Travel thoughts? <span class="grad" style="white-space:nowrap">brimm it!</span></h1>
     <p class="proof">Visa? <span>Checked.</span> Days? <span>Planned.</span></p>
     <p class="brimming">What are you brimming today?</p>
     <!-- THE VISA CHECK LEADS, AND THE SITE READS AS LIVE (founder, 12 Oct 2026 ~21:05: visa check first, and the
@@ -184,11 +190,11 @@
          (founder, 21:20) until the listings exist; then they become links (index.html and check.html). -->
     <div class="ctas">
       <a class="btn primary" href="/check">Check a visa — free</a>
-      <span class="store" aria-label="Google Play: coming soon">
+      <span class="store soon" data-store="play" aria-label="Google Play: coming soon">
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3.6 2.4c-.3.3-.5.8-.5 1.4v16.4c0 .6.2 1.1.5 1.4l.1.1 9.2-9.2v-.2L3.6 2.4zm12.3 12.3l-3-3 3-3 3.6 2c1 .6 1 1.5 0 2.1l-3.6 1.9zm-3.6-3.6l3 3-9 5.1 6-8.1zm0-1.4l-6-8.1 9 5.1-3 3z"/></svg>
         <span><span class="s-sub">Google Play</span><span class="s-main">Coming soon</span></span>
       </span>
-      <span class="store" aria-label="App Store: coming soon">
+      <span class="store soon" data-store="ios" aria-label="App Store: coming soon">
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17.05 12.5c0-2.3 1.9-3.4 2-3.5-1.1-1.6-2.8-1.8-3.4-1.8-1.4-.1-2.8.8-3.5.8s-1.8-.8-3-.8c-1.5 0-3 .9-3.8 2.3-1.6 2.8-.4 7 1.2 9.3.8 1.1 1.7 2.4 2.9 2.3 1.2 0 1.6-.7 3-.7s1.8.7 3 .7 2-1.1 2.8-2.2c.9-1.3 1.2-2.5 1.3-2.6-.1 0-2.5-1-2.5-3.8zM14.8 5.3c.6-.8 1-1.9.9-3-.9 0-2 .6-2.7 1.4-.6.7-1.1 1.8-1 2.8 1 .1 2.1-.5 2.8-1.2z"/></svg>
         <span><span class="s-sub">App Store</span><span class="s-main">Coming soon</span></span>
       </span>
@@ -202,47 +208,28 @@
     <div class="shead">
       <div class="tag">The app</div>
       <h2>Pick a place. We check the visa and plan the days.</h2>
-      <p>Real screens from the Brimm app on Android.</p>
+      <p>Real screens from brimm on Android.</p>
     </div>
-    <div class="shots">
-      <div class="shot">
-        <div class="frame mid"><img src="/assets/shots/visa.webp" alt="Petra in Brimm: visa on arrival, 30 days, and the passport checked against Petra's rule" loading="lazy" width="640" height="599"></div>
-        <h3><svg class="ico" viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="2"/><circle cx="12" cy="10" r="3"/><path d="M8.5 16h7"/></svg>The visa answer</h3>
-        <p>For your passport, your visas and where you live — and your passport's dates checked against the country's rule.</p>
-      </div>
-      <div class="shot">
-        <div class="frame"><img src="/assets/shots/day.webp" alt="A day in Dubai in Brimm: stops with photos, times and prices, and a lunch idea" loading="lazy" width="640" height="1145"></div>
-        <h3><svg class="ico" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 2v4M16 2v4"/></svg>Days, planned</h3>
-        <p>Real places with photos, times and prices, and somewhere to eat near the day's stops.</p>
-      </div>
-      <div class="shot">
-        <div class="frame"><img src="/assets/shots/multicity.webp" alt="Copenhagen, Berlin and Prague in one Brimm trip, with the Schengen visa line" loading="lazy" width="640" height="1006"></div>
-        <h3><svg class="ico" viewBox="0 0 24 24"><circle cx="5" cy="18" r="2"/><circle cx="19" cy="6" r="2"/><path d="M7 18h6a4 4 0 0 0 0-8h-2a4 4 0 0 1 0-8h6"/></svg>Many cities, every border</h3>
-        <p>Multi-city trips and day trips, with the paperwork for each country said once, where it matters.</p>
-      </div>
-      <div class="shot">
-        <div class="frame"><img src="/assets/shots/chat.webp" alt="The Brimm trip chat with a microphone button for speaking" loading="lazy" width="640" height="1133"></div>
-        <h3><svg class="ico" viewBox="0 0 24 24"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg>Ask, or just say it</h3>
-        <p>Change the plan by asking — type or speak. Simple changes like removing a city happen right away, with an undo.</p>
-      </div>
-      <div class="shot">
-        <div class="frame"><img src="/assets/shots/budget.webp" alt="The Brimm budget: the trip's total and a list of sites to book flights on" loading="lazy" width="640" height="775"></div>
-        <h3><svg class="ico" viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="13" rx="2"/><path d="M3 10h18M16 15h2"/></svg>Budget, and where to book</h3>
-        <p>What the trip costs in your currency, and a short list of sites to book on, filled in with your trip. We may earn a small commission. Your price is the same.</p>
-      </div>
-      <div class="shot">
-        <div class="frame card"><img src="/assets/shots/sharecard.webp" alt="A Brimm share card for Copenhagen, Berlin and Prague" loading="lazy" width="342" height="494"><img class="pdfpage" src="/assets/shots/pdf.webp" alt="A page of a Brimm trip PDF: three days in Cappadocia, one of them a day trip" loading="lazy" width="640" height="905"></div>
-        <h3><svg class="ico" viewBox="0 0 24 24"><circle cx="18" cy="5" r="2.5"/><circle cx="6" cy="12" r="2.5"/><circle cx="18" cy="19" r="2.5"/><path d="M8.2 10.8l7.6-4.4M8.2 13.2l7.6 4.4"/></svg>Share it, take it with you</h3>
-        <p>A card for your stories, and your whole plan as a PDF — with a map link for every stop.</p>
-      </div>
+    <!-- THE EIGHT STORE FRAMES (founder, 23 Oct 2026): the same images as the Play listing, so the site and the store show one app.
+         A frame not built yet is simply left out (frames.js), never a placeholder. -->
+    <div class="frames" id="frames">
+      <img src="/assets/frames/01-visa-checked.webp" alt="Visa? Checked. — Bali: visa on arrival or an eVisa, the passport checked, the best months and the daily spend in AED" loading="lazy" width="540" height="960" onerror="this.remove()">
+      <img src="/assets/frames/02-days-planned.webp" alt="Days? Planned. — Istanbul, day 2: Hagia Sophia, the Blue Mosque, lunch and Topkapı Palace, with times" loading="lazy" width="540" height="960" onerror="this.remove()">
+      <img src="/assets/frames/03-day-on-a-map.webp" alt="Your day, on a map — a Paris day opened as one route in the phone’s maps app" loading="lazy" width="540" height="960" onerror="this.remove()">
+      <img src="/assets/frames/04-pick-a-side.webp" alt="Pick a side — Bali split into Ubud and the beach, nights in each" loading="lazy" width="540" height="960" onerror="this.remove()">
+      <img src="/assets/frames/05-just-ask.webp" alt="Not sure where? Just ask — somewhere warm under 8 hours: Phuket and the Maldives" loading="lazy" width="540" height="960" onerror="this.remove()">
+      <img src="/assets/frames/06-budget-sorted.webp" alt="Budget? Sorted. — the trip’s total in AED for two, and where the money goes" loading="lazy" width="540" height="960" onerror="this.remove()">
+      <img src="/assets/frames/07-your-world-lit-up.webp" alt="Your world, lit up. — the places you’ve been, glowing on the globe" loading="lazy" width="540" height="960" onerror="this.remove()">
+      <img src="/assets/frames/08-everywhere-youve-been.webp" alt="Everywhere you’ve been — Sara’s travel map: 13 countries, 13 cities, 130 points" loading="lazy" width="540" height="960" onerror="this.remove()">
     </div>
+    <p class="honest" style="margin-top:22px">Prices are rough estimates. Where brimm offers a site to book on, the list is fixed and never ordered by commission. We may earn a small commission. Your price is the same.</p>
   </div>
 </section>
 
 <section id="why" style="padding-top:20px">
   <div class="wrap">
     <div class="shead">
-      <div class="tag">Why Brimm</div>
+      <div class="tag">Why brimm</div>
       <h2>Answers, not tabs.</h2>
     </div>
     <div class="why">
@@ -260,7 +247,7 @@
       <h2>From a thought to a trip</h2>
     </div>
     <ol class="path">
-      <li class="stop"><div class="ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg></div><div class="k">STEP 1</div><h4>Pick a place</h4><p>Type a city, or ask Brimm AI where your passport can take you.</p></li>
+      <li class="stop"><div class="ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg></div><div class="k">STEP 1</div><h4>Pick a place</h4><p>Type a city, or ask brimm AI where your passport can take you.</p></li>
       <li class="stop"><div class="ic" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="2"/><circle cx="12" cy="10" r="3"/><path d="M8.5 16h7"/></svg></div><div class="k">STEP 2</div><h4>We check the visa</h4><p>For your passport, where you live and the visas you hold. Every stop.</p></li>
       <li class="stop"><div class="ic" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 2v4M16 2v4M7.5 13h3M7.5 17h6"/></svg></div><div class="k">STEP 3</div><h4>We plan the days</h4><p>Real places, sensible times, food nearby and rough costs. Change anything.</p></li>
       <li class="stop"><div class="ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M2.5 13.5l19-7.5-7.5 19-2.6-8.9z"/></svg></div><div class="k">STEP 4</div><h4>Off you go</h4><p>Share it, keep the PDF, book when you’re ready.</p></li>
@@ -282,7 +269,7 @@
         <ul>
           <li><svg class="ico" viewBox="0 0 24 24"><path d="M5 12l5 5 9-10"/></svg>1 trip plan, visa-checked, and 1 rebuild</li>
           <li><svg class="ico" viewBox="0 0 24 24"><path d="M5 12l5 5 9-10"/></svg>10 AI messages on that trip</li>
-          <li><svg class="ico" viewBox="0 0 24 24"><path d="M5 12l5 5 9-10"/></svg>10 messages to Brimm AI</li>
+          <li><svg class="ico" viewBox="0 0 24 24"><path d="M5 12l5 5 9-10"/></svg>10 messages to brimm AI</li>
           <li><svg class="ico" viewBox="0 0 24 24"><path d="M5 12l5 5 9-10"/></svg>Always free: visa checks, booking links, the share card, editing your trip</li>
         </ul>
       </div>
@@ -297,19 +284,19 @@
         </ul>
       </div>
     </div>
-    <p class="honest">No ads, no sponsored places. Where Brimm offers a site to book on, the list is fixed and never ordered by commission.</p>
+    <p class="honest">No ads, no sponsored places. Where brimm offers a site to book on, the list is fixed and never ordered by commission.</p>
   </div>
 </section>
 
 <section class="ctafoot" id="get">
-  <h2>Travel thoughts? <span style="white-space:nowrap;background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent">Brimm it!</span></h2>
+  <h2>Travel thoughts? <span style="white-space:nowrap;background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent">brimm it!</span></h2>
   <p>Free to start. No card. Coming soon to Android and iPhone.</p>
   <div class="ctas">
-    <span class="store" aria-label="Google Play: coming soon">
+    <span class="store soon" data-store="play" aria-label="Google Play: coming soon">
       <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3.6 2.4c-.3.3-.5.8-.5 1.4v16.4c0 .6.2 1.1.5 1.4l.1.1 9.2-9.2v-.2L3.6 2.4zm12.3 12.3l-3-3 3-3 3.6 2c1 .6 1 1.5 0 2.1l-3.6 1.9zm-3.6-3.6l3 3-9 5.1 6-8.1zm0-1.4l-6-8.1 9 5.1-3 3z"/></svg>
       <span><span class="s-sub">Google Play</span><span class="s-main">Coming soon</span></span>
     </span>
-    <span class="store" aria-label="App Store: coming soon">
+    <span class="store soon" data-store="ios" aria-label="App Store: coming soon">
       <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17.05 12.5c0-2.3 1.9-3.4 2-3.5-1.1-1.6-2.8-1.8-3.4-1.8-1.4-.1-2.8.8-3.5.8s-1.8-.8-3-.8c-1.5 0-3 .9-3.8 2.3-1.6 2.8-.4 7 1.2 9.3.8 1.1 1.7 2.4 2.9 2.3 1.2 0 1.6-.7 3-.7s1.8.7 3 .7 2-1.1 2.8-2.2c.9-1.3 1.2-2.5 1.3-2.6-.1 0-2.5-1-2.5-3.8zM14.8 5.3c.6-.8 1-1.9.9-3-.9 0-2 .6-2.7 1.4-.6.7-1.1 1.8-1 2.8 1 .1 2.1-.5 2.8-1.2z"/></svg>
       <span><span class="s-sub">App Store</span><span class="s-main">Coming soon</span></span>
     </span>
@@ -330,6 +317,24 @@
 </footer>
 
 <script>
+  // ═══ THE STORE SWITCHES (founder, 23 Oct 2026): each store's badge says "Coming soon" — greyed, not a link — until ITS switch is on;
+  // then it becomes the real link. Google Play's address is the app's own (ai.brimm.app). The App Store's needs the app's id, which
+  // exists once the listing is created — until then the switch cannot be turned on (an empty url keeps it "Coming soon").
+  const STORES = {
+    play: { on: false, url: 'https://play.google.com/store/apps/details?id=ai.brimm.app', main: 'Get it on' },
+    ios:  { on: false, url: '', main: 'Download on the' },
+  };
+  document.querySelectorAll('.store[data-store]').forEach(el => {
+    const st = STORES[el.dataset.store];
+    if (!st || !st.on || !st.url) return;
+    const a = document.createElement('a');
+    a.className = 'store'; a.href = st.url; a.rel = 'noopener'; a.innerHTML = el.innerHTML;
+    a.setAttribute('aria-label', el.dataset.store === 'play' ? 'Get it on Google Play' : 'Download on the App Store');
+    a.querySelector('.s-main').textContent = el.dataset.store === 'play' ? 'Google Play' : 'App Store';
+    a.querySelector('.s-sub').textContent = st.main;
+    el.replaceWith(a);
+  });
+
   // The nav gets its ground once the page moves.
   const nav = document.getElementById('nav');
   const solid = () => nav.classList.toggle('solid', window.scrollY > 40);
