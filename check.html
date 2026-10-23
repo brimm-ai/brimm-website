@@ -235,6 +235,10 @@
   fetch('/assets/check-data.json').then(r => r.json()).then(d => {
     DATA = d;
     $('countryList').innerHTML = d.passports.map(c => `<option value="${c.n}">`).join('');
+    // ?to=<place> (the itinerary pages' visa box, 24 Oct 2026): the place filled in from our own list — never free text
+    const to = new URLSearchParams(location.search).get('to');
+    const toRow = to && d.places.find(p => p.city.toLowerCase() === to.trim().toLowerCase());
+    if (toRow) $('dest').value = `${toRow.city}, ${toRow.country}`;
     $('placeList').innerHTML = d.places.map(p => `<option value="${p.city}, ${p.country}">`).join('')
       + [...new Set(d.places.map(p => p.country))].map(c => `<option value="${c}">`).join('');
     $('holdings').innerHTML = d.holdings.map(h => `<button type="button" class="chip" data-id="${h.id}" aria-pressed="false">${h.label}</button>`).join('');

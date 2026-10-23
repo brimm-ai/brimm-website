@@ -1,0 +1,57 @@
+/* brimm.ai SEO pages (batch 1, 24 Oct 2026) — the approved mock D:/brimm-planning/2026-10-18/mocks/website-mocks.png: one column on a
+   phone, two on a laptop with the side panel (visa check · app pitch · related) staying in view. Copied into the site by
+   brimm-ai tools/seo-pages/build.js — edit it there. */
+@font-face{font-family:'Manrope';src:url('/assets/fonts/Manrope-Regular-latin.ttf') format('truetype');font-weight:400 600;font-display:swap}
+@font-face{font-family:'Manrope';src:url('/assets/fonts/Manrope-Bold-latin.ttf') format('truetype');font-weight:700 900;font-display:swap}
+:root{--night:#060912;--night2:#0B1022;--card:#141A31;--line:rgba(255,255,255,.12);--teal:#7EC8C8;--purple:#A78BFA;--ink:#F4F7FA;--muted:rgba(244,247,250,.72);--faint:rgba(244,247,250,.52);--grad:linear-gradient(100deg,#7EC8C8 0%,#A78BFA 100%)}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--night);color:var(--ink);font-family:'Manrope',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;line-height:1.55;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1080px;margin:0 auto;padding:0 18px}
+nav{position:absolute;top:0;left:0;right:0;z-index:5;display:flex;align-items:center;justify-content:space-between;padding:14px 18px}
+.logo{display:flex;align-items:center;gap:8px;font-weight:800;font-size:19px}
+.navlinks{display:flex;gap:16px;align-items:center;font-size:14px;font-weight:700;color:var(--muted)}
+.navlinks .getapp{background:var(--teal);color:var(--night);padding:8px 14px;border-radius:999px}
+.hero{position:relative;height:300px;overflow:hidden;background:linear-gradient(160deg,var(--g0),var(--g1) 70%,var(--night))}
+.hero .photo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.hero .scrim{position:absolute;inset:0;background:linear-gradient(180deg,rgba(6,9,18,.35) 0%,rgba(6,9,18,.1) 35%,rgba(6,9,18,.75) 85%,#060912 100%)}
+.hero .in{position:absolute;left:0;right:0;bottom:30px;z-index:2}
+.crumb{font-size:12px;letter-spacing:1.8px;color:var(--teal);font-weight:800;margin-bottom:6px}
+h1{font-size:clamp(26px,5.4vw,40px);line-height:1.12;font-weight:800;letter-spacing:-.02em;text-shadow:0 2px 18px rgba(0,0,0,.35)}
+.credit{position:absolute;right:14px;bottom:8px;z-index:3;font-size:11px;color:rgba(255,255,255,.78);text-shadow:0 1px 6px rgba(0,0,0,.6);display:none}
+.hero.loaded .credit{display:block}
+.grid{display:grid;gap:18px;padding-top:16px;padding-bottom:30px}
+.lead{font-size:15.5px;color:var(--muted)}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 16px}
+.chips span{font-size:13px;padding:5px 12px;border-radius:999px;border:1px solid var(--line);background:var(--card);color:var(--muted)}
+.days{display:grid;gap:12px}
+.day,.tips{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px 16px}
+.tips{margin-top:12px}
+.dayhead{font-size:12px;letter-spacing:1.4px;color:var(--teal);font-weight:800;margin-bottom:8px}
+.day ul{list-style:none;display:grid;gap:10px}
+.day li{display:grid;grid-template-columns:48px 1fr;column-gap:8px}
+.day .t{grid-row:span 2;font-size:13px;font-weight:700;color:var(--teal);padding-top:1px}
+.day b{font-size:15px}
+.day .l{font-size:13.5px;color:var(--muted)}
+.tips ul{padding-left:18px;display:grid;gap:6px;font-size:14px;color:var(--muted)}
+aside{display:grid;gap:12px;align-content:start}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px 16px}
+.ph{font-weight:800;font-size:15px}
+.pl{font-size:13.5px;color:var(--muted);margin-top:4px}
+.go{display:flex;align-items:center;justify-content:center;height:48px;margin-top:12px;border-radius:14px;background:var(--grad);color:var(--night);font-weight:800;font-size:15.5px}
+.stores{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+.soon{flex:1;min-width:120px;text-align:center;font-size:13px;font-weight:700;color:var(--faint);border:1px dashed rgba(255,255,255,.22);border-radius:12px;padding:9px 8px}
+.more a{display:block;color:var(--teal);font-weight:700;font-size:14px;margin-top:6px}
+footer{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px;border-top:1px solid var(--line);padding:18px 18px 26px;font-size:12px;color:var(--faint)}
+footer a{color:var(--teal);font-weight:700}
+@media (min-width:900px){
+  .hero{height:340px}
+  .grid{grid-template-columns:1fr 340px;align-items:start}
+  aside{position:sticky;top:16px}
+  .days{grid-template-columns:repeat(auto-fill,minmax(250px,1fr))}
+}
+@media (max-width:520px){.navlinks a:not(.getapp){display:none}}
+/* a light row (a meal by its area, the check-in, the transfer in or out) sits quieter than a sight */
+.day li.light b{font-weight:600;font-size:14px;color:var(--muted)}
+.day li.light .t{color:var(--faint)}
+.book{display:inline-block;margin-left:6px;font-size:11px;font-weight:700;color:#E8C25A;border:1px solid rgba(232,194,90,.45);border-radius:999px;padding:0 7px;vertical-align:2px}
