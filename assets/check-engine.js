@@ -15,7 +15,7 @@ exports.webAnswer = webAnswer;
 //   1. webLocal — the LOCAL rules first (resolveLocalVerdict: home country, where you live, a residence issued here, a held Schengen
 //      visa or EU residence covering the place). When they answer, the page asks the server NOTHING (no visitor place, no vendor call).
 //   2. webAnswer — otherwise the server door's vendor body: verdictFromVendorJson (the body's read) → applyEntryRules (the rule layer,
-//      residence, held visas) → verdictLabel / verdictColor (the pill) → legReasonLine (the line) → legActionLink (the official link —
+//      residence, held visas) → plainVerdictLabel / verdictColor (the pill) → legActionLine (the line) → legActionLink (the official link —
 //      only a link the app already holds; "Apply on the official site ↗").
 // tools/website-check/build-engine.js compiles it with the app's own TypeScript and writes the site's assets/check-engine.js.
 // 🔴 NO LOGIC LIVES HERE. A web answer that differs from the app's is a defect in this file by definition, and a test runs both on the
@@ -25,10 +25,11 @@ exports.webAnswer = webAnswer;
 const visaService_1 = require("../../services/visaService");
 const visaAggregate_1 = require("../../utils/visaAggregate");
 const visaColors_1 = require("../../utils/visaColors");
+// THE WEBSITE'S PILL AND LINE (founder, 24 Oct 2026): the pill in plain words (plainVerdictLabel), the line only what to do (legActionLine).
 function shape(result, destISO, city, country) {
     const leg = { city, country, countryCode: destISO, arrival: null, departure: null, result };
     const link = (0, visaAggregate_1.legActionLink)(leg);
-    return { status: result.status, pill: (0, visaColors_1.verdictLabel)(result), color: (0, visaColors_1.verdictColor)(result), line: (0, visaAggregate_1.legReasonLine)(leg, [leg]), link: (link === null || link === void 0 ? void 0 : link.url) ? { label: link.label, url: link.url } : null };
+    return { status: result.status, pill: (0, visaColors_1.plainVerdictLabel)(result), color: (0, visaColors_1.verdictColor)(result), line: (0, visaAggregate_1.legActionLine)(leg, [leg]), link: (link === null || link === void 0 ? void 0 : link.url) ? { label: link.label, url: link.url } : null };
 }
 /** Step 1 — the answer the local rules give with no request at all, or null when only the server can answer. */
 function webLocal(destISO, city, country, profile) {
@@ -2513,6 +2514,7 @@ exports.etaWord = etaWord;
 exports.verdictWord = verdictWord;
 exports.verdictLabel = verdictLabel;
 exports.verdictGlyph = verdictGlyph;
+exports.plainVerdictLabel = plainVerdictLabel;
 exports.perkLabelCard = perkLabelCard;
 exports.verdictCardChip = verdictCardChip;
 exports.verdictChip = verdictChip;
@@ -2895,6 +2897,12 @@ function verdictGlyph(v) {
     if (label.startsWith(exports.HOME_GLYPH))
         return { glyph: exports.HOME_GLYPH, color: exports.HOME_GLYPH_COLOR };
     return null;
+}
+/** THE LABEL IN PLAIN WORDS — verdictLabel without its opening mark (no ✦, no ⌂): brimm.ai/check's pill (founder, 24 Oct 2026). The mark
+ *  is the one verdictGlyph says this label opens with — never guessed from the text. */
+function plainVerdictLabel(v) {
+    const label = verdictLabel(v), g = verdictGlyph(v);
+    return label && g && label.startsWith(g.glyph) ? label.slice(g.glyph.length).trim() : label;
 }
 // ── THE PILL'S SHARED TREATMENT — SMOKED, NOT SOLID (founder, 23 Aug) ───────────────────────
 // ONE treatment everywhere, because the pill appears over BOTH a dark card surface (Explore) and
@@ -4464,6 +4472,7 @@ exports.mustLastLine = mustLastLine;
 exports.aggregateVisaSummary = aggregateVisaSummary;
 exports.resolveTripVisaSummary = resolveTripVisaSummary;
 exports.legReasonLine = legReasonLine;
+exports.legActionLine = legActionLine;
 exports.legActionLink = legActionLink;
 const visaService_1 = require("../services/visaService");
 const visaHoldingsService_1 = require("../services/visaHoldingsService");
@@ -4896,6 +4905,44 @@ catch {
 /** A link the weekly check found failing two weeks running is not offered — its line says the fallback instead (founder F). */
 const live = (url) => !!url && !(0, visaLinksDown_1.isVisaLinkDown)(url);
 const fallback = () => ({ label: officialVisaPages_1.VISA_FALLBACK.line, url: null });
+/** WHAT TO DO, AND ONLY THAT — the line under a pill that already names the verdict (brimm.ai/check; founder, 24 Oct 2026: the pill
+ *  said "Visa required" and the line under it "Visa required — apply before travel"). Keyed on the verdict's STATUS and perk, never on
+ *  its words; the pill (verdictLabel) keeps the verdict, this keeps the action, so the two never repeat each other. The app's own
+ *  sentence is legReasonLine, unchanged. Stays: a duration is a labelled value, verbatim (the vendor's words are not ours to predict). */
+function legActionLine(l, tripLegs) {
+    const r = l.result;
+    if (!r)
+        return 'Checking…';
+    const stay = r.duration ? ` · Stay: ${r.duration}` : '';
+    if (r.isPerk) {
+        if (r.status === 'held')
+            return 'Nothing to apply for';
+        if (r.status === 'evisa')
+            return 'Apply online before you travel';
+        if (r.status === 'eta')
+            return 'Apply online before you fly';
+        if (r.status === 'visa_required')
+            return 'Apply before you travel';
+        return `Nothing to apply for${stay}`;
+    }
+    switch (r.status) {
+        case 'home': return 'No visa needed';
+        case 'resident': return 'Entry is by your residence, not a visa';
+        case 'visa_free': return `Nothing to apply for${stay}`;
+        case 'freedom': return `Nothing to apply for${stay}`;
+        case 'voa': return `Get it when you land${stay}`;
+        case 'evisa': return 'Apply online before you travel';
+        case 'eta': return 'Apply online before you fly';
+        case 'not_admitted': return 'Check with the embassy before booking';
+        case 'visa_required': {
+            const zone = sharedZoneCover(l, tripLegs);
+            return zone ? `Apply before you travel — one ${zone} visa covers all your ${zone} stops` : 'Apply before you travel';
+        }
+        case 'unknown':
+        case 'perk':
+        default: return legReasonLine(l, tripLegs); // "Couldn't check …" — the pill does not say why; the line does
+    }
+}
 function legActionLink(l) {
     const r = l.result;
     if (!r)
