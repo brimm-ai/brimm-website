@@ -32,6 +32,8 @@
     --teal:#7EC8C8; --purple:#A78BFA; --gold:#FAC775;
     --ink:#F4F7FA; --muted:rgba(244,247,250,.70); --faint:rgba(244,247,250,.48); --line:rgba(255,255,255,.09);
     --grad:linear-gradient(100deg,#7EC8C8 0%,#A78BFA 100%);
+    /* a BUTTON's gradient: deeper, so its white words pass 4.5:1 end to end (#357D7D 4.79 · #7C52F8 4.75 — founder, 24 Oct 2026) */
+    --btn-grad:linear-gradient(100deg,#357D7D 0%,#7C52F8 100%);
   }
   *{box-sizing:border-box;margin:0;padding:0}
   html{scroll-behavior:smooth}
@@ -67,7 +69,7 @@
   .brimming{margin-top:8px;font-size:15px;color:var(--muted);font-weight:600}
   .ctas{display:flex;flex-wrap:wrap;gap:12px;margin-top:30px;align-items:center}
   .btn{display:inline-flex;align-items:center;gap:10px;padding:14px 22px;border-radius:999px;font-weight:800;font-size:15.5px;line-height:1}
-  .btn.primary{background:var(--grad);color:var(--night)}
+  .btn.primary{background:var(--btn-grad);color:#fff}
   .store{display:inline-flex;align-items:center;gap:10px;padding:10px 18px;border-radius:14px;border:1px solid rgba(255,255,255,.22);background:rgba(6,9,18,.45);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
   .store .s-sub{display:block;font-size:10.5px;color:var(--faint);font-weight:700;letter-spacing:.4px;text-transform:uppercase}
   .store .s-main{display:block;font-size:15px;font-weight:800;line-height:1.15}

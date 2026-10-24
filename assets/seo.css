@@ -3,7 +3,7 @@
    brimm-ai tools/seo-pages/build.js — edit it there. */
 @font-face{font-family:'Manrope';src:url('/assets/fonts/Manrope-Regular-latin.ttf') format('truetype');font-weight:400 600;font-display:swap}
 @font-face{font-family:'Manrope';src:url('/assets/fonts/Manrope-Bold-latin.ttf') format('truetype');font-weight:700 900;font-display:swap}
-:root{--night:#060912;--night2:#0B1022;--card:#141A31;--line:rgba(255,255,255,.12);--teal:#7EC8C8;--purple:#A78BFA;--ink:#F4F7FA;--muted:rgba(244,247,250,.72);--faint:rgba(244,247,250,.52);--grad:linear-gradient(100deg,#7EC8C8 0%,#A78BFA 100%)}
+:root{--night:#060912;--night2:#0B1022;--card:#141A31;--line:rgba(255,255,255,.12);--teal:#7EC8C8;--purple:#A78BFA;--ink:#F4F7FA;--muted:rgba(244,247,250,.72);--faint:rgba(244,247,250,.52);--grad:linear-gradient(100deg,#7EC8C8 0%,#A78BFA 100%);--btn-grad:linear-gradient(100deg,#357D7D 0%,#7C52F8 100%)}
 *{box-sizing:border-box;margin:0;padding:0}
 body{background:var(--night);color:var(--ink);font-family:'Manrope',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;line-height:1.55;-webkit-font-smoothing:antialiased;overflow-x:hidden}
 a{color:inherit;text-decoration:none}
@@ -38,7 +38,7 @@ aside{display:grid;gap:12px;align-content:start}
 .panel{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px 16px}
 .ph{font-weight:800;font-size:15px}
 .pl{font-size:13.5px;color:var(--muted);margin-top:4px}
-.go{display:flex;align-items:center;justify-content:center;height:48px;margin-top:12px;border-radius:14px;background:var(--grad);color:var(--night);font-weight:800;font-size:15.5px}
+.go{display:flex;align-items:center;justify-content:center;height:48px;margin-top:12px;border-radius:14px;background:var(--btn-grad);color:#fff;font-weight:800;font-size:15.5px}
 .stores{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
 .soon{flex:1;min-width:120px;text-align:center;font-size:13px;font-weight:700;color:var(--faint);border:1px dashed rgba(255,255,255,.22);border-radius:12px;padding:9px 8px}
 .more a{display:block;color:var(--teal);font-weight:700;font-size:14px;margin-top:6px}

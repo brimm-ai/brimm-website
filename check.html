@@ -31,6 +31,8 @@
     --teal:#7EC8C8; --purple:#A78BFA; --gold:#FAC775;
     --ink:#F4F7FA; --muted:rgba(244,247,250,.72); --faint:rgba(244,247,250,.52); --line:rgba(255,255,255,.12);
     --grad:linear-gradient(100deg,#7EC8C8 0%,#A78BFA 100%);
+    /* a BUTTON's gradient: deeper, so its white words pass 4.5:1 end to end (#357D7D 4.79 · #7C52F8 4.75 — founder, 24 Oct 2026) */
+    --btn-grad:linear-gradient(100deg,#357D7D 0%,#7C52F8 100%);
   }
   *{box-sizing:border-box;margin:0;padding:0}
   body{background:var(--night);color:var(--ink);font-family:'Manrope',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;line-height:1.55;-webkit-font-smoothing:antialiased;overflow-x:hidden}
@@ -66,7 +68,7 @@
   .dates{display:none;gap:10px;margin-top:10px}.dates.on{display:flex}.dates>div{flex:1}
   .gulf{display:none;margin-top:10px}.gulf.on{display:block}
   .err{color:#FF9B9B;font-size:13.5px;margin-top:6px;display:none}.err.on{display:block}
-  .go{height:56px;border:0;border-radius:16px;background:var(--grad);color:var(--night);font:inherit;font-size:16.5px;font-weight:800;cursor:pointer}
+  .go{height:56px;border:0;border-radius:16px;background:var(--btn-grad);color:#fff;font:inherit;font-size:16.5px;font-weight:800;cursor:pointer}
   .fine{font-size:12.5px;color:var(--faint);text-align:center;margin-top:-8px}
   .summary{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
   .summary span{font-size:12.5px;padding:5px 11px;border-radius:999px;background:rgba(6,9,18,.6);border:1px solid rgba(255,255,255,.22)}
