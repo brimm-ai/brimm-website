@@ -55,3 +55,15 @@ footer a{color:var(--teal);font-weight:700}
 .day li.light b{font-weight:600;font-size:14px;color:var(--muted)}
 .day li.light .t{color:var(--faint)}
 .book{display:inline-block;margin-left:6px;font-size:11px;font-weight:700;color:#E8C25A;border:1px solid rgba(232,194,90,.45);border-radius:999px;padding:0 7px;vertical-align:2px}
+/* the costs line is a plain line, not a chip — it is not tappable (founder #273f, 24 Oct 2026) */
+.note{font-size:13px;color:var(--faint);margin:-6px 0 16px}
+/* days 4+ (founder #273a): each day's theme and its 1–2 highlights as plain words, then the one button */
+.later{margin-top:12px;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px 16px}
+.later ul{list-style:none;display:grid;gap:10px}
+.later li{display:grid;grid-template-columns:48px 1fr;column-gap:8px}
+.later .dn{grid-row:span 2;font-size:13px;font-weight:700;color:var(--teal);padding-top:1px}
+.later b{font-size:15px}
+.later .hl{font-size:13.5px;color:var(--muted)}
+.later .hl i{font-style:normal}
+.later .hl i+i::before{content:" · "}
+.later .go{margin-top:14px}
