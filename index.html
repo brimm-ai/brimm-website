@@ -146,9 +146,9 @@
   .plan{padding:28px 24px;border-radius:22px;border:1px solid var(--line);background:var(--card)}
   .plan.pro{border-color:rgba(167,139,250,.45);background:linear-gradient(160deg,rgba(126,200,200,.10),rgba(167,139,250,.12))}
   .plan h3{font-size:20px;font-weight:800}
-  .plan .price{font-size:30px;font-weight:800;margin:10px 0 2px;letter-spacing:-.01em}
-  .plan .price small{font-size:15px;color:var(--muted);font-weight:700}
   .plan .note{font-size:13.5px;color:var(--faint);margin-bottom:14px}
+  .plan .lead{font-size:17px;font-weight:700;color:var(--ink);margin:8px 0 14px}
+  .plan .fineprint{margin-top:14px;font-size:12.5px;color:var(--faint)}
   .plan ul{list-style:none;display:grid;gap:8px}
   .plan li{display:flex;gap:10px;font-size:15px;color:var(--muted)}
   .plan li .ico{width:18px;height:18px;color:var(--teal);margin-top:3px}
@@ -220,7 +220,7 @@
       <img src="/assets/frames/03-day-on-a-map.webp" alt="Your day, on a map — a Paris day opened as one route in the phone’s maps app" loading="lazy" width="540" height="960" onerror="this.remove()">
       <img src="/assets/frames/04-pick-a-side.webp" alt="Pick a side — Bali split into Ubud and the beach, nights in each" loading="lazy" width="540" height="960" onerror="this.remove()">
       <img src="/assets/frames/05-just-ask.webp" alt="Not sure where? Just ask — somewhere warm under 8 hours: Phuket and the Maldives" loading="lazy" width="540" height="960" onerror="this.remove()">
-      <img src="/assets/frames/06-budget-sorted.webp" alt="Budget? Sorted. — the trip’s total in AED for two, and where the money goes" loading="lazy" width="540" height="960" onerror="this.remove()">
+      <img src="/assets/frames/06-budget-sorted.webp" alt="Budget? Sorted. — the trip’s total for two, in the traveller’s own currency, and where the money goes" loading="lazy" width="540" height="960" onerror="this.remove()">
       <img src="/assets/frames/07-your-world-lit-up.webp" alt="Your world, lit up. — the places you’ve been, glowing on the globe" loading="lazy" width="540" height="960" onerror="this.remove()">
       <img src="/assets/frames/08-everywhere-youve-been.webp" alt="Everywhere you’ve been — Sara’s travel map: 13 countries, 13 cities, 130 points" loading="lazy" width="540" height="960" onerror="this.remove()">
     </div>
@@ -267,7 +267,7 @@
     <div class="plans">
       <div class="plan">
         <h3>Free</h3>
-        <div class="price">AED 0</div>
+        <p class="lead">Free to start. No card.</p>
         <ul>
           <li><svg class="ico" viewBox="0 0 24 24"><path d="M5 12l5 5 9-10"/></svg>1 trip plan, visa-checked, and 1 rebuild</li>
           <li><svg class="ico" viewBox="0 0 24 24"><path d="M5 12l5 5 9-10"/></svg>10 AI messages on that trip</li>
@@ -276,14 +276,14 @@
         </ul>
       </div>
       <div class="plan pro">
-        <h3>Pro</h3>
-        <div class="price">AED 18 <small>a month</small></div>
-        <p class="note">or AED 149 a year</p>
+        <h3>brimm Pro</h3>
+        <p class="lead">Monthly or yearly — coming soon</p>
         <ul>
           <li><svg class="ico" viewBox="0 0 24 24"><path d="M5 12l5 5 9-10"/></svg>No counters in your way — fair use applies</li>
           <li><svg class="ico" viewBox="0 0 24 24"><path d="M5 12l5 5 9-10"/></svg>Start a new chat whenever you like</li>
-                    <li><svg class="ico" viewBox="0 0 24 24"><path d="M5 12l5 5 9-10"/></svg>A plain purchase — no free trial that turns into a charge, easy to cancel</li>
+          <li><svg class="ico" viewBox="0 0 24 24"><path d="M5 12l5 5 9-10"/></svg>A plain purchase — no free trial that turns into a charge, easy to cancel</li>
         </ul>
+        <p class="fineprint"><span aria-hidden="true">ⓘ</span> Your price shows in your local currency in the app, set by Google Play or the App Store.</p>
       </div>
     </div>
     <p class="honest">No ads, no sponsored places. Where brimm offers a site to book on, the list is fixed and never ordered by commission.</p>

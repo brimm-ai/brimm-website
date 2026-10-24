@@ -1,0 +1,5 @@
+#!/bin/sh
+# brimm.ai pre-commit (24 Oct 2026, founder 16:45): the site shows no price or currency amount — tools/no-prices.js (self-test first, so the
+# check cannot be blinded silently). A fresh clone runs: git config core.hooksPath .githooks
+node tools/no-prices.js --self-test || exit 1
+node tools/no-prices.js || exit 1
