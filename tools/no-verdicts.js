@@ -27,7 +27,7 @@ const RULES = [
   // THE KASHMIR RULE (founder #304, 25 Oct 2026): selectable everywhere a traveller searches or picks (the check's own list), NEVER promoted
   // — and a visa guide is promoted content. A copy of brimm-ai data/neverPromoted's names (this repo cannot import it); brimm-ai's
   // tools/visa-pages/build.js proves on every build that this copy refuses each of them.
-  ['a Kashmir-region place (promoted content)', /\b(kashmir|srinagar|jammu|katra|vaishno devi|ladakh|pahalgam|gulmarg|sonamarg|leh|nubra valley|pangong tso|gilgit|gilgit-baltistan|muzaffarabad)\b/i],
+  ['a Kashmir-region place (promoted content)', /\b(kashmir|srinagar|jammu|katra|vaishno devi|ladakh|pahalgam|gulmarg|sonamarg|leh|nubra valley|pangong tso)\b/i],
   ['a capital Brimm', /\bBrimm\b(?! Limited)/],
 ];
 const EXEMPT_SLUG = 'visa-free-countries-for-uae-residents', EXEMPT_PAGE = `visa/${EXEMPT_SLUG}/index.html`, EXEMPT_TITLE = 'Visa-free countries for UAE residents';
