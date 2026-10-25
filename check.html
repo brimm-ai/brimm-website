@@ -234,7 +234,7 @@
 
   let DATA = null;
   const picked = new Set(); let when = null;
-  fetch('/assets/check-data.json').then(r => r.json()).then(d => {
+  fetch('/assets/check-data.json', { cache: 'no-cache' })   /* revalidate: a rebuilt list (25 Oct 2026: 'Turkey' → 'Türkiye') must not wait out a cached copy */.then(r => r.json()).then(d => {
     DATA = d;
     $('countryList').innerHTML = d.passports.map(c => `<option value="${c.n}">`).join('');
     // ?to=<place> (the itinerary pages' visa box, 24 Oct 2026) and ?home=<country> (the visa guide pages, 25 Oct 2026): filled in from
@@ -253,6 +253,13 @@
       on ? picked.add(b.dataset.id) : picked.delete(b.dataset.id);
       $('gulfBox').classList.toggle('on', picked.has('GCC'));
     }));
+    // #302 (founder, 25 Oct 2026 09:20): opened from a UAE-resident visa guide — the LINK carries home = UAE — the Gulf residence is
+    // pre-ticked with the UAE as its issuer; the visitor can untick it. Opened any other way (typed, an itinerary page, no home in the
+    // link), nothing is pre-ticked.
+    if (homeRow && homeRow.c === 'AE') {
+      const gcc = $('holdings').querySelector('.chip[data-id="GCC"]');
+      if (gcc) { gcc.setAttribute('aria-pressed', 'true'); picked.add('GCC'); $('gulfBox').classList.add('on'); $('gulf').value = 'AE'; }
+    }
   });
   $('when').querySelectorAll('.chip').forEach(b => b.addEventListener('click', () => {
     const on = b.getAttribute('aria-pressed') !== 'true';

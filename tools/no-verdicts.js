@@ -9,6 +9,8 @@
 // its own title phrase, verbatim, is removed before the check wherever it names the page (the <title>, the h1, the og/twitter titles,
 // the description, the structured data), and so is its own address's slug (og:url, the structured data's url); any other "visa-free" on it is refused like anywhere else. A domain shown under an official link ("evisa.gov.ge") is an address, not a
 // verdict — "evisa" directly followed by a dot is not matched.
+// RULED SENTENCES, EXACT: a sentence the founder ruled onto a page that carries a refused word for a reason that is not a verdict — a
+// destination's own condition — listed with its ruling and removed, verbatim, before the check. Any other use of the word is refused.
 // Used two ways: brimm-ai tools/visa-pages/build.js calls check() before it writes (a page that fails is never written), and
 // .githooks/pre-commit runs this file (a hand edit cannot slip one in).
 //   node tools/no-verdicts.js              check the working tree
@@ -27,10 +29,13 @@ const RULES = [
 ];
 const EXEMPT_SLUG = 'visa-free-countries-for-uae-residents', EXEMPT_PAGE = `visa/${EXEMPT_SLUG}/index.html`, EXEMPT_TITLE = 'Visa-free countries for UAE residents';
 
+const RULED = [
+  'Travel insurance is required for all visitors',   // founder, 25 Oct 2026 09:20 (#2): Georgia's insurance, from our own rules, no amount
+];
 const decode = (s) => s.replace(/&amp;/g, '&').replace(/&nbsp;/g, ' ').replace(/&#39;|&rsquo;/g, "'").replace(/&quot;/g, '"');
 /** What a visitor or a crawler reads: text, meta content, alt/title/aria-label, ld+json — not CSS, not other scripts. */
 function visible(html, exemptTitles) {
-  let h = html;
+  let h = RULED.reduce((x, r) => x.split(r).join(''), html);
   if (exemptTitles) {
     h = h.split(EXEMPT_TITLE).join('').split(EXEMPT_SLUG).join('');   // the founder's search title and its address — on its own page, nowhere else
   }
@@ -48,16 +53,16 @@ function check(html, rel) {
   }
   return bad;
 }
-module.exports = { check, RULES, EXEMPT_PAGE, EXEMPT_TITLE, EXEMPT_SLUG };
+module.exports = { check, RULED, RULES, EXEMPT_PAGE, EXEMPT_TITLE, EXEMPT_SLUG };
 
 if (require.main === module) {
   if (process.argv.includes('--self-test')) {
     const planted = ['<p>Georgia is visa-free for you</p>', '<p>Get a visa on arrival</p>', '<p>Apply for an e-Visa</p>', '<p>A visa is required</p>',
       '<meta name="description" content="No visa for UAE residents">', '<p>Processing takes 3 working days</p>', '<p>The fee is small</p>',
       '<p>Data from Travel Buddy</p>', '<p>Kashmir</p>', '<p>Brimm checks it</p>', '<img alt="eVisa portal">',
-      '<script type="application/ld+json">{"name":"Thailand visa-free"}</script>'];
+      '<script type="application/ld+json">{"name":"Thailand visa-free"}</script>', '<p>A visa is required for all visitors</p>', '<p>Travel insurance is required for all visitors. A visa is required too.</p>'];
     const clean = ['<p>What decides your answer</p>', '<a href="https://www.evisa.gov.ge/GeoVisa/">Georgia’s official visa site ↗</a><span>evisa.gov.ge</span>',
-      '<p>© 2026 Brimm Limited, UAE</p>', '<style>.a{color:red}</style><p>Rules change. Always confirm with the official source before you book.</p>'];
+      '<p>© 2026 Brimm Limited, UAE</p>', '<p class="ti">🩺 Travel insurance is required for all visitors</p>', '<style>.a{color:red}</style><p>Rules change. Always confirm with the official source before you book.</p>'];
     const missed = planted.filter(h => !check(h, 'visa/x/index.html').length);
     const flagged = clean.filter(h => check(h, 'visa/x/index.html').length);
     // the exemption: the founder's search title passes on its own page and nowhere else, and the rest of that page is still checked

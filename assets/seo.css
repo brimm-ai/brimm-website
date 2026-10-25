@@ -87,3 +87,7 @@ footer a{color:var(--teal);font-weight:700}
 .guides{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px}
 .guides a{display:flex;gap:8px;align-items:center;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px 12px;font-weight:700;font-size:14px}
 @media (min-width:900px){.tiles{grid-template-columns:repeat(3,1fr)}}
+/* the guide's prefilled facts are LABELS, not controls (founder, 25 Oct 2026 09:20 — the pills looked tappable and were not) */
+.vcheck .facts{display:grid;gap:2px;margin-top:8px;font-size:14px;color:var(--muted)}
+.vcheck .facts b{color:var(--ink);font-weight:700}
+@media (min-width:900px){.tiles.four{grid-template-columns:repeat(2,1fr)}}
