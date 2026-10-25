@@ -3,7 +3,7 @@
 // text on the page; the answer only comes from the live check. Add a builder check that refuses a page containing verdict words
 // (visa-free / on arrival / e-visa / required) outside the live-check result").
 // Reads every /visa/**/index.html as a VISITOR or a search engine sees it — the text, the meta tags, alt/title text and structured
-// data — and fails on a verdict word, a processing time or a fee word, a data provider's name, Kashmir, or a capital "Brimm" other
+// data — and fails on a verdict word, a processing time or a fee word, a data provider's name, a Kashmir-region place (the guides are promoted content — founder #304), or a capital "Brimm" other
 // than "Brimm Limited". The live check's result is drawn by /check.html at run time, so it is never in these files.
 // ONE EXEMPTION, BY NAME: the founder titled one page "Visa-free countries for UAE residents" — the words people search. On THAT page
 // its own title phrase, verbatim, is removed before the check wherever it names the page (the <title>, the h1, the og/twitter titles,
@@ -24,13 +24,16 @@ const RULES = [
   ['a visa verdict', /\bvisa[- ]?free\b|\bvisa[- ]?waiver\b|\bon[- ]arrival\b|\be-?visa\b(?!\.)|\brequired\b|\bno visa\b|\bvisa not needed\b|\beTA\b/i],
   ['a processing time or a fee', /\bprocessing\b|\bworking days\b|\bbusiness days\b|\bfees?\b|\bcosts? \d/i],
   ["a data provider's name", /travel ?buddy|rapid ?api|sherpa|visadb|\biata\b|timatic|anthropic|\bclaude\b|openai|unsplash|supabase|sentry|getyourguide|tiqets|kkday|klook|viator|airalo|discovercars|aviasales|booking\.com|expedia/i],
-  ['Kashmir', /kashmir/i],
+  // THE KASHMIR RULE (founder #304, 25 Oct 2026): selectable everywhere a traveller searches or picks (the check's own list), NEVER promoted
+  // — and a visa guide is promoted content. A copy of brimm-ai data/neverPromoted's names (this repo cannot import it); brimm-ai's
+  // tools/visa-pages/build.js proves on every build that this copy refuses each of them.
+  ['a Kashmir-region place (promoted content)', /\b(kashmir|srinagar|jammu|katra|vaishno devi|ladakh|pahalgam|gulmarg|sonamarg|leh|nubra valley|pangong tso|gilgit|gilgit-baltistan|muzaffarabad)\b/i],
   ['a capital Brimm', /\bBrimm\b(?! Limited)/],
 ];
 const EXEMPT_SLUG = 'visa-free-countries-for-uae-residents', EXEMPT_PAGE = `visa/${EXEMPT_SLUG}/index.html`, EXEMPT_TITLE = 'Visa-free countries for UAE residents';
 
 const RULED = [
-  'Travel insurance is required for all visitors',   // founder, 25 Oct 2026 09:20 (#2): Georgia's insurance, from our own rules, no amount
+  'Travel insurance is required for all tourists',   // founder, 25 Oct 2026 09:20 (#2) and 10:30 (#306: the law's word): Georgia, no amount
 ];
 const decode = (s) => s.replace(/&amp;/g, '&').replace(/&nbsp;/g, ' ').replace(/&#39;|&rsquo;/g, "'").replace(/&quot;/g, '"');
 /** What a visitor or a crawler reads: text, meta content, alt/title/aria-label, ld+json — not CSS, not other scripts. */
@@ -60,9 +63,11 @@ if (require.main === module) {
     const planted = ['<p>Georgia is visa-free for you</p>', '<p>Get a visa on arrival</p>', '<p>Apply for an e-Visa</p>', '<p>A visa is required</p>',
       '<meta name="description" content="No visa for UAE residents">', '<p>Processing takes 3 working days</p>', '<p>The fee is small</p>',
       '<p>Data from Travel Buddy</p>', '<p>Kashmir</p>', '<p>Brimm checks it</p>', '<img alt="eVisa portal">',
-      '<script type="application/ld+json">{"name":"Thailand visa-free"}</script>', '<p>A visa is required for all visitors</p>', '<p>Travel insurance is required for all visitors. A visa is required too.</p>'];
+      '<script type="application/ld+json">{"name":"Thailand visa-free"}</script>', '<p>A visa is required for all visitors</p>', '<p>Travel insurance is required for all tourists. A visa is required too.</p>',
+      '<p>Travel insurance is required for all visitors</p>',   // the 09:20 wording, replaced at 10:30 (#306) — no longer a ruled sentence
+      '<p>Plan a week in Srinagar</p>', '<img alt="Pangong Tso at dawn">', '<p>Leh is the base</p>'];   // promoted content: the Kashmir rule
     const clean = ['<p>What decides your answer</p>', '<a href="https://www.evisa.gov.ge/GeoVisa/">Georgia’s official visa site ↗</a><span>evisa.gov.ge</span>',
-      '<p>© 2026 Brimm Limited, UAE</p>', '<p class="ti">🩺 Travel insurance is required for all visitors</p>', '<style>.a{color:red}</style><p>Rules change. Always confirm with the official source before you book.</p>'];
+      '<p>© 2026 Brimm Limited, UAE</p>', '<p class="ti">🩺 Travel insurance is required for all tourists</p>', '<p>Lehigh Valley and Ashleigh Park</p>', '<style>.a{color:red}</style><p>Rules change. Always confirm with the official source before you book.</p>'];
     const missed = planted.filter(h => !check(h, 'visa/x/index.html').length);
     const flagged = clean.filter(h => check(h, 'visa/x/index.html').length);
     // the exemption: the founder's search title passes on its own page and nowhere else, and the rest of that page is still checked
