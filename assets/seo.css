@@ -67,3 +67,23 @@ footer a{color:var(--teal);font-weight:700}
 .later .hl i{font-style:normal}
 .later .hl i+i::before{content:" · "}
 .later .go{margin-top:14px}
+/* the visa guide pages (founder, 25 Oct 2026 — option C "guide + live check"; written by tools/visa-pages/build.js). The answer is only
+   ever the live check's: these styles hold the guide around it — the check card, the three things that decide, the official site. */
+.lead b{color:var(--ink)}
+.when{font-size:12.5px;color:var(--faint);margin-top:6px}
+.vcheck{margin:16px 0 20px}
+.vcheck .chips{margin:10px 0 0}
+.block{margin-bottom:18px}
+.tiles{display:grid;gap:10px}
+.tile{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:12px 14px}
+.tile .ti{font-weight:800;font-size:15px}
+.tile ul{list-style:none;display:grid;gap:5px;margin-top:6px}
+.tile li{font-size:13.5px;color:var(--muted);padding-left:14px;position:relative}
+.tile li::before{content:"•";position:absolute;left:2px;color:var(--teal)}
+.tile li a{color:var(--teal);font-weight:700}
+.official .off{display:block;color:var(--teal);font-weight:800;font-size:15px;margin-top:10px}
+.official .host{display:block;font-size:12px;color:var(--faint)}
+.rules{font-size:13.5px;color:var(--muted);border-left:2.5px solid var(--teal);padding:2px 0 2px 12px;margin-top:18px}
+.guides{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px}
+.guides a{display:flex;gap:8px;align-items:center;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px 12px;font-weight:700;font-size:14px}
+@media (min-width:900px){.tiles{grid-template-columns:repeat(3,1fr)}}

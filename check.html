@@ -237,10 +237,13 @@
   fetch('/assets/check-data.json').then(r => r.json()).then(d => {
     DATA = d;
     $('countryList').innerHTML = d.passports.map(c => `<option value="${c.n}">`).join('');
-    // ?to=<place> (the itinerary pages' visa box, 24 Oct 2026): the place filled in from our own list — never free text
-    const to = new URLSearchParams(location.search).get('to');
-    const toRow = to && d.places.find(p => p.city.toLowerCase() === to.trim().toLowerCase());
-    if (toRow) $('dest').value = `${toRow.city}, ${toRow.country}`;
+    // ?to=<place> (the itinerary pages' visa box, 24 Oct 2026) and ?home=<country> (the visa guide pages, 25 Oct 2026): filled in from
+    // our own lists — a city or a country the check knows, never free text; anything else leaves the field empty
+    const q = new URLSearchParams(location.search), to = q.get('to'), home = q.get('home');
+    const toRow = to && place(to);
+    if (toRow) $('dest').value = toRow.name === toRow.country ? toRow.country : `${toRow.name}, ${toRow.country}`;
+    const homeRow = home && country(home);
+    if (homeRow) $('home').value = homeRow.n;
     $('placeList').innerHTML = d.places.map(p => `<option value="${p.city}, ${p.country}">`).join('')
       + [...new Set(d.places.map(p => p.country))].map(c => `<option value="${c}">`).join('');
     $('holdings').innerHTML = d.holdings.map(h => `<button type="button" class="chip" data-id="${h.id}" aria-pressed="false">${h.label}</button>`).join('');

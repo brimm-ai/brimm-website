@@ -3,3 +3,7 @@
 # check cannot be blinded silently). A fresh clone runs: git config core.hooksPath .githooks
 node tools/no-prices.js --self-test || exit 1
 node tools/no-prices.js || exit 1
+# The visa guide pages (25 Oct 2026, founder 08:50): no visa verdict written on a page — the answer only comes from the live check —
+# tools/no-verdicts.js (self-test first, the same file brimm-ai's tools/visa-pages/build.js checks every page with before writing it).
+node tools/no-verdicts.js --self-test || exit 1
+node tools/no-verdicts.js || exit 1
