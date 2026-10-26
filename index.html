@@ -318,14 +318,13 @@
   <p class="foot-note">© 2026 Brimm Limited, UAE · <a href="mailto:support@brimm.ai">support@brimm.ai</a> · What are you brimming today?</p>
 </footer>
 
+<script src="/assets/stores.js"></script>
 <script>
   // ═══ THE STORE SWITCHES (founder, 23 Oct 2026): each store's badge says "Coming soon" — greyed, not a link — until ITS switch is on;
   // then it becomes the real link. Google Play's address is the app's own (ai.brimm.app). The App Store's needs the app's id, which
   // exists once the listing is created — until then the switch cannot be turned on (an empty url keeps it "Coming soon").
-  const STORES = {
-    play: { on: false, url: 'https://play.google.com/store/apps/details?id=ai.brimm.app', main: 'Get it on' },
-    ios:  { on: false, url: '', main: 'Download on the' },
-  };
+  // the switches live in ONE file, assets/stores.js, read by every page (#336, 26 Oct 2026)
+  const STORES = window.BRIMM_STORES;
   document.querySelectorAll('.store[data-store]').forEach(el => {
     const st = STORES[el.dataset.store];
     if (!st || !st.on || !st.url) return;
