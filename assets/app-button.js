@@ -14,7 +14,14 @@
   var ua = navigator.userAgent || '';
   var android = /Android/i.test(ua);
   var ios = /iPhone|iPad|iPod/i.test(ua) || (/Macintosh/.test(ua) && 'ontouchend' in document);
-  var intent = 'intent://create-trip#Intent;scheme=brimm;package=ai.brimm.app;S.browser_fallback_url=' + encodeURIComponent(PLAY) + ';end';
+  // THE CITY COMES ALONG (founder #329, 26 Oct 2026 — mock 2026-10-26 §7): a city page's button carries its city, and Create opens with it
+  // picked and still editable — the same prefilledDestination Explore's "Plan" uses (seen on the Pixel 8: London, United Kingdom). The
+  // Play fallback cannot carry it; a page with no city (a visa guide) opens an empty Create as before.
+  function intentFor(a) {
+    var city = a.getAttribute('data-app-city'), country = a.getAttribute('data-app-country');
+    var q = city ? '?prefilledDestination=' + encodeURIComponent(city) + (country ? '&prefilledCountry=' + encodeURIComponent(country) : '') : '';
+    return 'intent://create-trip' + q + '#Intent;scheme=brimm;package=ai.brimm.app;S.browser_fallback_url=' + encodeURIComponent(PLAY) + ';end';
+  }
   function soon(a, words) {
     var s = document.createElement('span');
     s.className = a.className + ' soon';
@@ -24,7 +31,7 @@
   document.querySelectorAll('[data-app]').forEach(function (a) {
     if (ios) return soon(a, 'Coming soon to iPhone');
     if (!playOn) return soon(a, 'Coming soon to Google Play');
-    a.href = android ? intent : PLAY;
+    a.href = android ? intentFor(a) : PLAY;
     if (!android) { a.target = '_blank'; a.rel = 'noopener'; }
   });
   if (playOn && !android && !ios) document.querySelectorAll('[data-app-qr]').forEach(function (q) { q.hidden = false; });
