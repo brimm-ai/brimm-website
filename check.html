@@ -77,9 +77,17 @@
   .card .dot{width:10px;height:10px;border-radius:50%;margin-top:7px;flex-shrink:0}
   .card b{display:block;font-size:15.5px;margin-bottom:2px}
   .card span{font-size:14px;color:var(--muted)}
-  .storebtn{display:flex;align-items:center;justify-content:center;gap:10px;height:56px;border-radius:16px;font-weight:800;font-size:16px}
-  .stores{display:flex;flex-direction:column;gap:10px}
-  .storebtn.soon{border:1px dashed rgba(255,255,255,.22);background:transparent;color:var(--faint);font-weight:700;cursor:default}
+  /* THE OFFICIAL STORE BADGES (founder, 28 Oct 2026 23:27): Google's and Apple's own artwork at one visible height (44px — Google's file
+     carries its clear space, so it is drawn larger and pulled in by it); "Coming soon" = dimmed, the words under it, not a link. The
+     switch is assets/stores.js. */
+  .badge{display:inline-flex;flex-direction:column;align-items:center;gap:6px;cursor:default}
+  .badge[hidden]{display:none}
+  .badge img{display:block;height:44px;width:auto}
+  .badge img.gp{height:64.7px;margin:-10.35px}
+  .badge.soon img{opacity:.55}
+  .badge .soon-tag{font-size:10.5px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:var(--faint)}
+  a.badge{cursor:pointer}
+  .stores{display:flex;justify-content:center;flex-wrap:wrap;gap:20px;margin-top:4px}
   .qr{display:none;align-items:center;gap:16px;margin-top:14px;padding:14px;border-radius:16px;background:var(--card);border:1px solid var(--line)}
   .qr.on{display:flex}.qr img{width:112px;height:112px;border-radius:8px}
   .qr span{font-size:14px;color:var(--muted)}
@@ -190,7 +198,7 @@
       <div class="card"><span class="dot" style="background:var(--purple)"></span><div><b>A day-by-day plan</b><span id="planLine">Places, times, food and costs, timed so it actually works.</span></div></div>
       <div class="card"><span class="dot" style="background:var(--gold)"></span><div><b>Budget, bookings and a share card</b><span>Rough costs, the places to book, and a plan to send your crew.</span></div></div>
     </div>
-    <div class="stores"><span class="storebtn soon" id="playBtn">Google Play · Coming soon</span><span class="storebtn soon" id="iosBtn">App Store · Coming soon</span></div>
+    <div class="stores"><span class="badge soon" data-store="play" id="playBtn" aria-label="Google Play: coming soon"><img class="gp" src="/assets/badges/google-play.png" alt="" width="167" height="65"><span class="soon-tag">Coming soon</span></span><span class="badge soon" data-store="ios" id="iosBtn" aria-label="App Store: coming soon"><img src="/assets/badges/app-store.svg" alt="" width="132" height="44"><span class="soon-tag">Coming soon</span></span></div>
     <p class="fine" style="margin-top:10px">Free to start. No card.</p>
     <div class="qr" id="qr"><img src="/assets/check-qr.svg" alt="QR code to open this visa check on your phone" width="112" height="112"><span>On your phone? Scan this to open the visa check there.</span></div>
     <button class="back" id="edit" type="button">← Change my answers</button>
@@ -202,6 +210,7 @@
 <datalist id="countryList"></datalist>
 <datalist id="placeList"></datalist>
 
+<script src="/assets/stores.js"></script>
 <script>
   // The thirteen approved hero photographs (the same set and credits as the home page). A destination shows ITS OWN photo when
   // the set has one; otherwise the plain night gradient — never a photo of somewhere else under another place's name.

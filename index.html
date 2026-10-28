@@ -70,13 +70,16 @@
   .ctas{display:flex;flex-wrap:wrap;gap:12px;margin-top:30px;align-items:center}
   .btn{display:inline-flex;align-items:center;gap:10px;padding:14px 22px;border-radius:999px;font-weight:800;font-size:15.5px;line-height:1}
   .btn.primary{background:var(--btn-grad);color:#fff}
-  .store{display:inline-flex;align-items:center;gap:10px;padding:10px 18px;border-radius:14px;border:1px solid rgba(255,255,255,.22);background:rgba(6,9,18,.45);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
-  .store .s-sub{display:block;font-size:10.5px;color:var(--faint);font-weight:700;letter-spacing:.4px;text-transform:uppercase}
-  .store .s-main{display:block;font-size:15px;font-weight:800;line-height:1.15}
-  .store svg{width:22px;height:22px;fill:var(--ink);flex-shrink:0}
-  a.store:hover{border-color:rgba(255,255,255,.4)}
-  /* "Coming soon" = greyed and not a link (founder, 23 Oct 2026) — the badge's own switch below turns it into the real link */
-  .store.soon{opacity:.5;filter:grayscale(1);cursor:default}
+  /* THE OFFICIAL STORE BADGES (founder, 28 Oct 2026 23:27): Google's and Apple's own artwork at one visible height (44px — Google's file
+     carries its clear space, so it is drawn larger and pulled in by it); "Coming soon" = dimmed, the words under it, not a link. The
+     switch is assets/stores.js. */
+  .badge{display:inline-flex;flex-direction:column;align-items:center;gap:6px;cursor:default}
+  .badge[hidden]{display:none}
+  .badge img{display:block;height:44px;width:auto}
+  .badge img.gp{height:64.7px;margin:-10.35px}
+  .badge.soon img{opacity:.55}
+  .badge .soon-tag{font-size:10.5px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:var(--faint)}
+  a.badge{cursor:pointer}
   .credit{position:absolute;right:16px;bottom:14px;z-index:3;font-size:12px;color:rgba(255,255,255,.78);text-shadow:0 1px 6px rgba(0,0,0,.6);text-align:right}
   .credit b{font-weight:700;color:#fff}
 
@@ -192,14 +195,8 @@
          (founder, 21:20) until the listings exist; then they become links (index.html and check.html). -->
     <div class="ctas">
       <a class="btn primary" href="/check">Check a visa — free</a>
-      <span class="store soon" data-store="play" aria-label="Google Play: coming soon">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3.6 2.4c-.3.3-.5.8-.5 1.4v16.4c0 .6.2 1.1.5 1.4l.1.1 9.2-9.2v-.2L3.6 2.4zm12.3 12.3l-3-3 3-3 3.6 2c1 .6 1 1.5 0 2.1l-3.6 1.9zm-3.6-3.6l3 3-9 5.1 6-8.1zm0-1.4l-6-8.1 9 5.1-3 3z"/></svg>
-        <span><span class="s-sub">Google Play</span><span class="s-main">Coming soon</span></span>
-      </span>
-      <span class="store soon" data-store="ios" aria-label="App Store: coming soon">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17.05 12.5c0-2.3 1.9-3.4 2-3.5-1.1-1.6-2.8-1.8-3.4-1.8-1.4-.1-2.8.8-3.5.8s-1.8-.8-3-.8c-1.5 0-3 .9-3.8 2.3-1.6 2.8-.4 7 1.2 9.3.8 1.1 1.7 2.4 2.9 2.3 1.2 0 1.6-.7 3-.7s1.8.7 3 .7 2-1.1 2.8-2.2c.9-1.3 1.2-2.5 1.3-2.6-.1 0-2.5-1-2.5-3.8zM14.8 5.3c.6-.8 1-1.9.9-3-.9 0-2 .6-2.7 1.4-.6.7-1.1 1.8-1 2.8 1 .1 2.1-.5 2.8-1.2z"/></svg>
-        <span><span class="s-sub">App Store</span><span class="s-main">Coming soon</span></span>
-      </span>
+      <span class="badge soon" data-store="play" aria-label="Google Play: coming soon"><img class="gp" src="/assets/badges/google-play.png" alt="" width="167" height="65"><span class="soon-tag">Coming soon</span></span>
+      <span class="badge soon" data-store="ios" aria-label="App Store: coming soon"><img src="/assets/badges/app-store.svg" alt="" width="132" height="44"><span class="soon-tag">Coming soon</span></span>
     </div>
   </div></div>
   <p class="credit" id="credit"><b>Petra, Jordan</b> · Photo: Emile Guillemot</p>
@@ -294,14 +291,8 @@
   <h2>Travel thoughts? <span style="white-space:nowrap;background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent">brimm it!</span></h2>
   <p>Free to start. No card. Coming soon to Android and iPhone.</p>
   <div class="ctas">
-    <span class="store soon" data-store="play" aria-label="Google Play: coming soon">
-      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3.6 2.4c-.3.3-.5.8-.5 1.4v16.4c0 .6.2 1.1.5 1.4l.1.1 9.2-9.2v-.2L3.6 2.4zm12.3 12.3l-3-3 3-3 3.6 2c1 .6 1 1.5 0 2.1l-3.6 1.9zm-3.6-3.6l3 3-9 5.1 6-8.1zm0-1.4l-6-8.1 9 5.1-3 3z"/></svg>
-      <span><span class="s-sub">Google Play</span><span class="s-main">Coming soon</span></span>
-    </span>
-    <span class="store soon" data-store="ios" aria-label="App Store: coming soon">
-      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17.05 12.5c0-2.3 1.9-3.4 2-3.5-1.1-1.6-2.8-1.8-3.4-1.8-1.4-.1-2.8.8-3.5.8s-1.8-.8-3-.8c-1.5 0-3 .9-3.8 2.3-1.6 2.8-.4 7 1.2 9.3.8 1.1 1.7 2.4 2.9 2.3 1.2 0 1.6-.7 3-.7s1.8.7 3 .7 2-1.1 2.8-2.2c.9-1.3 1.2-2.5 1.3-2.6-.1 0-2.5-1-2.5-3.8zM14.8 5.3c.6-.8 1-1.9.9-3-.9 0-2 .6-2.7 1.4-.6.7-1.1 1.8-1 2.8 1 .1 2.1-.5 2.8-1.2z"/></svg>
-      <span><span class="s-sub">App Store</span><span class="s-main">Coming soon</span></span>
-    </span>
+    <span class="badge soon" data-store="play" aria-label="Google Play: coming soon"><img class="gp" src="/assets/badges/google-play.png" alt="" width="167" height="65"><span class="soon-tag">Coming soon</span></span>
+    <span class="badge soon" data-store="ios" aria-label="App Store: coming soon"><img src="/assets/badges/app-store.svg" alt="" width="132" height="44"><span class="soon-tag">Coming soon</span></span>
   </div>
 </section>
 
@@ -320,22 +311,6 @@
 
 <script src="/assets/stores.js"></script>
 <script>
-  // ═══ THE STORE SWITCHES (founder, 23 Oct 2026): each store's badge says "Coming soon" — greyed, not a link — until ITS switch is on;
-  // then it becomes the real link. Google Play's address is the app's own (ai.brimm.app). The App Store's needs the app's id, which
-  // exists once the listing is created — until then the switch cannot be turned on (an empty url keeps it "Coming soon").
-  // the switches live in ONE file, assets/stores.js, read by every page (#336, 26 Oct 2026)
-  const STORES = window.BRIMM_STORES;
-  document.querySelectorAll('.store[data-store]').forEach(el => {
-    const st = STORES[el.dataset.store];
-    if (!st || !st.on || !st.url) return;
-    const a = document.createElement('a');
-    a.className = 'store'; a.href = st.url; a.rel = 'noopener'; a.innerHTML = el.innerHTML;
-    a.setAttribute('aria-label', el.dataset.store === 'play' ? 'Get it on Google Play' : 'Download on the App Store');
-    a.querySelector('.s-main').textContent = el.dataset.store === 'play' ? 'Google Play' : 'App Store';
-    a.querySelector('.s-sub').textContent = st.main;
-    el.replaceWith(a);
-  });
-
   // The nav gets its ground once the page moves.
   const nav = document.getElementById('nav');
   const solid = () => nav.classList.toggle('solid', window.scrollY > 40);
