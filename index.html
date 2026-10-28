@@ -74,10 +74,11 @@
   /* THE OFFICIAL STORE BADGES (founder, 28 Oct 2026 23:27): Google's and Apple's own artwork at one visible height (44px — Google's file
      carries its clear space, so it is drawn larger and pulled in by it); "Coming soon" = dimmed, the words under it, not a link. The
      switch is assets/stores.js. */
+  .badges{display:flex;gap:16px;align-items:flex-start}   /* the two badges wrap as one group, never split */
   .badge{display:inline-flex;flex-direction:column;align-items:center;gap:6px;cursor:default}
   .badge[hidden]{display:none}
   .badge img{display:block;height:44px;width:auto}
-  .badge img.gp{height:64.7px;margin:-10.35px}
+  .badge img.gp{height:64.7px;margin:-10.35px;max-width:none}   /* the page-wide img max-width squeezed it 12% narrower */
   .badge.soon img{opacity:.55}
   .badge .soon-tag{font-size:10.5px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:var(--faint)}
   a.badge{cursor:pointer}
@@ -196,8 +197,7 @@
          (founder, 21:20) until the listings exist; then they become links (index.html and check.html). -->
     <div class="ctas">
       <a class="btn primary" href="/check">Check a visa — free</a>
-      <span class="badge soon" data-store="play" aria-label="Google Play: coming soon"><img class="gp" src="/assets/badges/google-play.png" alt="" width="167" height="65"><span class="soon-tag">Coming soon</span></span>
-      <span class="badge soon" data-store="ios" aria-label="App Store: coming soon"><img src="/assets/badges/app-store.svg" alt="" width="132" height="44"><span class="soon-tag">Coming soon</span></span>
+      <div class="badges"><span class="badge soon" data-store="play" aria-label="Google Play: coming soon"><img class="gp" src="/assets/badges/google-play.png" alt="" width="167" height="65"><span class="soon-tag">Coming soon</span></span><span class="badge soon" data-store="ios" aria-label="App Store: coming soon"><img src="/assets/badges/app-store.svg" alt="" width="132" height="44"><span class="soon-tag">Coming soon</span></span></div>
     </div>
   </div></div>
   <p class="credit" id="credit"><b>Petra, Jordan</b> · Photo: Emile Guillemot</p>
@@ -292,8 +292,7 @@
   <h2>Travel thoughts? <span style="white-space:nowrap;background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent">brimm it!</span></h2>
   <p>Free to start. No card. Coming soon to Android and iPhone.</p>
   <div class="ctas">
-    <span class="badge soon" data-store="play" aria-label="Google Play: coming soon"><img class="gp" src="/assets/badges/google-play.png" alt="" width="167" height="65"><span class="soon-tag">Coming soon</span></span>
-    <span class="badge soon" data-store="ios" aria-label="App Store: coming soon"><img src="/assets/badges/app-store.svg" alt="" width="132" height="44"><span class="soon-tag">Coming soon</span></span>
+    <div class="badges"><span class="badge soon" data-store="play" aria-label="Google Play: coming soon"><img class="gp" src="/assets/badges/google-play.png" alt="" width="167" height="65"><span class="soon-tag">Coming soon</span></span><span class="badge soon" data-store="ios" aria-label="App Store: coming soon"><img src="/assets/badges/app-store.svg" alt="" width="132" height="44"><span class="soon-tag">Coming soon</span></span></div>
   </div>
 </section>
 
