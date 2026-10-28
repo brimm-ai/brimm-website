@@ -229,7 +229,7 @@
   // PREVIEW (localhost only, ?preview): the answer is worked out from real cached vendor bodies in /preview/fixtures.json (git-ignored),
   // so the founder can see the card without the door being open. A preview never runs on brimm.ai.
   // the engine build's fingerprint — written by brimm-ai tools/website-check/build-engine.js, so a new engine is never served from a cache
-  const ENGINE_V = '31948f68fe';
+  const ENGINE_V = '9535fd14cb';
   const CHECK = { on: false, url: 'https://oejnnujlcmtzlkyifzag.supabase.co/functions/v1/api-proxy', key: '' };
   const PREVIEW = /^(localhost|127\.0\.0\.1)$/.test(location.hostname) && new URLSearchParams(location.search).has('preview');
   const answering = CHECK.on || PREVIEW;

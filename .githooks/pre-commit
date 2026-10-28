@@ -7,3 +7,7 @@ node tools/no-prices.js || exit 1
 # tools/no-verdicts.js (self-test first, the same file brimm-ai's tools/visa-pages/build.js checks every page with before writing it).
 node tools/no-verdicts.js --self-test || exit 1
 node tools/no-verdicts.js || exit 1
+# No provider name a visitor can reach (28 Oct 2026, founder 23:27) — every served file, comments included; _config.yml keeps the
+# tooling (these guards) off the site. tools/no-providers.js, self-test first.
+node tools/no-providers.js --self-test || exit 1
+node tools/no-providers.js || exit 1

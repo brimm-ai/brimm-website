@@ -1,0 +1,8 @@
+# What GitHub Pages publishes (website go-live, 28 Oct 2026): the site's pages and assets only. The repo's own tooling — the commit
+# guards (which list the names they refuse), the hook and the readme — is never served. tools/no-providers.js reads this list, so a
+# file excluded here is the only kind a provider name may sit in.
+exclude:
+  - tools
+  - README.md
+  - .githooks
+  - .gitignore
