@@ -60,7 +60,7 @@
   /* ── HERO ── */
   /* phones: the photo fills exactly one screen and the words sit at its foot; the phone follows on the navy (a photo stretched over the
      whole hero, phone included, showed Paris as sky) */
-  .hero{position:relative;overflow:hidden;padding:0 0 30px}
+  .hero{position:relative;overflow:hidden;padding:0 0 52px}
   .slides{position:absolute;left:0;right:0;top:0;height:100svh;overflow:hidden}   /* the slow zoom must not spill below the photo */
   .slides img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transform:scale(1.06);transition:opacity 1.6s ease,transform 9s linear}
   .slides img.on{opacity:1;transform:scale(1)}
@@ -84,20 +84,22 @@
   .badge.soon img{opacity:.55}
   .badge .soon-tag{font-size:10.5px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:var(--faint)}
   a.badge{cursor:pointer}
-  .credit{position:absolute;right:16px;top:74px;z-index:3;font-size:11.5px;color:#fff;text-align:right;background:rgba(6,9,18,.66);padding:3px 9px;border-radius:999px}   /* its own chip: on a bright sky it measured 1.05:1 bare, 7.8:1 on the chip */
+  .credit{position:absolute;right:16px;bottom:12px;z-index:3;font-size:11.5px;color:#fff;text-align:right;background:rgba(6,9,18,.66);padding:3px 9px;border-radius:999px}   /* its own chip: on a bright sky it measured 1.05:1 bare, 7.8:1 on the chip */
   .credit b{color:#fff;font-weight:700}
 
   /* the phone: the real brimm Home, in a frame with a glow behind it */
   .hero-phone{position:relative;justify-self:center;width:min(68vw,280px)}
   .glow{position:absolute;inset:8% -18% 0;background:radial-gradient(closest-side,rgba(124,82,248,.55),rgba(126,200,200,.25) 55%,transparent 75%);filter:blur(30px);z-index:0}
   .phone{position:relative;z-index:1;border-radius:46px;padding:9px;background:linear-gradient(160deg,#2A3350,#0B0F1C 40%,#1B2340);box-shadow:0 40px 80px -20px rgba(0,0,0,.75),0 0 0 1px rgba(255,255,255,.1) inset}
-  .phone img{border-radius:38px;width:100%;height:auto}
+  .phone .scr{position:relative;aspect-ratio:540/1176;border-radius:38px;overflow:hidden;background:#0B1124}
+  .phone .scr img{position:absolute;inset:0;width:100%;height:100%;opacity:0;transition:opacity 1.6s ease}
+  .phone .scr img.on{opacity:1}
+  @media (prefers-reduced-motion:reduce){.phone .scr img{transition:none}}
   .phone::after{content:"";position:absolute;top:19px;left:50%;width:9px;height:9px;margin-left:-4.5px;border-radius:50%;background:#05070d;box-shadow:0 0 0 1.5px rgba(255,255,255,.06)}
 
   @media (min-width:960px){
     .hero{padding:110px 0 70px;min-height:100vh}
     .slides,.scrim{height:auto;bottom:0}
-    .credit{top:auto;bottom:12px}
     .hero-in{grid-template-columns:1.3fr .7fr;gap:30px;min-height:calc(100vh - 180px)}
     h1{font-size:clamp(64px,5.6vw,84px)}   /* "Travel thoughts?" stays one line */
     .copy{min-height:0;padding:0}
@@ -116,6 +118,7 @@
   .step p{color:var(--muted);font-size:16.5px;margin-top:8px;max-width:420px}
   .shot{position:relative;border-radius:26px;overflow:hidden;background:var(--deep);box-shadow:0 30px 70px -25px rgba(0,0,0,.8),0 0 0 1px rgba(255,255,255,.08);max-width:420px}
   .shot img{width:100%;height:auto}
+  .shot .cap{padding:10px 16px 12px;font-size:12.5px;line-height:1.4;color:var(--faint);text-align:center}
   @media (min-width:960px){
     .story{gap:80px;max-width:960px;margin:0 auto}
     .story::before{left:50%;margin-left:-1px}
@@ -142,7 +145,7 @@
   .media.photo .bg{position:absolute;inset:0;border-radius:26px;overflow:hidden}
   .media.photo .bg img{width:100%;height:100%;object-fit:cover;filter:saturate(1.05)}
   .media.photo .bg::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(6,9,18,.15),rgba(6,9,18,.55))}
-    .media.photo .pc{position:absolute;z-index:3;right:12px;top:10px;font-size:11px;color:#fff;background:rgba(6,9,18,.55);padding:2px 8px;border-radius:9px}   /* the same chip as the wall's credits */
+    .media.photo .pc{position:absolute;z-index:3;right:12px;bottom:8px;font-size:9.5px;line-height:1.2;color:rgba(255,255,255,.6)}   /* one credit style: tiny, quiet, bottom-right, as on the wall's tiles */
   .media.photo{display:block;padding:0}
   .chips{position:relative;z-index:2;display:grid;gap:14px;padding:170px 16px 22px}
   .chips img{width:min(88%,400px);height:auto;border-radius:999px;box-shadow:0 18px 40px -12px rgba(0,0,0,.85),0 0 0 1px rgba(255,255,255,.14)}
@@ -151,6 +154,7 @@
     .spot h3{font-size:clamp(28px,4.2vw,44px);line-height:1.05;letter-spacing:-.03em;font-weight:800;margin-top:10px}
   .spot p{color:var(--muted);font-size:17px;margin-top:14px;max-width:470px}
   .nb{white-space:nowrap}
+  .spot p.disclose{font-size:13.5px;line-height:1.55;color:var(--faint);margin-top:16px}
   .spot .eyebrow{color:var(--teal);font-size:14px;margin-top:0}   /* the label is a <p>: without this it took the paragraph grey */
   @media (min-width:960px){
     .spot{grid-template-columns:1.05fr .95fr;gap:80px;padding:70px 0}
@@ -162,25 +166,26 @@
 
   /* ── WHERE WILL YOU BRIMM NEXT? ── */
   .places{padding:90px 0 40px;background:radial-gradient(60% 40% at 50% 0%,rgba(167,139,250,.10),transparent 70%)}
-  .wall{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));grid-auto-rows:170px;grid-auto-flow:dense;gap:12px}
+  /* seven equal tiles (founder, 29 Oct 2026 11:10): phones — Paris across the top, then three pairs; wider — three, then four, on a
+     12-column grid. Every row is full at every width, so there is no gap and no odd tile. */
+  .wall{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));grid-auto-rows:230px;gap:12px}
+  .wall .tile:first-child{grid-column:span 2}
+  @media (min-width:720px){.wall{grid-template-columns:repeat(12,minmax(0,1fr));grid-auto-rows:240px;gap:14px}.wall .tile,.wall .tile:first-child{grid-column:span 3}.wall .tile:nth-child(-n+3){grid-column:span 4}}
+  @media (min-width:1080px){.wall{grid-auto-rows:270px}}
   .tile{position:relative;border-radius:20px;overflow:hidden;background:var(--deep);text-decoration:none;display:block}
-  .tile.tall{grid-row:span 2}
   .tile img{width:100%;height:100%;object-fit:cover;transition:transform .7s ease}
   a.tile:hover img{transform:scale(1.05)}
   @media (prefers-reduced-motion:reduce){.tile img{transition:none}a.tile:hover img{transform:none}}
-  /* the dark starts where the words start — a short tile's name sits at a third of its height, a tall tile's at two thirds. Measured on
-     all 16 photos at 390 and 1440 (ground computed under these gradients, text shadow ignored): every line 4.8:1 or more. */
-  .tile::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(6,9,18,0) 14%,rgba(6,9,18,.52) 30%,rgba(6,9,18,.7) 55%,rgba(6,9,18,.92) 100%)}
-  .tile.tall::after{background:linear-gradient(180deg,rgba(6,9,18,0) 45%,rgba(6,9,18,.52) 64%,rgba(6,9,18,.7) 80%,rgba(6,9,18,.92) 100%)}
-  .tile .t{position:absolute;z-index:2;left:12px;right:12px;bottom:11px;text-shadow:0 1px 8px rgba(0,0,0,.55)}
+  /* the dark is measured in PIXELS from the foot, because the words are the same height on every tile (a percentage put a phone tile's
+     name above the dark: 1.44:1). Measured on all 7 photos at 360, 390, 820 and 1440: every line 4.9:1 or more, the credit 5.9:1. */
+  .tile::after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,rgba(6,9,18,.9) 0,rgba(6,9,18,.74) 60px,rgba(6,9,18,.56) 150px,rgba(6,9,18,.3) 185px,rgba(6,9,18,0) 225px)}
+  .tile .t{position:absolute;z-index:2;left:12px;right:12px;bottom:34px;text-shadow:0 1px 8px rgba(0,0,0,.55)}
   .tile b{display:block;font-size:19px;line-height:1.1;font-weight:800;letter-spacing:-.01em}
   .tile .cty{display:block;font-size:12px;color:#C9D2E6}
-  .tile::before{content:"";position:absolute;z-index:1;left:0;right:0;top:0;height:52px;background:linear-gradient(180deg,rgba(6,9,18,.6),rgba(6,9,18,0))}
   .tile .mo{display:inline-block;margin-top:7px;font-size:11px;font-weight:800;color:#0A1022;background:var(--gold);padding:3px 9px;border-radius:999px;white-space:nowrap;max-width:100%;overflow:hidden;text-overflow:ellipsis}
   .tile .go{display:block;min-height:20px;margin-top:6px;font-size:12.5px;line-height:20px;font-weight:800;color:var(--teal)}
-  .tile .pc{position:absolute;z-index:2;top:8px;right:10px;max-width:calc(100% - 20px);text-align:right;text-wrap:balance;line-height:1.3;font-size:10px;color:#fff;background:rgba(6,9,18,.55);padding:2px 7px;border-radius:9px}
-  @media (min-width:720px){.wall{grid-template-columns:repeat(3,minmax(0,1fr));grid-auto-rows:200px}}
-  @media (min-width:1080px){.wall{grid-template-columns:repeat(4,minmax(0,1fr));grid-auto-rows:210px;gap:14px}}
+  /* the photo's credit: tiny, quiet, bottom-right, under the words (founder E) */
+  .tile .pc{position:absolute;z-index:2;right:10px;bottom:6px;left:10px;text-align:right;font-size:9.5px;line-height:1.2;color:rgba(255,255,255,.55);text-wrap:balance}   /* a credit is never cut: a long one takes a second line */
 
   /* ── VISA GUIDES ── */
   .guides{padding:80px 0 30px}
@@ -243,7 +248,11 @@
     </div>
     <div class="hero-phone rv">
       <div class="glow"></div>
-      <div class="phone"><img src="/assets/app/home.webp" alt="The brimm Home screen: good morning, a trip to Cape Town on day 8, places looked at lately with their visa answers, and the travel map" width="540" height="1176" fetchpriority="high"></div>
+      <div class="phone"><div class="scr" id="scr">
+<!-- PHONE:START (written by tools/build-home.js) -->
+        <img class="on" src="/assets/app/home-paris.webp" alt="The brimm Home screen with a Paris trip as the next trip" width="540" height="1176" fetchpriority="high">
+<!-- PHONE:END -->
+      </div></div>
     </div>
   </div>
 <!-- CREDIT:START (written by tools/build-home.js) -->
@@ -255,7 +264,7 @@
   <div class="wrap">
     <div class="shead c rv"><span class="tag">How it works</span><h2>From a thought <span class="grad">to a trip</span></h2><p class="lede">Four steps, one app — from "what if" to a plan in your pocket.</p></div>
     <ol class="story">
-      <li class="step rv"><span class="num">1</span><div class="txt"><h3>Pick a place</h3><p>Type a city, or open the map and see where your passport takes you.</p></div><figure class="shot"><img src="/assets/app/explore.webp" alt="brimm's Where can I go? map, each place coloured by the visa answer for the passport" width="720" height="629" loading="lazy" decoding="async"></figure></li>
+      <li class="step rv"><span class="num">1</span><div class="txt"><h3>Pick a place</h3><p>Type a city, or open the map and see where your passport takes you.</p></div><figure class="shot"><img src="/assets/app/explore.webp" alt="brimm's Where can I go? map, each place coloured by the visa answer for the passport" width="720" height="629" loading="lazy" decoding="async"><figcaption class="cap">Example: Indian passport, living in the UAE, with a Schengen visa.</figcaption></figure></li>
       <li class="step rv"><span class="num">2</span><div class="txt"><h3>We check the visa</h3><p>For your passport and where you live. When there's something to apply for, the official site is one tap away.</p></div><figure class="shot"><img src="/assets/app/visa.webp" alt="brimm's visa readiness sheet for a trip to Petra and Delhi" width="720" height="487" loading="lazy" decoding="async"></figure></li>
       <li class="step rv"><span class="num">3</span><div class="txt"><h3>We plan the days</h3><p>Real places, times that work, room to breathe. Every day is yours to tweak.</p></div><figure class="shot"><img src="/assets/app/planning.webp" alt="A day planned in brimm, hour by hour, with free time between stops" width="720" height="747" loading="lazy" decoding="async"></figure></li>
       <li class="step rv"><span class="num">4</span><div class="txt"><h3>Off you go</h3><p>Share a card with your crew, keep the PDF, book when you're ready.</p></div><figure class="shot"><img src="/assets/app/share.webp" alt="A brimm share card for a Petra and Delhi trip, with its passport stamps" width="720" height="884" loading="lazy" decoding="async"></figure></li>
@@ -285,7 +294,7 @@
       </div>
       <div class="spot rv">
         <div class="media"><div class="main"><img src="/assets/app/budget.webp" alt="brimm's budget: the trip total in AED for three travellers, with hotel, flights, car hire and eSIM to add" width="720" height="753" loading="lazy" decoding="async"></div><div class="float"><img src="/assets/app/also.webp" alt="Also worth it in Dubai: more places to add to the plan" width="720" height="457" loading="lazy" decoding="async"></div></div>
-        <div><p class="eyebrow">Budget & more</p><h3>Budget, sorted</h3><p>See what the trip costs as you plan. Add your hotel, flights, car hire and eSIM when you're ready.</p></div>
+        <div><p class="eyebrow">Budget & more</p><h3>Budget, sorted</h3><p>See what the trip costs as you plan. Add your hotel, flights, car hire and eSIM when you're ready.</p><p class="disclose">Prices are rough estimates. Where brimm offers a site to book on, the list is fixed and never ordered by commission. We may earn a small commission. Your price is the same.</p></div>
       </div>
     </div>
   </div>
@@ -296,22 +305,13 @@
     <div class="shead c rv"><span class="tag">Destinations</span><h2>Where will you <span class="grad">brimm next?</span></h2><p class="lede">A few favourites, with the months we'd pick.</p></div>
 <!-- WALL:START (written by tools/build-home.js) -->
     <div class="wall rv">
-      <a class="tile tall" href="/itinerary/paris-5-days/"><img src="/assets/hero/paris-wall.jpg" alt="Paris, France" style="object-position:22% 50%" loading="lazy" decoding="async"><span class="pc">Léonard Cotte on Unsplash</span><span class="t"><b>Paris</b><span class="cty">France</span><span class="mo">Best Apr–Oct</span><span class="go">5-day plan →</span></span></a>
-      <a class="tile tall" href="/itinerary/kyoto-3-days/"><img src="/assets/hero/kyoto-wall.jpg" alt="Kyoto, Japan" loading="lazy" decoding="async"><span class="pc">Willian Justen de Vasconcellos on Unsplash</span><span class="t"><b>Kyoto</b><span class="cty">Japan</span><span class="mo">Best Mar–May, Oct–Nov</span><span class="go">3-day plan →</span></span></a>
-      <div class="tile tall"><img src="/assets/hero/barcelona-600.jpg" alt="Barcelona, Spain" loading="lazy" decoding="async"><span class="pc">Pourya Gohari on Unsplash</span><span class="t"><b>Barcelona</b><span class="cty">Spain</span><span class="mo">Best May–Oct</span><span class="go" aria-hidden="true"></span></span></div>
-      <div class="tile tall"><img src="/assets/hero/amsterdam-600.jpg" alt="Amsterdam, Netherlands" loading="lazy" decoding="async"><span class="pc">Petar Lazarevic on Unsplash</span><span class="t"><b>Amsterdam</b><span class="cty">Netherlands</span><span class="mo">Best Apr–Sep</span><span class="go" aria-hidden="true"></span></span></div>
-      <div class="tile"><img src="/assets/hero/cappadocia-600.jpg" alt="Cappadocia, Türkiye" loading="lazy" decoding="async"><span class="pc">Burak Arslan on Unsplash</span><span class="t"><b>Cappadocia</b><span class="cty">Türkiye</span><span class="mo">Best Apr–Oct</span><span class="go" aria-hidden="true"></span></span></div>
-      <div class="tile"><img src="/assets/hero/ljubljana-600.jpg" alt="Ljubljana, Slovenia" loading="lazy" decoding="async"><span class="pc">detait on Unsplash</span><span class="t"><b>Ljubljana</b><span class="cty">Slovenia</span><span class="mo">Best Apr–Sep</span><span class="go" aria-hidden="true"></span></span></div>
-      <div class="tile"><img src="/assets/hero/lisbon-600.jpg" alt="Lisbon, Portugal" loading="lazy" decoding="async"><span class="pc">Liam McKay on Unsplash</span><span class="t"><b>Lisbon</b><span class="cty">Portugal</span><span class="mo">Best Apr–Oct</span><span class="go" aria-hidden="true"></span></span></div>
-      <a class="tile" href="/itinerary/london-5-days/"><img src="/assets/hero/london-600.jpg" alt="London, United Kingdom" loading="lazy" decoding="async"><span class="pc">Benjamin Davies on Unsplash</span><span class="t"><b>London</b><span class="cty">United Kingdom</span><span class="mo">Best Apr–Oct</span><span class="go">5-day plan →</span></span></a>
-      <a class="tile tall" href="/itinerary/tokyo-7-days/"><img src="/assets/hero/tokyo-wall.jpg" alt="Tokyo, Japan" style="object-position:21% 50%" loading="lazy" decoding="async"><span class="pc">Louie Martinez on Unsplash</span><span class="t"><b>Tokyo</b><span class="cty">Japan</span><span class="mo">Best Mar–May, Oct–Nov</span><span class="go">7-day plan →</span></span></a>
-      <a class="tile" href="/itinerary/baku-3-days/"><img src="/assets/hero/baku-600.jpg" alt="Baku, Azerbaijan" loading="lazy" decoding="async"><span class="pc">Lloyd Alozie on Unsplash</span><span class="t"><b>Baku</b><span class="cty">Azerbaijan</span><span class="mo">Best Apr–Oct</span><span class="go">3-day plan →</span></span></a>
-      <a class="tile" href="/itinerary/tbilisi-5-days/"><img src="/assets/hero/tbilisi-600.jpg" alt="Tbilisi, Georgia" loading="lazy" decoding="async"><span class="pc">Anna Bannahyan on Unsplash</span><span class="t"><b>Tbilisi</b><span class="cty">Georgia</span><span class="mo">Best May–Jun, Sep–Oct</span><span class="go">5-day plan →</span></span></a>
-      <div class="tile tall"><img src="/assets/hero/rome-600.jpg" alt="Rome, Italy" loading="lazy" decoding="async"><span class="pc">Zach Dyson on Unsplash</span><span class="t"><b>Rome</b><span class="cty">Italy</span><span class="mo">Best Apr–Jun, Sep–Oct</span><span class="go" aria-hidden="true"></span></span></div>
-      <a class="tile tall" href="/itinerary/istanbul-7-days/"><img src="/assets/hero/istanbul-wall.jpg" alt="Istanbul, Türkiye" loading="lazy" decoding="async"><span class="pc">Anna Berdnik on Unsplash</span><span class="t"><b>Istanbul</b><span class="cty">Türkiye</span><span class="mo">Best Apr–Oct</span><span class="go">7-day plan →</span></span></a>
-      <a class="tile tall" href="/itinerary/zurich-5-days/"><img src="/assets/hero/zurich-wall.jpg" alt="Zurich, Switzerland" loading="lazy" decoding="async"><span class="pc">Tomi Blasic on Unsplash</span><span class="t"><b>Zurich</b><span class="cty">Switzerland</span><span class="mo">Best May–Oct</span><span class="go">5-day plan →</span></span></a>
-      <div class="tile"><img src="/assets/hero/marrakech-600.jpg" alt="Marrakech, Morocco" loading="lazy" decoding="async"><span class="pc">Paul Macallan on Unsplash</span><span class="t"><b>Marrakech</b><span class="cty">Morocco</span><span class="mo">Best Mar–May, Sep–Nov</span><span class="go" aria-hidden="true"></span></span></div>
-      <a class="tile" href="/itinerary/bali-7-days/"><img src="/assets/hero/bali-wall.jpg" alt="Bali, Indonesia" loading="lazy" decoding="async"><span class="pc">Sebastian Pena Lambarri on Unsplash</span><span class="t"><b>Bali</b><span class="cty">Indonesia</span><span class="mo">Best Apr–Sep</span><span class="go">7-day plan →</span></span></a>
+      <a class="tile" href="/itinerary/paris-5-days/"><img src="/assets/hero/paris-wall.jpg" alt="Paris, France" loading="lazy" decoding="async"><span class="t"><b>Paris</b><span class="cty">France</span><span class="mo">Best Apr–Oct</span><span class="go">5-day plan →</span></span><span class="pc">Léonard Cotte on Unsplash</span></a>
+      <div class="tile"><img src="/assets/hero/rome-960.jpg" alt="Rome, Italy" loading="lazy" decoding="async"><span class="t"><b>Rome</b><span class="cty">Italy</span><span class="mo">Best Apr–Jun, Sep–Oct</span><span class="go" aria-hidden="true"></span></span><span class="pc">Zach Dyson on Unsplash</span></div>
+      <div class="tile"><img src="/assets/hero/barcelona-960.jpg" alt="Barcelona, Spain" style="object-position:50% 28%" loading="lazy" decoding="async"><span class="t"><b>Barcelona</b><span class="cty">Spain</span><span class="mo">Best May–Oct</span><span class="go" aria-hidden="true"></span></span><span class="pc">Pourya Gohari on Unsplash</span></div>
+      <a class="tile" href="/itinerary/london-5-days/"><img src="/assets/hero/london-960.jpg" alt="London, United Kingdom" loading="lazy" decoding="async"><span class="t"><b>London</b><span class="cty">United Kingdom</span><span class="mo">Best Apr–Oct</span><span class="go">5-day plan →</span></span><span class="pc">Benjamin Davies on Unsplash</span></a>
+      <a class="tile" href="/itinerary/istanbul-7-days/"><img src="/assets/hero/istanbul-wall.jpg" alt="Istanbul, Türkiye" loading="lazy" decoding="async"><span class="t"><b>Istanbul</b><span class="cty">Türkiye</span><span class="mo">Best Apr–Oct</span><span class="go">7-day plan →</span></span><span class="pc">Anna Berdnik on Unsplash</span></a>
+      <a class="tile" href="/itinerary/tbilisi-5-days/"><img src="/assets/hero/tbilisi-960.jpg" alt="Tbilisi, Georgia" loading="lazy" decoding="async"><span class="t"><b>Tbilisi</b><span class="cty">Georgia</span><span class="mo">Best May–Jun, Sep–Oct</span><span class="go">5-day plan →</span></span><span class="pc">Anna Bannahyan on Unsplash</span></a>
+      <a class="tile" href="/itinerary/bali-7-days/"><img src="/assets/hero/bali-wall.jpg" alt="Bali, Indonesia" loading="lazy" decoding="async"><span class="t"><b>Bali</b><span class="cty">Indonesia</span><span class="mo">Best Apr–Sep</span><span class="go">7-day plan →</span></span><span class="pc">Sebastian Pena Lambarri on Unsplash</span></a>
     </div>
 <!-- WALL:END -->
   </div>
@@ -391,31 +391,35 @@
 <script src="/assets/stores.js"></script>
 <script src="/assets/site.js"></script>
 <script>
-  // THE HERO: the founder's eight places, a slow crossfade; each photo fetched only just before it shows; the credit changes mid-fade.
+  // THE HERO (founder, 29 Oct 2026 11:10): three scenes — the city's photo behind and, on the phone, the real Home with that city's trip —
+  // changing TOGETHER in one slow crossfade; each scene fetched only just before it shows; the credit changes mid-fade.
   // Less motion asked for: the first photo stays, nothing moves.
 /* PHOTOS:START (written by tools/build-home.js) */
-  var PHOTOS = [["paris","Paris, France","Chris Karidis"],["santorini","Santorini, Greece","Chloé Lefleur"],["zurich","Zurich, Switzerland","Henrique Ferreira"],["prague","Prague, Czechia","Charlie Gallant"],["istanbul","Istanbul, Türkiye","Engin Yapici"],["petra","Petra, Jordan","Emile Guillemot"],["bali","Bali, Indonesia","Niklas Weiss"],["kyoto","Kifune Shrine, Kyoto","yoshie yokouchi"]];
+  var PHOTOS = [["paris","Paris, France","Chris Karidis","home-paris.webp","The brimm Home screen with a Paris trip as the next trip"],["dubai","Dubai, UAE","David Rodrigo","home-dubai.webp","The brimm Home screen with a Dubai trip as the next trip"],["singapore","Singapore","Hu Chen","home-singapore.webp","The brimm Home screen with a Singapore trip as the trip under way"]];
 /* PHOTOS:END */
   (function () {
-    var slides = document.getElementById('slides'), credit = document.getElementById('credit');
-    if (!slides || !credit || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    var slides = document.getElementById('slides'), credit = document.getElementById('credit'), scr = document.getElementById('scr');
+    if (!slides || !credit || !scr || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     // A CHAIN, NOT A CLOCK (29 Oct 2026): the next photo is asked for only once the last one has finished showing, and nothing moves
     // while the page is hidden — a fixed interval kept loading and queueing swaps in a background tab and fired them all on return,
     // which put one place's credit under another's photo.
-    var cur = slides.querySelector('img.on');
+    var cur = slides.querySelector('img.on'), curP = scr.querySelector('img.on');
     var make = function (p) { var im = new Image(); im.alt = ''; im.sizes = '100vw'; im.decoding = 'async';
       im.srcset = '/assets/hero/' + p[0] + '-960.jpg 960w, /assets/hero/' + p[0] + '.jpg 1920w'; im.src = '/assets/hero/' + p[0] + '-960.jpg'; return im; };
+    var phone = function (p) { var im = new Image(); im.alt = p[4]; im.width = 540; im.height = 1176; im.decoding = 'async'; im.src = '/assets/app/' + p[3]; return im; };
     var say = function (p) { credit.innerHTML = '<b>' + p[1] + '</b> · ' + p[2] + ' on Unsplash'; };
     var whenVisible = function (fn) { if (!document.hidden) return fn();
       document.addEventListener('visibilitychange', function f() { if (!document.hidden) { document.removeEventListener('visibilitychange', f); fn(); } }); };
     var show = function (k) {
-      var p = PHOTOS[k], im = make(p);
-      im.onload = function () { whenVisible(function () {
-        slides.appendChild(im); void im.offsetWidth;   // the new frame is laid out before it fades in
-        im.classList.add('on'); cur.classList.remove('on'); var old = cur; cur = im;
+      var p = PHOTOS[k], im = make(p), ph = phone(p), ready = 0;
+      var go = function () { if (++ready < 2) return; whenVisible(function () {   // only once BOTH the photo and the screen are here
+        slides.appendChild(im); scr.appendChild(ph); void im.offsetWidth; void ph.offsetWidth;   // laid out before they fade in
+        im.classList.add('on'); ph.classList.add('on'); cur.classList.remove('on'); curP.classList.remove('on');
+        var old = cur, oldP = curP; cur = im; curP = ph;
         setTimeout(function () { say(p); }, 800);       // the name changes mid-fade
-        setTimeout(function () { old.remove(); setTimeout(function () { whenVisible(function () { show((k + 1) % PHOTOS.length); }); }, 5200); }, 1800);
+        setTimeout(function () { old.remove(); oldP.remove(); setTimeout(function () { whenVisible(function () { show((k + 1) % PHOTOS.length); }); }, 5200); }, 1800);
       }); };
+      im.onload = go; ph.onload = go;
     };
     setTimeout(function () { whenVisible(function () { show(1); }); }, 7000);
   })();

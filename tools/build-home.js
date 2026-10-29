@@ -22,22 +22,26 @@ for (const m of seoSrc.slice(seoSrc.indexOf('const PHOTO_CREDIT'), seoSrc.indexO
 const rowOf = (c) => DEST.find(r => r.city === c && (r.kind === 'destination' || !r.kind)) || DEST.find(r => r.city === c);
 const pinBy = (c, i = 0) => { const m = MARQUEE_PHOTOS.find(x => x.city === c); if (!m || !m.pins[i]) throw new Error(`no approved pin ${i} for ${c}`); return m.pins[i].by; };
 const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;');
-// [slug, city, credit source, tall tile?]
+// [slug, city, credit source] — the founder's seven (29 Oct 2026 11:10), in his order. All tiles are the same kind; the grid (index.html)
+// lays them 3 + 4 on wide screens and Paris across the top then pairs on a phone, so there is no gap at any width.
+// 'pin1' = the place's second approved pin, where its first is the hero's or another section's (no photo twice on the page).
 const PLACES = [
-  // THE ORDER IS THE LAYOUT: 8 tall + 8 short tiles fill 24 cells, and this order is one the grid packs with no hole at 2, 3 and 4
-  // columns (found by simulating the browser's dense placement; the earlier order left 3 and 4 holes — measured in the browser too).
-  // Reorder only with that check run again. NO PHOTO TWICE ON THE PAGE: a city in the hero slideshow shows a different approved pin
-  // here ('pin1' = its second pin), and Santorini and Prague — one approved photo each, both in the hero — are not on the wall.
-  ['paris', 'Paris', 'pin', true], ['kyoto', 'Kyoto', 'pin', true], ['barcelona', 'Barcelona', 'pin', true], ['amsterdam', 'Amsterdam', 'pin', true],
-  ['cappadocia', 'Cappadocia', 'pin'], ['ljubljana', 'Ljubljana', 'pin'], ['lisbon', 'Lisbon', 'pin'], ['london', 'London', 'seo'],
-  ['tokyo', 'Tokyo', 'seo', true], ['baku', 'Baku', 'seo'], ['tbilisi', 'Tbilisi', 'seo'], ['rome', 'Rome', 'pin', true],
-  ['istanbul', 'Istanbul', 'pin1', true], ['zurich', 'Zurich', 'pin', true], ['marrakech', 'Marrakech', 'pin'], ['bali', 'Bali', 'pin1'],
+  ['paris', 'Paris', 'pin'], ['rome', 'Rome', 'pin'], ['barcelona', 'Barcelona', 'pin'], ['london', 'London', 'seo'],
+  ['istanbul', 'Istanbul', 'pin1'], ['tbilisi', 'Tbilisi', 'seo'], ['bali', 'Bali', 'pin1'],
 ];
-// a tile's own photo where the shared one would not do: Paris's wall photo is a different approved pin from the hero's (no photo twice on
-// the page), and the tall tiles that start from a landscape frame use a bigger file and a focus point so the landmark stays in the crop
-const WALL_SRC = { paris: 'paris-wall.jpg', tokyo: 'tokyo-wall.jpg', kyoto: 'kyoto-wall.jpg', zurich: 'zurich-wall.jpg', istanbul: 'istanbul-wall.jpg', bali: 'bali-wall.jpg' };
-const FOCUS = { paris: '22% 50%', tokyo: '21% 50%' };
-const HERO = ['paris', 'santorini', 'zurich', 'prague', 'istanbul', 'petra', 'bali', 'kyoto'];
+// a tile's own file where the shared one would not do (a different approved pin, or a sharper size), and a focus point where the
+// landmark is not in the middle of the frame
+const WALL_SRC = { paris: 'paris-wall.jpg', rome: 'rome-960.jpg', barcelona: 'barcelona-960.jpg', london: 'london-960.jpg',
+  istanbul: 'istanbul-wall.jpg', tbilisi: 'tbilisi-960.jpg', bali: 'bali-wall.jpg' };
+const FOCUS = { barcelona: '50% 28%' };
+// THE HERO (founder, 29 Oct 2026 11:10): three scenes that change together — the city's approved photo behind, and on the phone the real
+// Home of the test account with that city's trip as its hero trip (assets/app/home-<slug>.webp, captured on the Pixel).
+const HERO = ['paris', 'dubai', 'singapore'];
+const PHONE_ALT = {
+  paris: 'The brimm Home screen with a Paris trip as the next trip',
+  dubai: 'The brimm Home screen with a Dubai trip as the next trip',
+  singapore: 'The brimm Home screen with a Singapore trip as the trip under way',
+};
 const info = (slug, city, src) => {
   const row = rowOf(city); if (!row) throw new Error(`no dataset row for ${city}`);
   if (NEVER_PROMOTED_NAMES.some(n => n.toLowerCase() === city.toLowerCase())) throw new Error(`${city} is never promoted (Kashmir rule)`);
@@ -47,20 +51,22 @@ const info = (slug, city, src) => {
   return { row, by, label: src === 'seo' && SEO_CREDIT[slug] ? SEO_CREDIT[slug].label : `${city}, ${row.country === 'The Netherlands' ? 'Netherlands' : row.country}` };
 };
 const itins = fs.readdirSync(path.join(SITE, 'itinerary'));
-const tiles = PLACES.map(([slug, city, src, tall]) => {
+const tiles = PLACES.map(([slug, city, src]) => {
   const { row, by } = info(slug, city, src);
   const best = row.bestTime ? `Best ${row.bestTime.replace(/-/g, '–')}` : null;
   const page = itins.filter(d => d.startsWith(slug + '-')).sort((a, b) => parseInt(b.split('-').slice(-2)[0]) - parseInt(a.split('-').slice(-2)[0]))[0];
   const country = row.country === 'The Netherlands' ? 'Netherlands' : row.country;
   const file = WALL_SRC[slug] || `${slug}-600.jpg`; if (!fs.existsSync(path.join(SITE, 'assets/hero', file))) throw new Error(`no photo ${file}`);
-  const inner = `<img src="/assets/hero/${file}" alt="${esc(city)}, ${esc(country)}"${FOCUS[slug] ? ` style="object-position:${FOCUS[slug]}"` : ''} loading="lazy" decoding="async"><span class="pc">${esc(by)} on Unsplash</span>`
+  const inner = `<img src="/assets/hero/${file}" alt="${esc(city)}, ${esc(country)}"${FOCUS[slug] ? ` style="object-position:${FOCUS[slug]}"` : ''} loading="lazy" decoding="async">`
     + `<span class="t"><b>${esc(city)}</b><span class="cty">${esc(country)}</span>${best ? `<span class="mo">${esc(best)}</span>` : ''}`
-    + `${page ? `<span class="go">${page.split('-').slice(-2)[0]}-day plan →</span>` : '<span class="go" aria-hidden="true"></span>'}</span>`;
-  return page ? `      <a class="tile${tall ? ' tall' : ''}" href="/itinerary/${page}/">${inner}</a>` : `      <div class="tile${tall ? ' tall' : ''}">${inner}</div>`;
+    + `${page ? `<span class="go">${page.split('-').slice(-2)[0]}-day plan →</span>` : '<span class="go" aria-hidden="true"></span>'}</span>`
+    + `<span class="pc">${esc(by)} on Unsplash</span>`;
+  return page ? `      <a class="tile" href="/itinerary/${page}/">${inner}</a>` : `      <div class="tile">${inner}</div>`;
 });
 const heroInfo = HERO.map(slug => {
-  const city = { paris: 'Paris', santorini: 'Santorini', zurich: 'Zurich', prague: 'Prague', istanbul: 'Istanbul', petra: 'Petra', bali: 'Bali', kyoto: 'Kyoto' }[slug];
-  const src = SEO_CREDIT[slug] ? 'seo' : 'pin'; const i = info(slug, city, src); return [slug, i.label, i.by];
+  const city = { paris: 'Paris', dubai: 'Dubai', singapore: 'Singapore' }[slug];
+  if (!fs.existsSync(path.join(SITE, 'assets/app', `home-${slug}.webp`))) throw new Error(`no phone capture for ${slug} (assets/app/home-${slug}.webp)`);
+  const src = SEO_CREDIT[slug] ? 'seo' : 'pin'; const i = info(slug, city, src); return [slug, i.label, i.by, `home-${slug}.webp`, PHONE_ALT[slug]];
 });
 const heroBy = new Set(heroInfo.map(h => h[2]));
 for (const [slug, city, src] of PLACES) { const { by } = info(slug, city, src); if (heroBy.has(by)) throw new Error(`${city}'s wall photo (${by}) is also in the hero — the page would show it twice`); }
@@ -71,10 +77,11 @@ const put = (name, body, open = `<!-- ${name}:START (written by tools/build-home
   html = html.slice(0, a + open.length) + '\n' + body + '\n' + html.slice(b);
 };
 put('HERO', `    <img class="on" src="/assets/hero/${first[0]}-960.jpg" srcset="/assets/hero/${first[0]}-960.jpg 960w, /assets/hero/${first[0]}.jpg 1920w" sizes="100vw" alt="" fetchpriority="high">`);
+put('PHONE', `        <img class="on" src="/assets/app/${first[3]}" alt="${esc(first[4])}" width="540" height="1176" fetchpriority="high">`);
 put('CREDIT', `  <p class="credit" id="credit"><b>${esc(first[1])}</b> · ${esc(first[2])} on Unsplash</p>`);
 put('WALL', `    <div class="wall rv">\n${tiles.join('\n')}\n    </div>`);
 put('PHOTOS', `  var PHOTOS = ${JSON.stringify(heroInfo)};`, '/* PHOTOS:START (written by tools/build-home.js) */', '/* PHOTOS:END */');
 fs.writeFileSync(path.join(SITE, 'index.html'), html);
-const eu = ['FR', 'GR', 'IT', 'GB', 'ES', 'CH', 'CZ', 'PT', 'NL', 'SI'];   // Türkiye not counted
+const eu = ['FR', 'IT', 'ES', 'GB'];   // Türkiye not counted
 console.log(`hero: ${heroInfo.map(h => h[1] + ' (' + h[2] + ')').join(' · ')}`);
 console.log(`wall: ${tiles.length} tiles, ${PLACES.filter(p => eu.includes(rowOf(p[1]).countryCode)).length} in Europe, ${tiles.filter(t => t.includes('<a class')).length} link to an itinerary page`);
