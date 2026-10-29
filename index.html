@@ -44,6 +44,8 @@
   .wrap{max-width:1180px;margin:0 auto;padding:0 20px}
   section[id]{scroll-margin-top:72px}
   .tag,.eyebrow{display:inline-block;font-size:14px;font-weight:800;letter-spacing:.02em;color:var(--teal)}   /* never uppercase: "brimm" stays lowercase */
+  h1,h2,h3,.lede{text-wrap:balance}
+  p,li{text-wrap:pretty}
   h2{font-size:clamp(30px,5.2vw,52px);line-height:1.06;letter-spacing:-.03em;font-weight:800;margin-top:10px}
   .grad{background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
   .lede{color:var(--muted);font-size:17px;margin-top:12px;max-width:560px}
@@ -113,7 +115,6 @@
   .step h3{font-size:clamp(24px,3.4vw,34px);line-height:1.1;letter-spacing:-.02em;font-weight:800}
   .step p{color:var(--muted);font-size:16.5px;margin-top:8px;max-width:420px}
   .shot{position:relative;border-radius:26px;overflow:hidden;background:var(--deep);box-shadow:0 30px 70px -25px rgba(0,0,0,.8),0 0 0 1px rgba(255,255,255,.08);max-width:420px}
-  .step .shot.tall{max-width:340px}
   .shot img{width:100%;height:auto}
   @media (min-width:960px){
     .story{gap:80px;max-width:960px;margin:0 auto}
@@ -149,6 +150,7 @@
   @media (min-width:960px){.chips{padding:230px 28px 30px;gap:18px}}
     .spot h3{font-size:clamp(28px,4.2vw,44px);line-height:1.05;letter-spacing:-.03em;font-weight:800;margin-top:10px}
   .spot p{color:var(--muted);font-size:17px;margin-top:14px;max-width:470px}
+  .nb{white-space:nowrap}
   .spot .eyebrow{color:var(--teal);font-size:14px;margin-top:0}   /* the label is a <p>: without this it took the paragraph grey */
   @media (min-width:960px){
     .spot{grid-template-columns:1.05fr .95fr;gap:80px;padding:70px 0}
@@ -176,7 +178,7 @@
   .tile::before{content:"";position:absolute;z-index:1;left:0;right:0;top:0;height:52px;background:linear-gradient(180deg,rgba(6,9,18,.6),rgba(6,9,18,0))}
   .tile .mo{display:inline-block;margin-top:7px;font-size:11px;font-weight:800;color:#0A1022;background:var(--gold);padding:3px 9px;border-radius:999px;white-space:nowrap;max-width:100%;overflow:hidden;text-overflow:ellipsis}
   .tile .go{display:block;min-height:20px;margin-top:6px;font-size:12.5px;line-height:20px;font-weight:800;color:var(--teal)}
-  .tile .pc{position:absolute;z-index:2;top:8px;right:10px;max-width:calc(100% - 20px);text-align:right;line-height:1.3;font-size:10px;color:#fff;background:rgba(6,9,18,.55);padding:2px 7px;border-radius:9px}
+  .tile .pc{position:absolute;z-index:2;top:8px;right:10px;max-width:calc(100% - 20px);text-align:right;text-wrap:balance;line-height:1.3;font-size:10px;color:#fff;background:rgba(6,9,18,.55);padding:2px 7px;border-radius:9px}
   @media (min-width:720px){.wall{grid-template-columns:repeat(3,minmax(0,1fr));grid-auto-rows:200px}}
   @media (min-width:1080px){.wall{grid-template-columns:repeat(4,minmax(0,1fr));grid-auto-rows:210px;gap:14px}}
 
@@ -256,7 +258,7 @@
       <li class="step rv"><span class="num">1</span><div class="txt"><h3>Pick a place</h3><p>Type a city, or open the map and see where your passport takes you.</p></div><figure class="shot"><img src="/assets/app/explore.webp" alt="brimm's Where can I go? map, each place coloured by the visa answer for the passport" width="720" height="629" loading="lazy" decoding="async"></figure></li>
       <li class="step rv"><span class="num">2</span><div class="txt"><h3>We check the visa</h3><p>For your passport and where you live. When there's something to apply for, the official site is one tap away.</p></div><figure class="shot"><img src="/assets/app/visa.webp" alt="brimm's visa readiness sheet for a trip to Petra and Delhi" width="720" height="487" loading="lazy" decoding="async"></figure></li>
       <li class="step rv"><span class="num">3</span><div class="txt"><h3>We plan the days</h3><p>Real places, times that work, room to breathe. Every day is yours to tweak.</p></div><figure class="shot"><img src="/assets/app/planning.webp" alt="A day planned in brimm, hour by hour, with free time between stops" width="720" height="747" loading="lazy" decoding="async"></figure></li>
-      <li class="step rv"><span class="num">4</span><div class="txt"><h3>Off you go</h3><p>Share a card with your crew, keep the PDF, book when you're ready.</p></div><figure class="shot tall"><img src="/assets/app/share.webp" alt="A brimm share card for a Petra and Delhi trip, with its passport stamps" width="720" height="884" loading="lazy" decoding="async"></figure></li>
+      <li class="step rv"><span class="num">4</span><div class="txt"><h3>Off you go</h3><p>Share a card with your crew, keep the PDF, book when you're ready.</p></div><figure class="shot"><img src="/assets/app/share.webp" alt="A brimm share card for a Petra and Delhi trip, with its passport stamps" width="720" height="884" loading="lazy" decoding="async"></figure></li>
     </ol>
   </div>
 </section>
@@ -267,11 +269,11 @@
     <div class="spots">
       <div class="spot rv">
         <div class="media photo"><div class="bg"><img src="/assets/hero/tbilisi-spot.jpg" alt="" width="960" height="720" loading="lazy" decoding="async"></div><span class="pc">Tbilisi · Hongbin on Unsplash</span><div class="chips"><img class="c1" src="/assets/app/chip-tbilisi.webp" alt="In brimm: Tbilisi, Georgia — ✦ Your GCC · if" width="434" height="112" loading="lazy" decoding="async"><img class="c2" src="/assets/app/chip-petra.webp" alt="In brimm: Petra, Jordan — Visa on arrival" width="412" height="112" loading="lazy" decoding="async"></div></div>
-        <div><p class="eyebrow">Visa, your way</p><h3>Your passport. Your residence. Your visas.</h3><p>brimm reads all three, so every place shows the answer for you — like ✦ Your GCC, when it's your Gulf residence that counts.</p></div>
+        <div><p class="eyebrow">Visa, your way</p><h3><span class="nb">Your passport.</span> <span class="nb">Your residence.</span> <span class="nb">Your visas.</span></h3><p>brimm reads all three, so every place shows the answer for you — like ✦ Your GCC, when it's your Gulf residence that counts.</p></div>
       </div>
       <div class="spot rv">
         <div class="media"><div class="main"><img src="/assets/app/day.webp" alt="A brimm day card: day 2 in Petra, the Treasury and the Siq, with times and costs" width="720" height="900" loading="lazy" decoding="async"></div><div class="float"><img src="/assets/app/uae.webp" alt="A brimm trip header for Ras Al Khaimah and Fujairah, three travellers" width="720" height="680" loading="lazy" decoding="async"></div></div>
-        <div><p class="eyebrow">Days, planned</p><h3>Every day, planned to the hour</h3><p>Real places with times that work, a lunch near your stops, and every cost in the currency you choose — from Petra to a long weekend in Ras Al Khaimah.</p></div>
+        <div><p class="eyebrow">Days, planned</p><h3>Every day, planned to the hour</h3><p>A lunch near your stops, free time where it fits, and every cost in the currency you choose — from Petra to a long weekend in Ras Al Khaimah.</p></div>
       </div>
       <div class="spot rv">
         <div class="media"><div class="main"><img src="/assets/app/travelmap.webp" alt="brimm's travel map: the countries visited, 130 points and the next level" width="720" height="744" loading="lazy" decoding="async"></div><div class="float"><img src="/assets/app/globe.webp" alt="The brimm globe with the places visited lit up, Globetrotter level" width="720" height="750" loading="lazy" decoding="async"></div></div>
@@ -279,11 +281,11 @@
       </div>
       <div class="spot rv">
         <div class="media"><div class="main"><img src="/assets/app/ask.webp" alt="Ask brimm about a stop: good to know, and quick questions like best photo spot or good for kids" width="720" height="631" loading="lazy" decoding="async"></div><div class="float"><img src="/assets/app/besttime.webp" alt="brimm's best time to visit, month by month, for Petra and Delhi" width="720" height="704" loading="lazy" decoding="async"></div></div>
-        <div><p class="eyebrow">Ask brimm</p><h3>Just ask</h3><p>Best photo spot? Good for kids? Worth buying? Ask about any stop — or swap it for something similar. Wondering when to go? The best months are a glance away.</p></div>
+        <div><p class="eyebrow">Ask brimm</p><h3>Just ask</h3><p>Ask about any stop and get a straight answer — or swap it for something similar.</p></div>
       </div>
       <div class="spot rv">
         <div class="media"><div class="main"><img src="/assets/app/budget.webp" alt="brimm's budget: the trip total in AED for three travellers, with hotel, flights, car hire and eSIM to add" width="720" height="753" loading="lazy" decoding="async"></div><div class="float"><img src="/assets/app/also.webp" alt="Also worth it in Dubai: more places to add to the plan" width="720" height="457" loading="lazy" decoding="async"></div></div>
-        <div><p class="eyebrow">Budget & more</p><h3>Budget, sorted</h3><p>See what the trip costs as you plan, add hotels and flights when you're ready, share a card with your crew and keep every day in a PDF.</p></div>
+        <div><p class="eyebrow">Budget & more</p><h3>Budget, sorted</h3><p>See what the trip costs as you plan. Add your hotel, flights, car hire and eSIM when you're ready.</p></div>
       </div>
     </div>
   </div>
@@ -367,7 +369,7 @@
 
 <section class="final" id="get">
   <h2 class="rv">Travel thoughts? <span class="grad">brimm it!</span></h2>
-  <p class="rv">Free to start. No card.</p>
+  <p class="rv">Your next trip starts with a thought.</p>
   <div class="badges rv"><span class="badge soon" data-store="play" aria-label="Google Play: coming soon"><img class="gp" src="/assets/badges/google-play.png" alt="" width="167" height="65"><span class="soon-tag">Coming soon</span></span><span class="badge soon" data-store="ios" aria-label="App Store: coming soon"><img src="/assets/badges/app-store.svg" alt="" width="132" height="44"><span class="soon-tag">Coming soon</span></span></div>
 </section>
 </main>
