@@ -1,0 +1,34 @@
+/* THE SITE'S OWN HEADER AND FOOTER (founder, 29 Oct 2026 09:35: "give them the new header/footer so the site feels like one") — read by
+   every page: the home, the 20 itineraries, the 10 visa guides and the legal pages. Brand: deep navy, teal → violet, a gold accent,
+   Manrope, the kit's logo lettering. */
+.site-head{position:fixed;top:0;left:0;right:0;z-index:50;transition:background .35s ease,border-color .35s ease,backdrop-filter .35s ease}
+.site-head .in{max-width:1180px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:12px 18px}
+.site-head .brand{display:flex;align-items:center;gap:8px;text-decoration:none}
+.site-head .brand .lmark{height:34px;width:34px;display:block}
+.site-head .brand .lword{height:22px;width:auto;display:block}
+.site-head .brand img{filter:drop-shadow(0 1px 2px rgba(6,9,18,.7)) drop-shadow(0 0 6px rgba(6,9,18,.6)) drop-shadow(0 0 14px rgba(6,9,18,.5))}
+.site-head nav{display:flex;align-items:center;gap:22px;font:700 14px/1 'Manrope',system-ui,sans-serif}
+.site-head nav a{color:rgba(238,242,250,.86);text-decoration:none;text-shadow:0 1px 8px rgba(6,9,18,.6)}
+.site-head nav a:hover{color:#fff}
+.site-head nav a.cta{background:linear-gradient(100deg,#357D7D,#7C52F8);color:#fff;padding:9px 16px;border-radius:999px;text-shadow:none}
+.site-head.solid{background:rgba(6,9,18,.86);-webkit-backdrop-filter:saturate(140%) blur(10px);backdrop-filter:saturate(140%) blur(10px);border-bottom:1px solid rgba(255,255,255,.07)}
+.site-head.solid .brand img{filter:none}
+@media (max-width:720px){.site-head nav .wide{display:none}.site-head nav{gap:16px;font-size:13.5px}}
+@media (max-width:360px){.site-head nav{display:none}}
+[hidden]{display:none!important}
+/* the older page styles say `nav{…}` and `footer{…}` for their own bars — those bars are gone, so the shared ones are kept clear of them */
+.site-head nav{position:static;inset:auto;z-index:auto;max-width:none;margin:0;padding:0;justify-content:flex-end;background:none}
+footer.site-foot{display:block;max-width:none;margin:0;padding:0;text-align:left;border-top:1px solid rgba(255,255,255,.07);font-size:14px;color:#A9B4CC}
+.head-space{height:64px}
+
+.site-foot{border-top:1px solid rgba(255,255,255,.07);background:radial-gradient(90% 120% at 50% 130%,rgba(124,82,248,.14),transparent 60%),#060912;color:#A9B4CC;font:500 14px/1.6 'Manrope',system-ui,sans-serif}
+.site-foot .in{max-width:1180px;margin:0 auto;padding:44px 20px 30px;display:grid;gap:28px;grid-template-columns:1fr}
+.site-foot .brand{display:flex;align-items:center;gap:8px;text-decoration:none}
+.site-foot .brand .lmark{height:32px;width:32px}.site-foot .brand .lword{height:21px;width:auto}
+.site-foot .foot-tag{margin-top:10px;color:#7C879F;font-size:13.5px}
+.site-foot h4{margin:0 0 10px;font:800 11.5px/1 'Manrope',system-ui,sans-serif;letter-spacing:.02em;color:#7EC8C8}   /* never uppercase: the column is "brimm" */
+.site-foot ul{list-style:none;margin:0;padding:0;display:grid;gap:7px}
+.site-foot a{color:#C9D2E6;text-decoration:none;font-weight:500}.site-foot a:hover{color:#fff}
+.site-foot .cols{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px}
+.site-foot .legal{max-width:1180px;margin:0 auto;padding:16px 20px 30px;border-top:1px solid rgba(255,255,255,.06);font-size:12.5px;color:#7C879F;display:flex;flex-wrap:wrap;gap:6px 14px;justify-content:space-between}
+@media (min-width:860px){.site-foot .in{grid-template-columns:1.2fr 2fr}.site-foot .cols{grid-template-columns:repeat(3,minmax(0,1fr))}}

@@ -24,249 +24,318 @@
 <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16.png">
 <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png">
 <link rel="preload" href="/assets/fonts/Manrope-Bold-latin.ttf" as="font" type="font/ttf" crossorigin>
+<link rel="stylesheet" href="/assets/site.css">
 <style>
-  /* Manrope, served from this site (no third-party font call). SIL Open Font License: /assets/fonts/Manrope-OFL.txt */
+  /* THE HOME, REDESIGNED (founder, 29 Oct 2026 09:35 — "design it like a top travel-app launch site"). Phone first. Manrope from this
+     site; photos are the app's founder-approved photo pins; every app picture is a real screen from the test account. */
   @font-face{font-family:'Manrope';src:url('/assets/fonts/Manrope-Regular-latin.ttf') format('truetype');font-weight:400 600;font-display:swap}
   @font-face{font-family:'Manrope';src:url('/assets/fonts/Manrope-Bold-latin.ttf') format('truetype');font-weight:700 900;font-display:swap}
   :root{
-    --night:#060912; --night2:#0B1022; --card:#141A31; --card2:#1A2140;
-    --teal:#7EC8C8; --purple:#A78BFA; --gold:#FAC775;
-    --ink:#F4F7FA; --muted:rgba(244,247,250,.70); --faint:rgba(244,247,250,.48); --line:rgba(255,255,255,.09);
-    --grad:linear-gradient(100deg,#7EC8C8 0%,#A78BFA 100%);
-    /* a BUTTON's gradient: deeper, so its white words pass 4.5:1 end to end (#357D7D 4.79 · #7C52F8 4.75 — founder, 24 Oct 2026) */
-    --btn-grad:linear-gradient(100deg,#357D7D 0%,#7C52F8 100%);
+    --night:#060912;--navy:#0A1022;--deep:#0E1630;--card:#121B36;--line:rgba(255,255,255,.08);
+    --ink:#EEF2FA;--muted:#B3BDD3;--faint:#8A95AD;--teal:#7EC8C8;--violet:#A78BFA;--gold:#FAC775;
+    --grad:linear-gradient(100deg,#A6EBEB 0%,#C9B6FF 100%);--btn:linear-gradient(100deg,#357D7D,#7C52F8);
   }
   *{box-sizing:border-box;margin:0;padding:0}
   html{scroll-behavior:smooth}
   @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
   body{background:var(--night);color:var(--ink);font-family:'Manrope',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
-  a{color:inherit;text-decoration:none}
   img{display:block;max-width:100%}
-  .wrap{max-width:1120px;margin:0 auto;padding:0 20px}
-  .ico{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
+  a{color:inherit}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 20px}
+  section[id]{scroll-margin-top:72px}
+  .tag,.eyebrow{display:inline-block;font-size:14px;font-weight:800;letter-spacing:.02em;color:var(--teal)}   /* never uppercase: "brimm" stays lowercase */
+  h2{font-size:clamp(30px,5.2vw,52px);line-height:1.06;letter-spacing:-.03em;font-weight:800;margin-top:10px}
+  .grad{background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+  .lede{color:var(--muted);font-size:17px;margin-top:12px;max-width:560px}
+  .shead{margin-bottom:34px}
+  .shead.c{text-align:center}.shead.c .lede{margin-left:auto;margin-right:auto}
 
-  /* NAV */
-  nav{position:fixed;top:0;left:0;right:0;z-index:50;display:flex;align-items:center;justify-content:space-between;padding:14px 20px;transition:background .3s,border-color .3s;border-bottom:1px solid transparent}
-  nav.solid{background:rgba(6,9,18,.86);border-bottom-color:var(--line);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
-  .logo{display:flex;align-items:center;gap:8px}.logo .lmark{height:36px;width:36px}.logo .lword{height:23px;width:auto}
-  /* A SOFT SHADOW BEHIND THE LETTERING AND THE PIN (founder, 29 Oct 2026 07:25). Measured at 412 px over the two palest heroes, the
-     letters against the sky around them: wordmark 2.18 -> 3.16:1 (Petra) and 3.22 -> 4.41:1 (Queenstown). The pin is two-toned (a teal
-     ring round a navy body): a halo raises the ring (Petra 1.12 -> 2.38, Queenstown 1.56 -> 3.00) and lowers the body's own contrast, so
-     no single shadow puts both above 3:1 on Petra — this is the setting where the ring does best. */
-  .logo .lword{filter:drop-shadow(0 1px 2px rgba(6,9,18,.7)) drop-shadow(0 0 6px rgba(6,9,18,.6)) drop-shadow(0 0 14px rgba(6,9,18,.5))}
-  .logo .lmark{filter:drop-shadow(0 0 3px rgba(6,9,18,.9)) drop-shadow(0 0 7px rgba(6,9,18,.75)) drop-shadow(0 0 14px rgba(6,9,18,.5))}
-  .navlinks{display:flex;align-items:center;gap:26px;font-size:14px;font-weight:700;color:var(--muted)}
-  .navlinks a:hover{color:var(--ink)}
-  .navcta{padding:9px 16px;border-radius:999px;color:var(--night)!important;background:var(--teal)}
-  @media(max-width:760px){.navlinks .hide-s{display:none}}
+  /* reveal on scroll — off entirely when the visitor asks for less motion */
+  .rv{opacity:0;transform:translateY(26px);transition:opacity .8s ease,transform .8s cubic-bezier(.2,.7,.2,1)}
+  .rv.in{opacity:1;transform:none}
+  @media (prefers-reduced-motion:reduce){.rv{opacity:1;transform:none;transition:none}}
 
-  /* HERO — one real photograph at a time, named and credited */
-  .hero{position:relative;min-height:92vh;min-height:92svh;display:flex;align-items:flex-end;overflow:hidden;background:var(--night2)}
-  .slides{position:absolute;inset:0}
-  .slides img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity 1.6s ease}
-  .slides img.on{opacity:1}
-  @media (prefers-reduced-motion:reduce){.slides img{transition:none}}
-  /* One scrim: a top band for the nav, and the lower-left — where the words sit — carried dark enough on the brightest sky. */
-  .scrim{position:absolute;inset:0;background:radial-gradient(120% 75% at 0% 100%,rgba(6,9,18,.86) 0%,rgba(6,9,18,.55) 45%,rgba(6,9,18,0) 75%),linear-gradient(180deg,rgba(6,9,18,.55) 0%,rgba(6,9,18,0) 22%,rgba(6,9,18,.15) 60%,rgba(6,9,18,.92) 100%)}
-  .hero-inner{position:relative;z-index:2;width:100%;padding:120px 0 64px}
-  h1{font-weight:800;font-size:clamp(40px,7.4vw,84px);line-height:1.02;letter-spacing:-.03em;max-width:12ch;text-shadow:0 2px 24px rgba(0,0,0,.35)}
-  h1 .grad{background:linear-gradient(100deg,#A6EBEB 0%,#C9B6FF 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
-  .proof{margin-top:18px;font-size:clamp(19px,2.6vw,26px);font-weight:700;color:var(--ink)}
-  .proof span{color:var(--teal)}
-  .brimming{margin-top:8px;font-size:15px;color:var(--muted);font-weight:600}
-  .ctas{display:flex;flex-wrap:wrap;gap:12px;margin-top:30px;align-items:center}
-  .btn{display:inline-flex;align-items:center;gap:10px;padding:14px 22px;border-radius:999px;font-weight:800;font-size:15.5px;line-height:1}
-  .btn.primary{background:var(--btn-grad);color:#fff}
-  /* THE OFFICIAL STORE BADGES (founder, 28 Oct 2026 23:27): Google's and Apple's own artwork at one visible height (44px — Google's file
-     carries its clear space, so it is drawn larger and pulled in by it); "Coming soon" = dimmed, the words under it, not a link. The
-     switch is assets/stores.js. */
-  .badges{display:flex;gap:16px;align-items:flex-start}   /* the two badges wrap as one group, never split */
+  /* ── HERO ── */
+  /* phones: the photo fills exactly one screen and the words sit at its foot; the phone follows on the navy (a photo stretched over the
+     whole hero, phone included, showed Paris as sky) */
+  .hero{position:relative;overflow:hidden;padding:0 0 30px}
+  .slides{position:absolute;left:0;right:0;top:0;height:100svh;overflow:hidden}   /* the slow zoom must not spill below the photo */
+  .slides img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transform:scale(1.06);transition:opacity 1.6s ease,transform 9s linear}
+  .slides img.on{opacity:1;transform:scale(1)}
+  @media (prefers-reduced-motion:reduce){.slides img{transition:none;transform:none}}
+  /* the top of the photo stays bright; from 38% down, where the words sit, it darkens. Measured on all 8 slideshow photos at 390x844
+     (the ground computed as the phone composites it, text shadow ignored): every line 5.3:1 or more, the headline 9.8:1. */
+  .scrim{position:absolute;left:0;right:0;top:0;height:100svh;background:linear-gradient(180deg,rgba(6,9,18,.42) 0%,rgba(6,9,18,0) 14%,rgba(6,9,18,.08) 25%,rgba(6,9,18,.68) 38%,rgba(6,9,18,.78) 50%,rgba(6,9,18,.9) 80%,#060912 100%)}
+  .hero-in{position:relative;z-index:2;max-width:1180px;margin:0 auto;padding:0 20px;display:grid;gap:16px;align-items:center}
+  .copy{min-height:calc(100svh - 150px);display:flex;flex-direction:column;justify-content:flex-end;padding:96px 0 26px}   /* the phone's top shows in the first screen */
+  h1{font-size:clamp(46px,10vw,96px);line-height:.98;letter-spacing:-.045em;font-weight:800;text-shadow:0 4px 30px rgba(0,0,0,.35)}
+  .proof{margin-top:20px;font-size:clamp(20px,3vw,28px);font-weight:800;letter-spacing:-.01em}
+  .proof b{color:var(--teal);font-weight:800}
+  .sub{margin-top:10px;color:#D6DCEA;font-size:17px;max-width:440px;text-shadow:0 1px 12px rgba(0,0,0,.45)}
+  .ctas{display:flex;flex-wrap:wrap;gap:14px;align-items:flex-start;margin-top:28px}
+  .btn{display:inline-flex;align-items:center;padding:14px 22px;border-radius:999px;background:var(--btn);color:#fff;font-weight:800;text-decoration:none}
+  /* the official store badges, unaltered (Google and Apple forbid changes); the switch is assets/stores.js */
+  .badges{display:flex;gap:16px;align-items:flex-start}
   .badge{display:inline-flex;flex-direction:column;align-items:center;gap:6px;cursor:default}
-  .badge[hidden]{display:none}
-  [hidden]{display:none!important}   /* a door the switches keep shut (assets/stores.js) stays shut whatever its own display */
-  section[id]{scroll-margin-top:76px}   /* a jump (#pricing, #how) lands below the fixed header, not under it - seen on the Pixel, 29 Oct 2026 */
   .badge img{display:block;height:44px;width:auto}
-  .badge img.gp{height:64.7px;margin:-10.35px;max-width:none}   /* the page-wide img max-width squeezed it 12% narrower */
+  .badge img.gp{height:64.7px;margin:-10.35px;max-width:none}
   .badge.soon img{opacity:.55}
   .badge .soon-tag{font-size:10.5px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:var(--faint)}
   a.badge{cursor:pointer}
-  .credit{position:absolute;right:16px;bottom:14px;z-index:3;font-size:12px;color:rgba(255,255,255,.78);text-shadow:0 1px 6px rgba(0,0,0,.6);text-align:right}
-  .credit b{font-weight:700;color:#fff}
+  .credit{position:absolute;right:16px;top:74px;z-index:3;font-size:11.5px;color:#fff;text-align:right;background:rgba(6,9,18,.66);padding:3px 9px;border-radius:999px}   /* its own chip: on a bright sky it measured 1.05:1 bare, 7.8:1 on the chip */
+  .credit b{color:#fff;font-weight:700}
 
-  /* SECTIONS — everything is visible at first paint; nothing waits for a scroll */
-  section{padding:84px 0}
-  .shead{max-width:680px;margin-bottom:40px}
-  .tag{font-size:12px;font-weight:800;letter-spacing:1.6px;text-transform:uppercase;color:var(--purple);margin-bottom:10px}
-  h2{font-size:clamp(28px,4.2vw,44px);font-weight:800;letter-spacing:-.02em;line-height:1.1;margin-bottom:12px}
-  .shead p{font-size:17px;color:var(--muted)}
+  /* the phone: the real brimm Home, in a frame with a glow behind it */
+  .hero-phone{position:relative;justify-self:center;width:min(68vw,280px)}
+  .glow{position:absolute;inset:8% -18% 0;background:radial-gradient(closest-side,rgba(124,82,248,.55),rgba(126,200,200,.25) 55%,transparent 75%);filter:blur(30px);z-index:0}
+  .phone{position:relative;z-index:1;border-radius:46px;padding:9px;background:linear-gradient(160deg,#2A3350,#0B0F1C 40%,#1B2340);box-shadow:0 40px 80px -20px rgba(0,0,0,.75),0 0 0 1px rgba(255,255,255,.1) inset}
+  .phone img{border-radius:38px;width:100%;height:auto}
+  .phone::after{content:"";position:absolute;top:19px;left:50%;width:9px;height:9px;margin-left:-4.5px;border-radius:50%;background:#05070d;box-shadow:0 0 0 1.5px rgba(255,255,255,.06)}
 
-  /* THE APP — the store frames, in a strip you can swipe on a phone and a grid on a desktop */
-  .frames{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
-  .frames img{width:100%;height:auto;border-radius:18px;border:1px solid var(--line);background:var(--card)}
-  @media(max-width:900px){.frames{grid-template-columns:none;grid-auto-flow:column;grid-auto-columns:68%;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:6px;-webkit-overflow-scrolling:touch}.frames img{scroll-snap-align:start}}
-  /* THE APP (old screenshot cards — unused since 23 Oct 2026, kept for the PDF/share pair should it return) */
-  .shots{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
-  @media(max-width:900px){.shots{grid-template-columns:repeat(2,1fr)}}
-  @media(max-width:560px){.shots{grid-template-columns:1fr}}
-  .shot{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:18px;display:flex;flex-direction:column;gap:14px}
-  /* A frame only ever trims the BOTTOM of a screen — never its sides (the first build cut the visa answer's words). */
-  .shot .frame{border-radius:16px;overflow:hidden;background:#0B1022;height:420px;display:flex;align-items:flex-start;justify-content:center}
-  .shot .frame img{width:100%;height:auto}
-  .shot .frame.card,.shot .frame.mid{align-items:center}
-  .shot .frame.card{gap:10px;padding:14px;justify-content:center}
-  .shot .frame.card img{width:auto;height:100%;max-width:48%;object-fit:contain;border-radius:10px}
-  .shot h3{font-size:18px;font-weight:800;display:flex;align-items:center;gap:10px}
-  .shot h3 .ico{color:var(--teal)}
-  .shot p{font-size:14.5px;color:var(--muted);margin-top:-6px}
-
-  /* WHY */
-  .why{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
-  @media(max-width:860px){.why{grid-template-columns:1fr}}
-  .why div{padding:26px 22px;border-radius:20px;border:1px solid var(--line);background:var(--card)}
-  .why .ibox{width:46px;height:46px;border-radius:14px;display:flex;align-items:center;justify-content:center;margin-bottom:16px;background:rgba(126,200,200,.12);color:var(--teal)}
-  .why div:nth-child(2) .ibox{background:rgba(167,139,250,.14);color:var(--purple)}
-  .why div:nth-child(3) .ibox{background:rgba(250,199,117,.13);color:var(--gold)}
-  .why h3{font-size:19px;font-weight:800;margin-bottom:6px}
-  .why p{font-size:15px;color:var(--muted)}
-
-  /* STEPS — one path from a thought to a trip: an icon per stop, joined by one line (across on desktop, down on a phone) */
-  .path{list-style:none;display:grid;grid-template-columns:repeat(4,1fr);gap:22px;position:relative;counter-reset:step}
-  .path:before{content:'';position:absolute;left:12.5%;right:12.5%;top:30px;height:2px;background:linear-gradient(90deg,var(--teal),var(--purple),var(--gold));opacity:.55}
-  .stop{position:relative;text-align:center;padding:0 6px}
-  .stop .ic{width:60px;height:60px;margin:0 auto 16px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:var(--night);border:2px solid var(--teal);color:var(--teal);position:relative;z-index:1}
-  .stop:nth-child(2) .ic{border-color:#94A9E6;color:#94A9E6}
-  .stop:nth-child(3) .ic{border-color:var(--purple);color:var(--purple)}
-  .stop:nth-child(4) .ic{border-color:var(--gold);color:var(--gold)}
-  .stop .ic svg{width:26px;height:26px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
-  .stop .k{font-size:11.5px;font-weight:800;letter-spacing:1.6px;color:var(--faint);margin-bottom:4px}
-  .stop h4{font-size:18px;font-weight:800;margin-bottom:6px}
-  .stop p{font-size:14.5px;color:var(--muted);max-width:24ch;margin:0 auto}
-  .path-cta{display:flex;justify-content:center;margin-top:34px}
-  @media(max-width:760px){
-    .path{grid-template-columns:1fr;gap:26px;padding-left:4px}
-    .path:before{display:none}
-    /* one connector per step, from this circle down to the next — never a tail below the last */
-    .stop:not(:last-child):after{content:'';position:absolute;left:29px;top:62px;bottom:-24px;width:2px;background:linear-gradient(180deg,rgba(126,200,200,.55),rgba(167,139,250,.55))}
-    .stop{display:grid;grid-template-columns:60px 1fr;column-gap:16px;text-align:left;padding:0}
-    .stop .ic{margin:0;grid-row:span 3}
-    .stop p{margin:0;max-width:none}
-    .path-cta{justify-content:flex-start;margin-top:26px}
+  @media (min-width:960px){
+    .hero{padding:110px 0 70px;min-height:100vh}
+    .slides,.scrim{height:auto;bottom:0}
+    .credit{top:auto;bottom:12px}
+    .hero-in{grid-template-columns:1.3fr .7fr;gap:30px;min-height:calc(100vh - 180px)}
+    h1{font-size:clamp(64px,5.6vw,84px)}   /* "Travel thoughts?" stays one line */
+    .copy{min-height:0;padding:0}
+    .hero-phone{width:310px}
+    .hero-phone .phone{transform:rotate(4deg)}   /* on the frame, not the block: the block's own transform is the reveal's */
+    .scrim{background:linear-gradient(90deg,rgba(6,9,18,.78) 0%,rgba(6,9,18,.35) 50%,rgba(6,9,18,.15) 100%),linear-gradient(180deg,rgba(6,9,18,.5) 0%,transparent 25%,transparent 70%,#060912 100%)}
   }
 
-  /* PRICING */
-  .plans{display:grid;grid-template-columns:1fr 1fr;gap:18px;max-width:860px}
-  @media(max-width:700px){.plans{grid-template-columns:1fr}}
-  .plan{padding:28px 24px;border-radius:22px;border:1px solid var(--line);background:var(--card)}
-  .plan.pro{border-color:rgba(167,139,250,.45);background:linear-gradient(160deg,rgba(126,200,200,.10),rgba(167,139,250,.12))}
-  .plan h3{font-size:20px;font-weight:800}
-  .plan .note{font-size:13.5px;color:var(--faint);margin-bottom:14px}
-  .plan .lead{font-size:17px;font-weight:700;color:var(--ink);margin:8px 0 14px}
-  .plan .fineprint{margin-top:14px;font-size:12.5px;color:var(--faint)}
-  .plan ul{list-style:none;display:grid;gap:8px}
-  .plan li{display:flex;gap:10px;font-size:15px;color:var(--muted)}
-  .plan li .ico{width:18px;height:18px;color:var(--teal);margin-top:3px}
-  .honest{margin-top:18px;font-size:14px;color:var(--faint);max-width:760px}
+  /* ── FROM A THOUGHT TO A TRIP ── */
+  .how{padding:90px 0 40px;background:radial-gradient(70% 50% at 50% 0%,rgba(126,200,200,.10),transparent 70%)}
+  .story{list-style:none;position:relative;display:grid;gap:70px}
+  .story::before{content:"";position:absolute;left:21px;top:10px;bottom:10px;width:2px;background:linear-gradient(180deg,var(--teal),var(--violet),rgba(167,139,250,0));opacity:.5}
+  .step{position:relative;display:grid;gap:22px;padding-left:62px}
+  .num{position:absolute;left:0;top:0;width:44px;height:44px;border-radius:50%;display:grid;place-items:center;font-weight:800;font-size:18px;color:#0A1022;background:var(--grad);box-shadow:0 0 0 6px var(--night),0 10px 30px -6px rgba(124,82,248,.6)}
+  .step h3{font-size:clamp(24px,3.4vw,34px);line-height:1.1;letter-spacing:-.02em;font-weight:800}
+  .step p{color:var(--muted);font-size:16.5px;margin-top:8px;max-width:420px}
+  .shot{position:relative;border-radius:26px;overflow:hidden;background:var(--deep);box-shadow:0 30px 70px -25px rgba(0,0,0,.8),0 0 0 1px rgba(255,255,255,.08);max-width:420px}
+  .step .shot.tall{max-width:340px}
+  .shot img{width:100%;height:auto}
+  @media (min-width:960px){
+    .story{gap:80px;max-width:960px;margin:0 auto}
+    .story::before{left:50%;margin-left:-1px}
+    .step{grid-template-columns:1fr 1fr;padding-left:0;align-items:center;gap:80px}
+    .num{left:50%;margin-left:-22px;top:50%;margin-top:-22px}
+    .step .txt{justify-self:end;text-align:right;max-width:420px}
+    .step .txt p{margin-left:auto}
+    .step:nth-child(even) .txt{order:2;justify-self:start;text-align:left}
+    .step:nth-child(even) .txt p{margin-left:0}
+    .step .shot{justify-self:start}
+    .step:nth-child(even) .shot{justify-self:end}
+  }
 
-  /* CTA FOOT + FOOTER */
-  .ctafoot{text-align:center;padding:84px 20px;background:radial-gradient(ellipse at 50% 120%,rgba(126,200,200,.16),transparent 60%)}
-  .ctafoot h2{font-size:clamp(30px,5vw,52px)}
-  .ctafoot p{color:var(--muted);font-size:17px;margin:10px auto 26px;max-width:560px}
-  .ctafoot .ctas{justify-content:center}
-  footer{border-top:1px solid var(--line);padding:36px 20px;text-align:center}
-  footer img{height:40px;width:auto;margin:0 auto 14px}
-  .foot-links{display:flex;gap:22px;justify-content:center;flex-wrap:wrap;font-size:14px;color:var(--muted);font-weight:700;margin-bottom:14px}
-  .foot-links a:hover{color:var(--ink)}
-  .foot-note{font-size:12.5px;color:var(--faint)}
-  .foot-note a{color:var(--teal);font-weight:700}
+  /* ── FEATURE SPOTLIGHTS ── */
+  .feats{padding:90px 0 30px}
+  .spot{display:grid;gap:34px;align-items:center;padding:40px 0}
+  .media{position:relative}
+  .media .main{position:relative;z-index:1;width:100%;border-radius:26px;overflow:hidden;background:var(--deep);box-shadow:0 40px 80px -30px rgba(0,0,0,.85),0 0 0 1px rgba(255,255,255,.08)}
+  .media .float{display:none;position:relative;z-index:2;border-radius:20px;overflow:hidden;background:var(--deep);box-shadow:0 30px 60px -20px rgba(0,0,0,.9),0 0 0 1px rgba(255,255,255,.12)}
+  .media .main img,.media .float img{width:100%;height:auto}
+  .media::before{content:"";position:absolute;inset:10% 5% 0 10%;background:radial-gradient(closest-side,rgba(126,200,200,.32),transparent 70%);filter:blur(40px)}
+  .spot:nth-child(even) .media::before{background:radial-gradient(closest-side,rgba(167,139,250,.36),transparent 70%)}
+  .media.photo{padding:26px 0}
+  .media.photo .bg{position:absolute;inset:0;border-radius:26px;overflow:hidden}
+  .media.photo .bg img{width:100%;height:100%;object-fit:cover;filter:saturate(1.05)}
+  .media.photo .bg::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(6,9,18,.15),rgba(6,9,18,.55))}
+    .media.photo .pc{position:absolute;z-index:3;right:12px;top:10px;font-size:11px;color:#fff;background:rgba(6,9,18,.55);padding:2px 8px;border-radius:9px}   /* the same chip as the wall's credits */
+  .media.photo{display:block;padding:0}
+  .chips{position:relative;z-index:2;display:grid;gap:14px;padding:170px 16px 22px}
+  .chips img{width:min(88%,400px);height:auto;border-radius:999px;box-shadow:0 18px 40px -12px rgba(0,0,0,.85),0 0 0 1px rgba(255,255,255,.14)}
+  .chips .c2{justify-self:end}
+  @media (min-width:960px){.chips{padding:230px 28px 30px;gap:18px}}
+    .spot h3{font-size:clamp(28px,4.2vw,44px);line-height:1.05;letter-spacing:-.03em;font-weight:800;margin-top:10px}
+  .spot p{color:var(--muted);font-size:17px;margin-top:14px;max-width:470px}
+  .spot .eyebrow{color:var(--teal);font-size:14px;margin-top:0}   /* the label is a <p>: without this it took the paragraph grey */
+  @media (min-width:960px){
+    .spot{grid-template-columns:1.05fr .95fr;gap:80px;padding:70px 0}
+    .spot:nth-child(even) .media{order:2}
+    .media{display:flex;gap:18px;align-items:flex-start}
+    .media .main{flex:0 0 60%;width:auto}
+    .media .float{display:block;flex:1;margin-top:18%}
+  }
+
+  /* ── WHERE WILL YOU BRIMM NEXT? ── */
+  .places{padding:90px 0 40px;background:radial-gradient(60% 40% at 50% 0%,rgba(167,139,250,.10),transparent 70%)}
+  .wall{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));grid-auto-rows:170px;grid-auto-flow:dense;gap:12px}
+  .tile{position:relative;border-radius:20px;overflow:hidden;background:var(--deep);text-decoration:none;display:block}
+  .tile.tall{grid-row:span 2}
+  .tile img{width:100%;height:100%;object-fit:cover;transition:transform .7s ease}
+  a.tile:hover img{transform:scale(1.05)}
+  @media (prefers-reduced-motion:reduce){.tile img{transition:none}a.tile:hover img{transform:none}}
+  /* the dark starts where the words start — a short tile's name sits at a third of its height, a tall tile's at two thirds. Measured on
+     all 16 photos at 390 and 1440 (ground computed under these gradients, text shadow ignored): every line 4.8:1 or more. */
+  .tile::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(6,9,18,0) 14%,rgba(6,9,18,.52) 30%,rgba(6,9,18,.7) 55%,rgba(6,9,18,.92) 100%)}
+  .tile.tall::after{background:linear-gradient(180deg,rgba(6,9,18,0) 45%,rgba(6,9,18,.52) 64%,rgba(6,9,18,.7) 80%,rgba(6,9,18,.92) 100%)}
+  .tile .t{position:absolute;z-index:2;left:12px;right:12px;bottom:11px;text-shadow:0 1px 8px rgba(0,0,0,.55)}
+  .tile b{display:block;font-size:19px;line-height:1.1;font-weight:800;letter-spacing:-.01em}
+  .tile .cty{display:block;font-size:12px;color:#C9D2E6}
+  .tile::before{content:"";position:absolute;z-index:1;left:0;right:0;top:0;height:52px;background:linear-gradient(180deg,rgba(6,9,18,.6),rgba(6,9,18,0))}
+  .tile .mo{display:inline-block;margin-top:7px;font-size:11px;font-weight:800;color:#0A1022;background:var(--gold);padding:3px 9px;border-radius:999px;white-space:nowrap;max-width:100%;overflow:hidden;text-overflow:ellipsis}
+  .tile .go{display:block;min-height:20px;margin-top:6px;font-size:12.5px;line-height:20px;font-weight:800;color:var(--teal)}
+  .tile .pc{position:absolute;z-index:2;top:8px;right:10px;max-width:calc(100% - 20px);text-align:right;line-height:1.3;font-size:10px;color:#fff;background:rgba(6,9,18,.55);padding:2px 7px;border-radius:9px}
+  @media (min-width:720px){.wall{grid-template-columns:repeat(3,minmax(0,1fr));grid-auto-rows:200px}}
+  @media (min-width:1080px){.wall{grid-template-columns:repeat(4,minmax(0,1fr));grid-auto-rows:210px;gap:14px}}
+
+  /* ── VISA GUIDES ── */
+  .guides{padding:80px 0 30px}
+  .glist{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+  .glist a{display:flex;align-items:center;gap:10px;padding:14px 14px;border-radius:16px;background:var(--card);border:1px solid var(--line);text-decoration:none;font-weight:700;font-size:15px;transition:border-color .25s ease,transform .25s ease}
+  .glist a:hover{border-color:rgba(126,200,200,.5);transform:translateY(-2px)}
+  .glist .fl{font-size:22px;line-height:1}
+  .glist .all{grid-column:1/-1;justify-content:center;background:linear-gradient(100deg,rgba(53,125,125,.35),rgba(124,82,248,.35));border-color:rgba(167,139,250,.35)}
+  @media (min-width:900px){.glist{grid-template-columns:repeat(5,minmax(0,1fr))}}
+
+  /* ── PRICING (the wording and rules unchanged) ── */
+  #pricing{padding:90px 0 40px}
+  .plans{display:grid;gap:16px}
+  .plan{background:var(--card);border:1px solid var(--line);border-radius:24px;padding:26px 24px}
+  .plan.pro{background:linear-gradient(160deg,rgba(53,125,125,.22),rgba(124,82,248,.22));border-color:rgba(167,139,250,.35)}
+  .plan h3{font-size:22px;font-weight:800}
+  .plan .lead{font-weight:800;margin:10px 0 14px;font-size:17px}
+  .plan ul{list-style:none;display:grid;gap:9px}
+  .plan li{display:flex;gap:10px;color:var(--muted);font-size:15.5px}
+  .ico{width:20px;height:20px;flex-shrink:0;margin-top:2px;fill:none;stroke:var(--teal);stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+  .fineprint{margin-top:14px;font-size:13px;color:var(--faint)}
+  .honest{margin:18px auto 0;font-size:14px;color:var(--faint);max-width:760px;text-align:center}
+  @media (min-width:860px){.plans{grid-template-columns:1fr 1fr}}
+
+  /* ── FINAL CALL ── */
+  .final{position:relative;text-align:center;padding:110px 20px 110px;overflow:hidden}
+  .final::before{content:"";position:absolute;left:50%;top:50%;width:900px;height:500px;margin:-250px 0 0 -450px;background:radial-gradient(closest-side,rgba(124,82,248,.30),rgba(126,200,200,.12) 55%,transparent 75%);filter:blur(20px)}
+  .final>*{position:relative}
+  .final h2{font-size:clamp(40px,8vw,84px)}
+  .final p{color:var(--muted);font-size:18px;margin:14px 0 28px}
+  .final .badges{justify-content:center}
 </style>
 </head>
 <body>
 
-<nav id="nav">
-  <a href="/" class="logo" aria-label="brimm home"><img class="lmark" src="/assets/mark-dark-foreground.svg" alt="" width="34" height="34"><img class="lword" src="/assets/wordmark-dark.svg" alt="brimm" width="79" height="23"></a>
-  <div class="navlinks">
-    <a href="#app" class="hide-s">The app</a>
-    <a href="#pricing" class="hide-s">Pricing</a>
-    <a href="#get" class="navcta" data-getapp hidden>Get the app</a>
-  </div>
-</nav>
+<!-- SITE-HEAD:START (tools/site-chrome.js) -->
+<header class="site-head" id="head"><div class="in">
+  <a class="brand" href="/" aria-label="brimm home"><img class="lmark" src="/assets/mark-dark-foreground.svg" alt="" width="34" height="34"><img class="lword" src="/assets/wordmark-dark.svg" alt="brimm" width="76" height="22"></a>
+  <nav aria-label="Main"><a class="wide" href="/#how">How it works</a><a href="/#places">Destinations</a><a class="wide" href="/#guides">Visa guides</a><a href="/#pricing">Pricing</a><a class="wide" href="/check.html" data-check-entry hidden>Visa check</a><a class="cta" href="/#get" data-getapp hidden>Get the app</a></nav>
+</div></header>
+<!-- SITE-HEAD:END -->
 
-<header class="hero">
+<main>
+<section class="hero" id="top">
   <div class="slides" id="slides" aria-hidden="true">
-    <img class="on" id="s0" src="/assets/hero/petra-960.jpg" srcset="/assets/hero/petra-960.jpg 960w, /assets/hero/petra.jpg 1920w" sizes="100vw" alt="" fetchpriority="high">
+<!-- HERO:START (written by tools/build-home.js) -->
+    <img class="on" src="/assets/hero/paris-960.jpg" srcset="/assets/hero/paris-960.jpg 960w, /assets/hero/paris.jpg 1920w" sizes="100vw" alt="" fetchpriority="high">
+<!-- HERO:END -->
   </div>
   <div class="scrim"></div>
-  <div class="hero-inner"><div class="wrap">
-    <h1>Travel thoughts? <span class="grad" style="white-space:nowrap">brimm it!</span></h1>
-    <p class="proof">Visa? <span>Checked.</span> Days? <span>Planned.</span></p>
-    <p class="brimming">What are you brimming today?</p>
-    <!-- THE VISA CHECK LEADS, AND THE SITE READS AS LIVE (founder, 12 Oct 2026 ~21:05: visa check first, and the
-         site is designed as live). The two store chips say "Coming soon" and link nowhere
-         (founder, 21:20) until the listings exist; then they become links (index.html and check.html). -->
-    <div class="ctas">
-      <a class="btn primary" href="/check" data-check-entry hidden>Check a visa — free</a>
-      <div class="badges"><span class="badge soon" data-store="play" aria-label="Google Play: coming soon"><img class="gp" src="/assets/badges/google-play.png" alt="" width="167" height="65"><span class="soon-tag">Coming soon</span></span><span class="badge soon" data-store="ios" aria-label="App Store: coming soon"><img src="/assets/badges/app-store.svg" alt="" width="132" height="44"><span class="soon-tag">Coming soon</span></span></div>
+  <div class="hero-in">
+    <div class="copy">
+      <h1>Travel thoughts?<br><span class="grad">brimm it!</span></h1>
+      <p class="proof">Visa? <b>Checked.</b> Days? <b>Planned.</b></p>
+      <p class="sub">Pick a place. We'll check the visa and plan the days.</p>
+      <div class="ctas">
+        <a class="btn" href="/check" data-check-entry hidden>Check a visa — free</a>
+        <div class="badges"><span class="badge soon" data-store="play" aria-label="Google Play: coming soon"><img class="gp" src="/assets/badges/google-play.png" alt="" width="167" height="65"><span class="soon-tag">Coming soon</span></span><span class="badge soon" data-store="ios" aria-label="App Store: coming soon"><img src="/assets/badges/app-store.svg" alt="" width="132" height="44"><span class="soon-tag">Coming soon</span></span></div>
+      </div>
     </div>
-  </div></div>
-  <p class="credit" id="credit"><b>Petra, Jordan</b> · Emile Guillemot on Unsplash</p>
-</header>
-
-<section id="app">
-  <div class="wrap">
-    <div class="shead">
-      <div class="tag">The app</div>
-      <h2>Pick a place. We check the visa and plan the days.</h2>
-      <p>Real screens from the brimm app on Android.</p>
-    </div>
-    <!-- THE EIGHT STORE FRAMES (founder, 23 Oct 2026): the same images as the Play listing, so the site and the store show one app.
-         A frame not built yet is simply left out (frames.js), never a placeholder. -->
-    <div class="frames" id="frames">
-      <img src="/assets/frames/01-visa-checked.webp" alt="Visa? Checked. — Bali: visa on arrival or an eVisa, the passport checked, the best months and the daily spend in AED" loading="lazy" width="540" height="960" onerror="this.remove()">
-      <img src="/assets/frames/02-days-planned.webp" alt="Days? Planned. — Istanbul, day 2: Hagia Sophia, the Blue Mosque, lunch and Topkapı Palace, with times" loading="lazy" width="540" height="960" onerror="this.remove()">
-      <img src="/assets/frames/03-day-on-a-map.webp" alt="Your day, on a map — a Paris day opened as one route in the phone’s maps app" loading="lazy" width="540" height="960" onerror="this.remove()">
-      <img src="/assets/frames/04-pick-a-side.webp" alt="Pick a side — Bali split into Ubud and the beach, nights in each" loading="lazy" width="540" height="960" onerror="this.remove()">
-      <img src="/assets/frames/05-just-ask.webp" alt="Not sure where? Just ask — somewhere warm under 8 hours: Phuket and the Maldives" loading="lazy" width="540" height="960" onerror="this.remove()">
-      <img src="/assets/frames/06-budget-sorted.webp" alt="Budget? Sorted. — the trip’s total for two, in the traveller’s own currency, and where the money goes" loading="lazy" width="540" height="960" onerror="this.remove()">
-      <img src="/assets/frames/07-your-world-lit-up.webp" alt="Your world, lit up. — the places you’ve been, glowing on the globe" loading="lazy" width="540" height="960" onerror="this.remove()">
-      <img src="/assets/frames/08-everywhere-youve-been.webp" alt="Everywhere you’ve been — Sara’s travel map: 13 countries, 13 cities, 130 points" loading="lazy" width="540" height="960" onerror="this.remove()">
-    </div>
-    <p class="honest" style="margin-top:22px">Prices are rough estimates. Where brimm offers a site to book on, the list is fixed and never ordered by commission. We may earn a small commission. Your price is the same.</p>
-  </div>
-</section>
-
-<section id="why" style="padding-top:20px">
-  <div class="wrap">
-    <div class="shead">
-      <div class="tag">Why brimm</div>
-      <h2>Answers, not tabs.</h2>
-    </div>
-    <div class="why">
-      <div><div class="ibox"><svg class="ico" viewBox="0 0 24 24"><path d="M12 3l7 3v5c0 5-3.5 8.5-7 10-3.5-1.5-7-5-7-10V6l7-3z"/><path d="M9 12l2 2 4-4"/></svg></div><h3>Visa-checked</h3><p>Every place is checked for the passport you hold and the visas you carry — before you fall for it.</p></div>
-      <div><div class="ibox"><svg class="ico" viewBox="0 0 24 24"><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M5.6 18.4l2.1-2.1M16.3 7.7l2.1-2.1"/></svg></div><h3>A real plan</h3><p>Day by day, real places, honest prices — a trip you could take, not a list of links.</p></div>
-      <div><div class="ibox"><svg class="ico" viewBox="0 0 24 24"><path d="M4 7h10M18 7h2M4 17h4M12 17h8"/><circle cx="16" cy="7" r="2"/><circle cx="10" cy="17" r="2"/></svg></div><h3>Yours to change</h3><p>Move a stop, set your own price, take a city out. The plan bends to you and stays yours.</p></div>
+    <div class="hero-phone rv">
+      <div class="glow"></div>
+      <div class="phone"><img src="/assets/app/home.webp" alt="The brimm Home screen: good morning, a trip to Cape Town on day 8, places looked at lately with their visa answers, and the travel map" width="540" height="1176" fetchpriority="high"></div>
     </div>
   </div>
+<!-- CREDIT:START (written by tools/build-home.js) -->
+  <p class="credit" id="credit"><b>Paris, France</b> · Chris Karidis on Unsplash</p>
+<!-- CREDIT:END -->
 </section>
 
-<section id="how" style="padding-top:20px">
+<section class="how" id="how">
   <div class="wrap">
-    <div class="shead">
-      <div class="tag">How it works</div>
-      <h2>From a thought to a trip</h2>
-    </div>
-    <ol class="path">
-      <li class="stop"><div class="ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg></div><div class="k">STEP 1</div><h4>Pick a place</h4><p>Type a city, or ask brimm AI where your passport can take you.</p></li>
-      <li class="stop"><div class="ic" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="2"/><circle cx="12" cy="10" r="3"/><path d="M8.5 16h7"/></svg></div><div class="k">STEP 2</div><h4>We check the visa</h4><p>For your passport, where you live and the visas you hold. Every stop.</p></li>
-      <li class="stop"><div class="ic" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 2v4M16 2v4M7.5 13h3M7.5 17h6"/></svg></div><div class="k">STEP 3</div><h4>We plan the days</h4><p>Real places, sensible times, food nearby and rough costs. Change anything.</p></li>
-      <li class="stop"><div class="ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M2.5 13.5l19-7.5-7.5 19-2.6-8.9z"/></svg></div><div class="k">STEP 4</div><h4>Off you go</h4><p>Share it, keep the PDF, book when you’re ready.</p></li>
+    <div class="shead c rv"><span class="tag">How it works</span><h2>From a thought <span class="grad">to a trip</span></h2><p class="lede">Four steps, one app — from "what if" to a plan in your pocket.</p></div>
+    <ol class="story">
+      <li class="step rv"><span class="num">1</span><div class="txt"><h3>Pick a place</h3><p>Type a city, or open the map and see where your passport takes you.</p></div><figure class="shot"><img src="/assets/app/explore.webp" alt="brimm's Where can I go? map, each place coloured by the visa answer for the passport" width="720" height="629" loading="lazy" decoding="async"></figure></li>
+      <li class="step rv"><span class="num">2</span><div class="txt"><h3>We check the visa</h3><p>For your passport and where you live. When there's something to apply for, the official site is one tap away.</p></div><figure class="shot"><img src="/assets/app/visa.webp" alt="brimm's visa readiness sheet for a trip to Petra and Delhi" width="720" height="487" loading="lazy" decoding="async"></figure></li>
+      <li class="step rv"><span class="num">3</span><div class="txt"><h3>We plan the days</h3><p>Real places, times that work, room to breathe. Every day is yours to tweak.</p></div><figure class="shot"><img src="/assets/app/planning.webp" alt="A day planned in brimm, hour by hour, with free time between stops" width="720" height="747" loading="lazy" decoding="async"></figure></li>
+      <li class="step rv"><span class="num">4</span><div class="txt"><h3>Off you go</h3><p>Share a card with your crew, keep the PDF, book when you're ready.</p></div><figure class="shot tall"><img src="/assets/app/share.webp" alt="A brimm share card for a Petra and Delhi trip, with its passport stamps" width="720" height="884" loading="lazy" decoding="async"></figure></li>
     </ol>
-    <div class="path-cta" data-check-entry hidden><a class="btn primary" href="/check">Check a visa — free</a></div>
   </div>
 </section>
 
-<section id="pricing" style="padding-top:20px">
+<section class="feats" id="features">
   <div class="wrap">
-    <div class="shead">
+    <div class="shead c rv"><span class="tag">Inside the app</span><h2>Made for how you <span class="grad">really travel</span></h2></div>
+    <div class="spots">
+      <div class="spot rv">
+        <div class="media photo"><div class="bg"><img src="/assets/hero/tbilisi-spot.jpg" alt="" width="960" height="720" loading="lazy" decoding="async"></div><span class="pc">Tbilisi · Hongbin on Unsplash</span><div class="chips"><img class="c1" src="/assets/app/chip-tbilisi.webp" alt="In brimm: Tbilisi, Georgia — ✦ Your GCC · if" width="434" height="112" loading="lazy" decoding="async"><img class="c2" src="/assets/app/chip-petra.webp" alt="In brimm: Petra, Jordan — Visa on arrival" width="412" height="112" loading="lazy" decoding="async"></div></div>
+        <div><p class="eyebrow">Visa, your way</p><h3>Your passport. Your residence. Your visas.</h3><p>brimm reads all three, so every place shows the answer for you — like ✦ Your GCC, when it's your Gulf residence that counts.</p></div>
+      </div>
+      <div class="spot rv">
+        <div class="media"><div class="main"><img src="/assets/app/day.webp" alt="A brimm day card: day 2 in Petra, the Treasury and the Siq, with times and costs" width="720" height="900" loading="lazy" decoding="async"></div><div class="float"><img src="/assets/app/uae.webp" alt="A brimm trip header for Ras Al Khaimah and Fujairah, three travellers" width="720" height="680" loading="lazy" decoding="async"></div></div>
+        <div><p class="eyebrow">Days, planned</p><h3>Every day, planned to the hour</h3><p>Real places with times that work, a lunch near your stops, and every cost in the currency you choose — from Petra to a long weekend in Ras Al Khaimah.</p></div>
+      </div>
+      <div class="spot rv">
+        <div class="media"><div class="main"><img src="/assets/app/travelmap.webp" alt="brimm's travel map: the countries visited, 130 points and the next level" width="720" height="744" loading="lazy" decoding="async"></div><div class="float"><img src="/assets/app/globe.webp" alt="The brimm globe with the places visited lit up, Globetrotter level" width="720" height="750" loading="lazy" decoding="async"></div></div>
+        <div><p class="eyebrow">My travel map</p><h3>Your world, lit up</h3><p>Add where you've been. Collect stamps, earn points and climb from Explorer to Globetrotter — and beyond.</p></div>
+      </div>
+      <div class="spot rv">
+        <div class="media"><div class="main"><img src="/assets/app/ask.webp" alt="Ask brimm about a stop: good to know, and quick questions like best photo spot or good for kids" width="720" height="631" loading="lazy" decoding="async"></div><div class="float"><img src="/assets/app/besttime.webp" alt="brimm's best time to visit, month by month, for Petra and Delhi" width="720" height="704" loading="lazy" decoding="async"></div></div>
+        <div><p class="eyebrow">Ask brimm</p><h3>Just ask</h3><p>Best photo spot? Good for kids? Worth buying? Ask about any stop — or swap it for something similar. Wondering when to go? The best months are a glance away.</p></div>
+      </div>
+      <div class="spot rv">
+        <div class="media"><div class="main"><img src="/assets/app/budget.webp" alt="brimm's budget: the trip total in AED for three travellers, with hotel, flights, car hire and eSIM to add" width="720" height="753" loading="lazy" decoding="async"></div><div class="float"><img src="/assets/app/also.webp" alt="Also worth it in Dubai: more places to add to the plan" width="720" height="457" loading="lazy" decoding="async"></div></div>
+        <div><p class="eyebrow">Budget & more</p><h3>Budget, sorted</h3><p>See what the trip costs as you plan, add hotels and flights when you're ready, share a card with your crew and keep every day in a PDF.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="places" id="places">
+  <div class="wrap">
+    <div class="shead c rv"><span class="tag">Destinations</span><h2>Where will you <span class="grad">brimm next?</span></h2><p class="lede">A few favourites, with the months we'd pick.</p></div>
+<!-- WALL:START (written by tools/build-home.js) -->
+    <div class="wall rv">
+      <a class="tile tall" href="/itinerary/paris-5-days/"><img src="/assets/hero/paris-wall.jpg" alt="Paris, France" style="object-position:22% 50%" loading="lazy" decoding="async"><span class="pc">Léonard Cotte on Unsplash</span><span class="t"><b>Paris</b><span class="cty">France</span><span class="mo">Best Apr–Oct</span><span class="go">5-day plan →</span></span></a>
+      <a class="tile tall" href="/itinerary/kyoto-3-days/"><img src="/assets/hero/kyoto-wall.jpg" alt="Kyoto, Japan" loading="lazy" decoding="async"><span class="pc">Willian Justen de Vasconcellos on Unsplash</span><span class="t"><b>Kyoto</b><span class="cty">Japan</span><span class="mo">Best Mar–May, Oct–Nov</span><span class="go">3-day plan →</span></span></a>
+      <div class="tile tall"><img src="/assets/hero/barcelona-600.jpg" alt="Barcelona, Spain" loading="lazy" decoding="async"><span class="pc">Pourya Gohari on Unsplash</span><span class="t"><b>Barcelona</b><span class="cty">Spain</span><span class="mo">Best May–Oct</span><span class="go" aria-hidden="true"></span></span></div>
+      <div class="tile tall"><img src="/assets/hero/amsterdam-600.jpg" alt="Amsterdam, Netherlands" loading="lazy" decoding="async"><span class="pc">Petar Lazarevic on Unsplash</span><span class="t"><b>Amsterdam</b><span class="cty">Netherlands</span><span class="mo">Best Apr–Sep</span><span class="go" aria-hidden="true"></span></span></div>
+      <div class="tile"><img src="/assets/hero/cappadocia-600.jpg" alt="Cappadocia, Türkiye" loading="lazy" decoding="async"><span class="pc">Burak Arslan on Unsplash</span><span class="t"><b>Cappadocia</b><span class="cty">Türkiye</span><span class="mo">Best Apr–Oct</span><span class="go" aria-hidden="true"></span></span></div>
+      <div class="tile"><img src="/assets/hero/ljubljana-600.jpg" alt="Ljubljana, Slovenia" loading="lazy" decoding="async"><span class="pc">detait on Unsplash</span><span class="t"><b>Ljubljana</b><span class="cty">Slovenia</span><span class="mo">Best Apr–Sep</span><span class="go" aria-hidden="true"></span></span></div>
+      <div class="tile"><img src="/assets/hero/lisbon-600.jpg" alt="Lisbon, Portugal" loading="lazy" decoding="async"><span class="pc">Liam McKay on Unsplash</span><span class="t"><b>Lisbon</b><span class="cty">Portugal</span><span class="mo">Best Apr–Oct</span><span class="go" aria-hidden="true"></span></span></div>
+      <a class="tile" href="/itinerary/london-5-days/"><img src="/assets/hero/london-600.jpg" alt="London, United Kingdom" loading="lazy" decoding="async"><span class="pc">Benjamin Davies on Unsplash</span><span class="t"><b>London</b><span class="cty">United Kingdom</span><span class="mo">Best Apr–Oct</span><span class="go">5-day plan →</span></span></a>
+      <a class="tile tall" href="/itinerary/tokyo-7-days/"><img src="/assets/hero/tokyo-wall.jpg" alt="Tokyo, Japan" style="object-position:21% 50%" loading="lazy" decoding="async"><span class="pc">Louie Martinez on Unsplash</span><span class="t"><b>Tokyo</b><span class="cty">Japan</span><span class="mo">Best Mar–May, Oct–Nov</span><span class="go">7-day plan →</span></span></a>
+      <a class="tile" href="/itinerary/baku-3-days/"><img src="/assets/hero/baku-600.jpg" alt="Baku, Azerbaijan" loading="lazy" decoding="async"><span class="pc">Lloyd Alozie on Unsplash</span><span class="t"><b>Baku</b><span class="cty">Azerbaijan</span><span class="mo">Best Apr–Oct</span><span class="go">3-day plan →</span></span></a>
+      <a class="tile" href="/itinerary/tbilisi-5-days/"><img src="/assets/hero/tbilisi-600.jpg" alt="Tbilisi, Georgia" loading="lazy" decoding="async"><span class="pc">Anna Bannahyan on Unsplash</span><span class="t"><b>Tbilisi</b><span class="cty">Georgia</span><span class="mo">Best May–Jun, Sep–Oct</span><span class="go">5-day plan →</span></span></a>
+      <div class="tile tall"><img src="/assets/hero/rome-600.jpg" alt="Rome, Italy" loading="lazy" decoding="async"><span class="pc">Zach Dyson on Unsplash</span><span class="t"><b>Rome</b><span class="cty">Italy</span><span class="mo">Best Apr–Jun, Sep–Oct</span><span class="go" aria-hidden="true"></span></span></div>
+      <a class="tile tall" href="/itinerary/istanbul-7-days/"><img src="/assets/hero/istanbul-wall.jpg" alt="Istanbul, Türkiye" loading="lazy" decoding="async"><span class="pc">Anna Berdnik on Unsplash</span><span class="t"><b>Istanbul</b><span class="cty">Türkiye</span><span class="mo">Best Apr–Oct</span><span class="go">7-day plan →</span></span></a>
+      <a class="tile tall" href="/itinerary/zurich-5-days/"><img src="/assets/hero/zurich-wall.jpg" alt="Zurich, Switzerland" loading="lazy" decoding="async"><span class="pc">Tomi Blasic on Unsplash</span><span class="t"><b>Zurich</b><span class="cty">Switzerland</span><span class="mo">Best May–Oct</span><span class="go">5-day plan →</span></span></a>
+      <div class="tile"><img src="/assets/hero/marrakech-600.jpg" alt="Marrakech, Morocco" loading="lazy" decoding="async"><span class="pc">Paul Macallan on Unsplash</span><span class="t"><b>Marrakech</b><span class="cty">Morocco</span><span class="mo">Best Mar–May, Sep–Nov</span><span class="go" aria-hidden="true"></span></span></div>
+      <a class="tile" href="/itinerary/bali-7-days/"><img src="/assets/hero/bali-wall.jpg" alt="Bali, Indonesia" loading="lazy" decoding="async"><span class="pc">Sebastian Pena Lambarri on Unsplash</span><span class="t"><b>Bali</b><span class="cty">Indonesia</span><span class="mo">Best Apr–Sep</span><span class="go">7-day plan →</span></span></a>
+    </div>
+<!-- WALL:END -->
+  </div>
+</section>
+
+<section class="guides" id="guides">
+  <div class="wrap">
+    <div class="shead c rv"><span class="tag">Visa guides</span><h2>Visa guides for <span class="grad">UAE residents</span></h2><p class="lede">What decides your answer, and the official site to apply.</p></div>
+    <div class="glist rv">
+      <a href="/visa/georgia-for-uae-residents/"><span class="fl" aria-hidden="true">🇬🇪</span>Georgia</a>
+      <a href="/visa/azerbaijan-for-uae-residents/"><span class="fl" aria-hidden="true">🇦🇿</span>Azerbaijan</a>
+      <a href="/visa/armenia-for-uae-residents/"><span class="fl" aria-hidden="true">🇦🇲</span>Armenia</a>
+      <a href="/visa/turkiye-for-uae-residents/"><span class="fl" aria-hidden="true">🇹🇷</span>Türkiye</a>
+      <a href="/visa/egypt-for-uae-residents/"><span class="fl" aria-hidden="true">🇪🇬</span>Egypt</a>
+      <a href="/visa/thailand-for-uae-residents/"><span class="fl" aria-hidden="true">🇹🇭</span>Thailand</a>
+      <a href="/visa/schengen-for-uae-residents/"><span class="fl" aria-hidden="true">🇪🇺</span>Schengen</a>
+      <a href="/visa/uk-for-uae-residents/"><span class="fl" aria-hidden="true">🇬🇧</span>UK</a>
+      <a href="/visa/japan-for-uae-residents/"><span class="fl" aria-hidden="true">🇯🇵</span>Japan</a>
+      <a href="/visa/visa-free-countries-for-uae-residents/"><span class="fl" aria-hidden="true">🌍</span>All guides</a>
+    </div>
+  </div>
+</section>
+
+<section id="pricing">
+  <div class="wrap">
+    <div class="shead c">
       <div class="tag">Pricing</div>
       <h2>Simple plans</h2>
     </div>
@@ -296,60 +365,58 @@
   </div>
 </section>
 
-<section class="ctafoot" id="get">
-  <h2>Travel thoughts? <span style="white-space:nowrap;background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent">brimm it!</span></h2>
-  <p>Free to start. No card. Coming soon to Android and iPhone.</p>
-  <div class="ctas">
-    <div class="badges"><span class="badge soon" data-store="play" aria-label="Google Play: coming soon"><img class="gp" src="/assets/badges/google-play.png" alt="" width="167" height="65"><span class="soon-tag">Coming soon</span></span><span class="badge soon" data-store="ios" aria-label="App Store: coming soon"><img src="/assets/badges/app-store.svg" alt="" width="132" height="44"><span class="soon-tag">Coming soon</span></span></div>
-  </div>
+<section class="final" id="get">
+  <h2 class="rv">Travel thoughts? <span class="grad">brimm it!</span></h2>
+  <p class="rv">Free to start. No card.</p>
+  <div class="badges rv"><span class="badge soon" data-store="play" aria-label="Google Play: coming soon"><img class="gp" src="/assets/badges/google-play.png" alt="" width="167" height="65"><span class="soon-tag">Coming soon</span></span><span class="badge soon" data-store="ios" aria-label="App Store: coming soon"><img src="/assets/badges/app-store.svg" alt="" width="132" height="44"><span class="soon-tag">Coming soon</span></span></div>
 </section>
+</main>
 
-<footer>
-  <img src="/assets/lockup-horizontal-dark.svg" alt="brimm" width="113" height="40">
-  <div class="foot-links">
-    <a href="#app">The app</a>
-    <a href="#pricing">Pricing</a>
-    <a href="/privacy.html">Privacy</a>
-    <a href="/terms.html">Terms</a>
-    <a href="/delete-account.html">Delete account</a>
-    <a href="mailto:support@brimm.ai">Contact</a>
+<!-- SITE-FOOT:START (tools/site-chrome.js) -->
+<footer class="site-foot">
+  <div class="in">
+    <div><a class="brand" href="/" aria-label="brimm home"><img class="lmark" src="/assets/mark-dark-foreground.svg" alt="" width="33" height="33"><img class="lword" src="/assets/wordmark-dark.svg" alt="brimm" width="72" height="21"></a><p class="foot-tag">What are you brimming today?</p></div>
+    <div class="cols">
+      <div><h4>brimm</h4><ul><li><a href="/#how">How it works</a></li><li><a href="/#places">Destinations</a></li><li><a href="/#pricing">Pricing</a></li></ul></div>
+      <div><h4>Visa guides</h4><ul><li><a href="/visa/visa-free-countries-for-uae-residents/">For UAE residents</a></li><li><a href="/visa/georgia-for-uae-residents/">Georgia</a></li><li><a href="/visa/schengen-for-uae-residents/">Schengen</a></li><li><a href="/visa/uk-for-uae-residents/">UK</a></li></ul></div>
+      <div><h4>Help</h4><ul><li><a href="mailto:support@brimm.ai">Contact</a></li><li><a href="/privacy.html">Privacy</a></li><li><a href="/terms.html">Terms</a></li><li><a href="/delete-account.html">Delete account</a></li></ul></div>
+    </div>
   </div>
-  <p class="foot-note">© 2026 Brimm Limited, UAE · <a href="mailto:support@brimm.ai">support@brimm.ai</a> · What are you brimming today?</p>
+  <div class="legal"><span>© 2026 Brimm Limited, UAE</span><span><a href="mailto:support@brimm.ai">support@brimm.ai</a></span></div>
 </footer>
+<!-- SITE-FOOT:END -->
 
 <script src="/assets/stores.js"></script>
+<script src="/assets/site.js"></script>
 <script>
-  // The nav gets its ground once the page moves.
-  const nav = document.getElementById('nav');
-  const solid = () => nav.classList.toggle('solid', window.scrollY > 40);
-  window.addEventListener('scroll', solid, { passive: true }); solid();
-
-  // THE HERO: thirteen approved, people-free photographs, each named for the place it shows and credited to its photographer.
-  // A random one opens; the next is fetched only just before it is shown (fast on phones); a slow fade every 8 s.
-  // Reduced motion: one photograph, no fades.
-  const PHOTOS = [
-    ['petra', 'Petra, Jordan', 'Emile Guillemot'], ['bali', 'Bali, Indonesia', 'Niklas Weiss'], ['lisbon', 'Lisbon, Portugal', 'Liam McKay'],
-    ['cappadocia', 'Cappadocia, Türkiye', 'Burak Arslan'], ['tokyo', 'Tokyo, Japan', 'Louie Martinez'], ['marrakech', 'Marrakech, Morocco', 'Paul Macallan'],
-    ['queenstown', 'Queenstown, New Zealand', 'Michael Amadeus'], ['istanbul', 'Istanbul, Türkiye', 'Engin Yapici'], ['wadi-rum', 'Wadi Rum, Jordan', 'Hongbin'],
-    ['pokhara', 'Pokhara, Nepal', 'Martin Skřivánek'], ['dubai', 'Dubai, UAE', 'David Rodrigo'], ['zanzibar', 'Zanzibar, Tanzania', 'Javi Lorbada'],
-    ['machu-picchu', 'Machu Picchu, Peru', 'Sebastian Tapia Huerta'],
-  ];
-  const slides = document.getElementById('slides'), credit = document.getElementById('credit');
-  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const order = PHOTOS.map((_, i) => i).sort(() => Math.random() - 0.5);
-  let k = 0, cur = document.getElementById('s0');
-  const make = p => { const im = new Image(); im.alt = ''; im.sizes = '100vw';
-    im.srcset = `/assets/hero/${p[0]}-960.jpg 960w, /assets/hero/${p[0]}.jpg 1920w`; im.src = `/assets/hero/${p[0]}-960.jpg`; return im; };
-  // The credit changes at the MIDDLE of the 1.6 s fade (12 Oct 2026): at its start the old photograph still fills the screen, so
-  // the next place's name sat under the last one's picture.
-  const say = p => { credit.innerHTML = `<b>${p[1]}</b> · ${p[2]} on Unsplash`; };
-  // Open on a random photograph (the first paint is Petra; a different one replaces it as soon as it has loaded).
-  const first = PHOTOS[order[0]];
-  if (first[0] !== 'petra') { const im = make(first); im.onload = () => { slides.appendChild(im); requestAnimationFrame(() => { im.classList.add('on'); cur.classList.remove('on'); const old = cur; cur = im; setTimeout(() => say(first), 800); setTimeout(() => old.remove(), 1800); }); }; }
-  if (!reduce) setInterval(() => {
-    k = (k + 1) % order.length; const p = PHOTOS[order[k]]; const im = make(p);
-    im.onload = () => { slides.appendChild(im); requestAnimationFrame(() => { im.classList.add('on'); cur.classList.remove('on'); const old = cur; cur = im; setTimeout(() => say(p), 800); setTimeout(() => old.remove(), 1800); }); };
-  }, 8000);
+  // THE HERO: the founder's eight places, a slow crossfade; each photo fetched only just before it shows; the credit changes mid-fade.
+  // Less motion asked for: the first photo stays, nothing moves.
+/* PHOTOS:START (written by tools/build-home.js) */
+  var PHOTOS = [["paris","Paris, France","Chris Karidis"],["santorini","Santorini, Greece","Chloé Lefleur"],["zurich","Zurich, Switzerland","Henrique Ferreira"],["prague","Prague, Czechia","Charlie Gallant"],["istanbul","Istanbul, Türkiye","Engin Yapici"],["petra","Petra, Jordan","Emile Guillemot"],["bali","Bali, Indonesia","Niklas Weiss"],["kyoto","Kifune Shrine, Kyoto","yoshie yokouchi"]];
+/* PHOTOS:END */
+  (function () {
+    var slides = document.getElementById('slides'), credit = document.getElementById('credit');
+    if (!slides || !credit || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    // A CHAIN, NOT A CLOCK (29 Oct 2026): the next photo is asked for only once the last one has finished showing, and nothing moves
+    // while the page is hidden — a fixed interval kept loading and queueing swaps in a background tab and fired them all on return,
+    // which put one place's credit under another's photo.
+    var cur = slides.querySelector('img.on');
+    var make = function (p) { var im = new Image(); im.alt = ''; im.sizes = '100vw'; im.decoding = 'async';
+      im.srcset = '/assets/hero/' + p[0] + '-960.jpg 960w, /assets/hero/' + p[0] + '.jpg 1920w'; im.src = '/assets/hero/' + p[0] + '-960.jpg'; return im; };
+    var say = function (p) { credit.innerHTML = '<b>' + p[1] + '</b> · ' + p[2] + ' on Unsplash'; };
+    var whenVisible = function (fn) { if (!document.hidden) return fn();
+      document.addEventListener('visibilitychange', function f() { if (!document.hidden) { document.removeEventListener('visibilitychange', f); fn(); } }); };
+    var show = function (k) {
+      var p = PHOTOS[k], im = make(p);
+      im.onload = function () { whenVisible(function () {
+        slides.appendChild(im); void im.offsetWidth;   // the new frame is laid out before it fades in
+        im.classList.add('on'); cur.classList.remove('on'); var old = cur; cur = im;
+        setTimeout(function () { say(p); }, 800);       // the name changes mid-fade
+        setTimeout(function () { old.remove(); setTimeout(function () { whenVisible(function () { show((k + 1) % PHOTOS.length); }); }, 5200); }, 1800);
+      }); };
+    };
+    setTimeout(function () { whenVisible(function () { show(1); }); }, 7000);
+  })();
 </script>
 </body>
 </html>
