@@ -33,7 +33,16 @@ window.BRIMM_STORES = {
   }
   // the doors into the check, and "Get the app" (founder, 29 Oct 2026: hidden until Play is live) — written hidden, shown only by a switch
   function doors() {
-    if (window.BRIMM_CHECK.on) document.querySelectorAll('[data-check-entry]').forEach(function (el) { el.hidden = false; });
+    if (window.BRIMM_CHECK.on) {
+      document.querySelectorAll('[data-check-entry]').forEach(function (el) { el.hidden = false; });
+      // the words that promise the check come back with it (founder, 29 Oct 2026 07:25); their check-off wording goes
+      document.querySelectorAll('[data-check-off]').forEach(function (el) { el.hidden = true; });
+      document.querySelectorAll('meta[data-check-on]').forEach(function (m) { m.setAttribute('content', m.getAttribute('data-check-on')); });
+      document.querySelectorAll('script[data-check-on-description]').forEach(function (s) {
+        var off = JSON.stringify(s.getAttribute('data-check-off-description')), on = JSON.stringify(s.getAttribute('data-check-on-description'));
+        s.textContent = s.textContent.split('"description":' + off).join('"description":' + on);
+      });
+    }
     var p = window.BRIMM_STORES.play;
     if (p && p.on && p.url) document.querySelectorAll('[data-getapp]').forEach(function (el) { el.hidden = false; });
   }
