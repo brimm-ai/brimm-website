@@ -26,6 +26,7 @@
   nav{position:relative;z-index:3;display:flex;align-items:center;justify-content:space-between;max-width:820px;margin:0 auto;padding:26px 24px;}
   .wordmark{font-family:'Manrope',sans-serif;font-weight:700;font-size:22px;letter-spacing:-0.01em;color:var(--ink);text-decoration:none;}
   .wordmark span{background:linear-gradient(135deg,var(--teal),var(--purple));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+  .wordmark{display:flex;align-items:center;gap:8px}.wordmark .lmark{height:36px;width:36px}.wordmark .lword{height:23px;width:auto}   /* the home's lettering (founder, 29 Oct 2026) */
   .back{font-size:13px;color:var(--mute);text-decoration:none;font-weight:600;}
   .back:hover{color:var(--teal);}
   .wrap{position:relative;z-index:2;max-width:820px;margin:0 auto;padding:20px 24px 90px;}
@@ -53,7 +54,7 @@
   <div class="glow g1"></div>
   <div class="glow g2"></div>
   <nav>
-    <a href="/" class="wordmark">brimm<span>.ai</span></a>
+    <a href="/" class="wordmark" aria-label="brimm home"><img class="lmark" src="/assets/mark-dark-foreground.svg" alt="" width="36" height="36"><img class="lword" src="/assets/wordmark-dark.svg" alt="brimm" width="79" height="23"></a>
     <a href="/" class="back">← Back to brimm.ai</a>
   </nav>
   <div class="wrap">

@@ -26,6 +26,7 @@
   nav{position:relative;z-index:3;display:flex;align-items:center;justify-content:space-between;max-width:820px;margin:0 auto;padding:26px 24px;}
   .wordmark{font-family:'Manrope',sans-serif;font-weight:700;font-size:22px;letter-spacing:-0.01em;color:var(--ink);text-decoration:none;}
   .wordmark span{background:linear-gradient(135deg,var(--teal),var(--purple));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+  .wordmark{display:flex;align-items:center;gap:8px}.wordmark .lmark{height:36px;width:36px}.wordmark .lword{height:23px;width:auto}   /* the home's lettering (founder, 29 Oct 2026) */
   .back{font-size:13px;color:var(--mute);text-decoration:none;font-weight:600;}
   .back:hover{color:var(--teal);}
   .wrap{position:relative;z-index:2;max-width:820px;margin:0 auto;padding:20px 24px 90px;}
@@ -53,7 +54,7 @@
   <div class="glow g1"></div>
   <div class="glow g2"></div>
   <nav>
-    <a href="/" class="wordmark">brimm<span>.ai</span></a>
+    <a href="/" class="wordmark" aria-label="brimm home"><img class="lmark" src="/assets/mark-dark-foreground.svg" alt="" width="36" height="36"><img class="lword" src="/assets/wordmark-dark.svg" alt="brimm" width="79" height="23"></a>
     <a href="/" class="back">← Back to brimm.ai</a>
   </nav>
   <div class="wrap">
@@ -105,7 +106,6 @@
 <li><strong>Crash reports.</strong> If the App crashes or hits an error, a report goes to our crash-reporting service: your device model, operating system, App version, the error and the steps just before it. It does not include your name, email, passport details or trips, and the App tells the provider not to record your internet (IP) address.</li>
 <li><strong>App update checks.</strong> When the App starts, it asks our app-update service whether a newer version is ready. The request carries the kind of phone (Android or iPhone), the App's version and update channel, the update it is running, and a random number the App makes on your phone the first time it runs, so the service can tell installs apart. None of it is linked to your name or account.</li>
 <li><strong>Visa checks without an account.</strong> If you check a visa without an account, we keep a random code from your phone so we can count your free checks. It isn't linked to your name and is deleted after 12 months.</li>
-<li><strong>Visa checks on brimm.ai:</strong> only the two countries you pick are sent. To limit checks, we keep them with a code made from your internet address and the date — never the address itself — and delete it the next day.</li>
 <li><strong>Missing-photo reports.</strong> When a place in your trip shows no photo, the App sends us the place's name, its city and what went wrong — without your account or your trip — so we can find better photos. We keep these reports for 90 days.</li>
 </ul>
 <p><strong>What we do not collect:</strong> your precise location, any location in the background, contacts, calendar, text messages or payment card details. There are no advertising trackers in the App.</p>

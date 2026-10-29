@@ -39,6 +39,10 @@ const decode = (s) => s.replace(/&amp;/g, '&').replace(/&nbsp;/g, ' ').replace(/
 /** What a visitor or a crawler reads: text, meta content, alt/title/aria-label, ld+json — not CSS, not other scripts. */
 function visible(html, exemptTitles) {
   let h = RULED.reduce((x, r) => x.split(r).join(''), html);
+  // THE PHOTO CREDIT (founder, 29 Oct 2026 07:01: one style everywhere, "Name on Unsplash", as the app): the photo library's own
+  // attribution, allowed ONLY as the hero's credit line — "<b>Place</b> · Name on Unsplash" in <p class="credit"> — and nowhere else on a
+  // guide; the place and the name in it are still read by every rule.
+  h = h.replace(/(<p class="credit"><b>[^<]*<\/b> · [^<]+?) on Unsplash<\/p>/g, '$1</p>');
   if (exemptTitles) {
     h = h.split(EXEMPT_TITLE).join('').split(EXEMPT_SLUG).join('');   // the founder's search title and its address — on its own page, nowhere else
   }
@@ -65,8 +69,9 @@ if (require.main === module) {
       '<p>Data from Travel Buddy</p>', '<p>Kashmir</p>', '<p>Brimm checks it</p>', '<img alt="eVisa portal">',
       '<script type="application/ld+json">{"name":"Thailand visa-free"}</script>', '<p>A visa is required for all visitors</p>', '<p>Travel insurance is required for all tourists. A visa is required too.</p>',
       '<p>Travel insurance is required for all visitors</p>',   // the 09:20 wording, replaced at 10:30 (#306) — no longer a ruled sentence
-      '<p>Plan a week in Srinagar</p>', '<img alt="Pangong Tso at dawn">', '<p>Leh is the base</p>'];   // promoted content: the Kashmir rule
-    const clean = ['<p>What decides your answer</p>', '<a href="https://www.evisa.gov.ge/GeoVisa/">Georgia’s official visa site ↗</a><span>evisa.gov.ge</span>',
+      '<p>Plan a week in Srinagar</p>', '<img alt="Pangong Tso at dawn">', '<p>Leh is the base</p>',   // promoted content: the Kashmir rule
+      '<p>Photos from Unsplash</p>', '<p class="lead">Rules on Unsplash</p>', '<p class="credit"><b>Srinagar, India</b> · A Name on Unsplash</p>'];   // the credit allowance is the credit line only, and its place is still read
+    const clean = ['<p>What decides your answer</p>', '<p class="credit"><b>Tbilisi, Georgia</b> · Anna Bannahyan on Unsplash</p>','<a href="https://www.evisa.gov.ge/GeoVisa/">Georgia’s official visa site ↗</a><span>evisa.gov.ge</span>',
       '<p>© 2026 Brimm Limited, UAE</p>', '<p class="ti">🩺 Travel insurance is required for all tourists</p>', '<p>Lehigh Valley and Ashleigh Park</p>', '<style>.a{color:red}</style><p>Rules change. Always confirm with the official source before you book.</p>'];
     const missed = planted.filter(h => !check(h, 'visa/x/index.html').length);
     const flagged = clean.filter(h => check(h, 'visa/x/index.html').length);

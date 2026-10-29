@@ -6,3 +6,5 @@ exclude:
   - README.md
   - .githooks
   - .gitignore
+  # the bundled visa engine — loaded only when the visa answer is on (assets/stores.js BRIMM_CHECK); not served while it is off
+  - assets/check-engine.js
