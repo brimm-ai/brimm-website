@@ -43,6 +43,8 @@ for (const f of pages) {
   else if (/<footer[\s\S]*?<\/footer>/.test(h)) h = h.replace(/<footer[\s\S]*?<\/footer>/, FOOT(extra));
   else bad.push(`${f}: no footer to replace`);
   if (!h.includes('/assets/site.css')) h = h.replace('</head>', '<link rel="stylesheet" href="/assets/site.css">\n</head>');
+  // the title face (site.css) is asked for before the page paints, so a title never draws in a stand-in face and then jumps
+  if (!h.includes('NotoSerif-Bold-latin.woff')) h = h.replace('<link rel="stylesheet" href="/assets/site.css">', '<link rel="preload" href="/assets/fonts/NotoSerif-Bold-latin.woff" as="font" type="font/woff" crossorigin>\n<link rel="stylesheet" href="/assets/site.css">');
   if (!h.includes('/assets/stores.js')) h = h.replace('</body>', '<script src="/assets/stores.js"></script>\n</body>');
   if (!h.includes('/assets/site.js')) h = h.replace('</body>', '<script src="/assets/site.js"></script>\n</body>');
   if ((h.match(/SITE-HEAD:START/g) || []).length !== 1 || (h.match(/SITE-FOOT:START/g) || []).length !== 1) bad.push(`${f}: header/footer not exactly once`);
