@@ -46,6 +46,8 @@ aside{display:grid;gap:12px;align-content:start}
 /* the app button (assets/app-button.js): on an iPhone it becomes a quiet "Coming soon to iPhone"; on a computer the Play QR shows */
 /* #330 (26 Oct 2026): the visa check on a city page is OUTLINED, so the one gradient "Plan your trip in brimm" leads */
 .go.out{background:none;border:1.5px solid var(--teal);color:var(--teal)}
+/* #449 (31 Oct 2026): "brimm-it!" is written with a hyphen and never broken at it */
+.nw{white-space:nowrap}
 .jump{display:block;margin-top:14px;text-align:center;font-weight:700;font-size:14px;color:var(--teal)}
 .go.soon{background:none;border:1px dashed rgba(255,255,255,.22);color:var(--faint);font-size:14px}
 .qr{display:flex;align-items:center;gap:12px;margin-top:12px;font-size:13px;line-height:1.45;color:var(--muted)}
