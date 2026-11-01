@@ -280,11 +280,14 @@
     DATA = d;
     // ?to=<place> (the itinerary pages' visa box, 24 Oct 2026) and ?home=<country> (the visa guide pages, 25 Oct 2026): filled in from
     // our own lists — a city or a country the check knows, never free text; anything else leaves the field empty
-    const q = new URLSearchParams(location.search), to = q.get('to'), home = q.get('home');
+    const q = new URLSearchParams(location.search), to = q.get('to'), home = q.get('home'), passport = q.get('passport');
     const toRow = to && place(to);
     if (toRow) $('dest').value = toRow.name === toRow.country ? toRow.country : `${toRow.name}, ${toRow.country}`;
     const homeRow = home && country(home);
     if (homeRow) $('home').value = homeRow.n;
+    // ?passport=<country> (the Indian-passport visa guides, HQ #118, 1 Nov 2026) — from our own list, never free text
+    const passRow = passport && country(passport);
+    if (passRow) $('passport').value = passRow.n;
     $('holdings').innerHTML = d.holdings.map(h => `<button type="button" class="chip" data-id="${h.id}" aria-pressed="false">${h.label}</button>`).join('');
     $('gulf').innerHTML = '<option value="">Choose a country</option>' + d.gulf.map(g => `<option value="${g.c}">${g.n}</option>`).join('');
     // #310 (founder, 25 Oct 2026): the app's sixth holding — where an EU / Schengen residence can be issued, from the app's own lists

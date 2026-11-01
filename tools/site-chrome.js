@@ -28,7 +28,9 @@ const FOOT = (extra) => `<!-- SITE-FOOT:START (tools/site-chrome.js) -->
 <!-- SITE-FOOT:END -->`;
 const pages = ['index.html', 'privacy.html', 'terms.html', 'delete-account.html']
   .concat(fs.readdirSync(path.join(SITE, 'itinerary')).map(d => `itinerary/${d}/index.html`))
-  .concat(fs.readdirSync(path.join(SITE, 'visa')).map(d => `visa/${d}/index.html`));
+  // a guide is a folder; /visa/ itself is visa/index.html (the all-guides page, HQ #118, 1 Nov 2026)
+  .concat(fs.readdirSync(path.join(SITE, 'visa'), { withFileTypes: true }).filter(d => d.isDirectory()).map(d => `visa/${d.name}/index.html`))
+  .concat(fs.existsSync(path.join(SITE, 'visa', 'index.html')) ? ['visa/index.html'] : []);
 const bad = [];
 for (const f of pages) {
   const p = path.join(SITE, f); let h = fs.readFileSync(p, 'utf8');
