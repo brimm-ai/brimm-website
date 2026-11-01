@@ -6,5 +6,4 @@ exclude:
   - README.md
   - .githooks
   - .gitignore
-  # the bundled visa engine — loaded only when the visa answer is on (assets/stores.js BRIMM_CHECK); not served while it is off
-  - assets/check-engine.js
+  # (assets/check-engine.js, the bundled visa engine, is SERVED since the visa answer went on, 1 Nov 2026 — founder HQ #500)

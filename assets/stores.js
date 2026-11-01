@@ -6,7 +6,7 @@
 // each one is written `data-check-entry hidden`, so a visitor without scripts sees none either — and check.html reads this same switch
 // for its answer, so the page and its doors can never disagree. On (with the server's door open, docs/launch/2026-10-29-check-answer-on-plan.md
 // in brimm-ai): the doors show.
-window.BRIMM_CHECK = { on: false };
+window.BRIMM_CHECK = { on: true };   // ON 1 Nov 2026 (founder, HQ #500 19:58: "GO NOW, AS IS")
 window.BRIMM_STORES = {
   play: { on: false, url: 'https://play.google.com/store/apps/details?id=ai.brimm.app', main: 'Get it on' },
   ios:  { on: false, url: '', main: 'Download on the' },
