@@ -23,8 +23,8 @@
     return 'intent://create-trip' + q + '#Intent;scheme=brimm;package=ai.brimm.app;S.browser_fallback_url=' + encodeURIComponent(PLAY) + ';end';
   }
   var ART = {
-    play: { src: '/assets/badges/google-play.png', cls: 'gp', w: 167, h: 65, alt: 'Get it on Google Play', name: 'Google Play' },
-    ios: { src: '/assets/badges/app-store.svg', cls: '', w: 132, h: 44, alt: 'Download on the App Store', name: 'App Store' },
+    play: { src: '/assets/badges/google-play.png?v=f72611e2', cls: 'gp', w: 167, h: 65, alt: 'Get it on Google Play', name: 'Google Play' },
+    ios: { src: '/assets/badges/app-store.svg?v=86c9954e', cls: '', w: 132, h: 44, alt: 'Download on the App Store', name: 'App Store' },
   };
   function badge(k, a) {
     var art = ART[k], on = live(k);

@@ -14,3 +14,7 @@ node tools/no-providers.js || exit 1
 # The visa answer cannot be switched on before the site hides what the app hides (1 Nov 2026, #487): tools/check-switch.js, self-test first.
 node tools/check-switch.js --self-test || exit 1
 node tools/check-switch.js || exit 1
+# Every file a page loads carries its own fingerprint (1 Nov 2026, HQ #94: a phone kept an old image under the same name): an unstamped
+# or stale /assets address cannot be committed, whichever tool wrote the page. tools/stamp-assets.js, self-test first.
+node tools/stamp-assets.js --self-test || exit 1
+node tools/stamp-assets.js --check || exit 1

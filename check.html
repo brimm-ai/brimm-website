@@ -10,12 +10,12 @@
 <meta property="og:description" content="Visa? Checked. Days? Planned.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://brimm.ai/check">
-<meta property="og:image" content="https://brimm.ai/assets/og-image.png">
+<meta property="og:image" content="https://brimm.ai/assets/og-image.png?v=7089e0fb">
 <meta name="theme-color" content="#060912">
-<link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
-<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
-<link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png">
-<link rel="preload" href="/assets/fonts/Manrope-Bold-latin.ttf" as="font" type="font/ttf" crossorigin>
+<link rel="icon" type="image/svg+xml" href="/assets/favicon.svg?v=162ae1c1">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png?v=07827e6a">
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png?v=3cd48d13">
+<link rel="preload" href="/assets/fonts/Manrope-Bold-latin.ttf?v=0702f46a" as="font" type="font/ttf" crossorigin>
 <style>
   /* THE VISA CHECK → THE APP (founder queue, 12 Oct 2026 ~20:00, step 3; canvas "brimm Website Visa Handoff").
      ⚖️ THE ANSWER ON THE PAGE, BEHIND A SWITCH (founder, 23 Oct 2026, plan E): with CHECK.on false (today) this page makes NO request and
@@ -25,8 +25,8 @@
      holds them equal), with the official link the app holds. It names no provider. The switch is CHECK below and the server's
      CHECKER_PUBLIC_SWITCH; both stay off until the founder says.
      The lists are generated from the app's own data by brimm-ai tools/website-check/build.js (assets/check-data.json). */
-  @font-face{font-family:'Manrope';src:url('/assets/fonts/Manrope-Regular-latin.ttf') format('truetype');font-weight:400 600;font-display:swap}
-  @font-face{font-family:'Manrope';src:url('/assets/fonts/Manrope-Bold-latin.ttf') format('truetype');font-weight:700 900;font-display:swap}
+  @font-face{font-family:'Manrope';src:url('/assets/fonts/Manrope-Regular-latin.ttf?v=35083cda') format('truetype');font-weight:400 600;font-display:swap}
+  @font-face{font-family:'Manrope';src:url('/assets/fonts/Manrope-Bold-latin.ttf?v=0702f46a') format('truetype');font-weight:700 900;font-display:swap}
   :root{
     --night:#060912; --night2:#0B1022; --card:#141A31; --card2:#1A2140;
     --teal:#7EC8C8; --purple:#A78BFA; --gold:#FAC775;
@@ -110,14 +110,14 @@
 </head>
 <body>
 <nav>
-  <a href="/" class="logo" aria-label="brimm home"><img class="lmark" src="/assets/mark-dark-foreground.svg" alt="" width="34" height="34"><img class="lword" src="/assets/wordmark-dark.svg" alt="brimm" width="76" height="22"></a>
+  <a href="/" class="logo" aria-label="brimm home"><img class="lmark" src="/assets/mark-dark-foreground.svg?v=9adad0c8" alt="" width="34" height="34"><img class="lword" src="/assets/wordmark-dark.svg?v=5cb54eac" alt="brimm" width="76" height="22"></a>
   <a href="/" class="navlink">About brimm</a>
 </nav>
 
 <!-- SCREEN 1 · the questions -->
 <main id="ask">
   <header class="hero photo" id="askHero">
-    <img id="askPhoto" src="/assets/hero/petra-960.jpg" alt="">
+    <img id="askPhoto" src="/assets/hero/petra-960.jpg?v=8d74744c" alt="">
     <div class="scrim"></div>
     <p class="credit" id="askCredit" hidden><b>Petra, Jordan</b> · Emile Guillemot on Unsplash</p>
     <div class="in"><div class="wrap">
@@ -201,9 +201,9 @@
       <div class="card"><span class="dot" style="background:var(--purple)"></span><div><b>A day-by-day plan</b><span id="planLine">Places, times, food and costs, timed so it actually works.</span></div></div>
       <div class="card"><span class="dot" style="background:var(--gold)"></span><div><b>Budget, bookings and a share card</b><span>Rough costs, the places to book, and a plan to send your crew.</span></div></div>
     </div>
-    <div class="stores"><span class="badge soon" data-store="play" id="playBtn"><img class="gp" src="/assets/badges/google-play.png" alt="Google Play" width="167" height="65"><span class="soon-tag">Coming soon</span></span><span class="badge soon" data-store="ios" id="iosBtn"><img src="/assets/badges/app-store.svg" alt="App Store" width="132" height="44"><span class="soon-tag">Coming soon</span></span></div>
+    <div class="stores"><span class="badge soon" data-store="play" id="playBtn"><img class="gp" src="/assets/badges/google-play.png?v=f72611e2" alt="Google Play" width="167" height="65"><span class="soon-tag">Coming soon</span></span><span class="badge soon" data-store="ios" id="iosBtn"><img src="/assets/badges/app-store.svg?v=86c9954e" alt="App Store" width="132" height="44"><span class="soon-tag">Coming soon</span></span></div>
     <p class="fine" style="margin-top:10px">Free to start. No card.</p>
-    <div class="qr" id="qr"><img src="/assets/check-qr.svg" alt="QR code to open this visa check on your phone" width="112" height="112"><span>On your phone? Scan this to open the visa check there.</span></div>
+    <div class="qr" id="qr"><img src="/assets/check-qr.svg?v=a8ddfb7a" alt="QR code to open this visa check on your phone" width="112" height="112"><span>On your phone? Scan this to open the visa check there.</span></div>
     <button class="back" id="edit" type="button">← Change my answers</button>
   </div>
 </main>
@@ -213,7 +213,7 @@
 <datalist id="countryList"></datalist>
 <datalist id="placeList"></datalist>
 
-<script src="/assets/stores.js"></script>
+<script src="/assets/stores.js?v=6e330524"></script>
 <script>
   // The thirteen approved hero photographs (the same set and credits as the home page). A destination shows ITS OWN photo when
   // the set has one; otherwise the plain night gradient — never a photo of somewhere else under another place's name.
@@ -231,6 +231,11 @@
   // PREVIEW (localhost only, ?preview): the answer is worked out from real cached vendor bodies in /preview/fixtures.json (git-ignored),
   // so the founder can see the card without the door being open. A preview never runs on brimm.ai.
   // the engine build's fingerprint — written by brimm-ai tools/website-check/build-engine.js, so a new engine is never served from a cache
+  // every photo address built below asks av() for its fingerprint (HQ #94)
+  /* ASSET-V:START (written by tools/stamp-assets.js) */
+  var AV = {"app/also.webp":"cdd0a7aa","app/ask.webp":"ae39a017","app/besttime.webp":"d264b3b8","app/budget.webp":"dda03dbe","app/chip-petra.webp":"39472d30","app/chip-tbilisi.webp":"83dbde8c","app/day.webp":"7b109c97","app/explore.webp":"1314bd23","app/globe.webp":"0f9b79ec","app/home-dubai.webp":"6b682856","app/home-paris.webp":"2090466f","app/home-singapore.webp":"1c4b822e","app/planning.webp":"79bc8ded","app/share.webp":"c0c731f5","app/travelmap.webp":"1ccfdc11","app/uae.webp":"93ff21cf","app/visa.webp":"4359d7c2","hero/abu-dhabi-960.jpg":"b495e8d6","hero/abu-dhabi.jpg":"3c96eb57","hero/baku-960.jpg":"2e6baacf","hero/baku.jpg":"ee3646d0","hero/bali-960.jpg":"a685dd7e","hero/bali-wall.jpg":"aad88f09","hero/bali.jpg":"7ca5cab7","hero/bangkok-960.jpg":"117b2ed4","hero/bangkok.jpg":"19b265f6","hero/barcelona-960.jpg":"acccb6ac","hero/cairo-960.jpg":"76a563a4","hero/cairo.jpg":"1c61ad8c","hero/cappadocia-960.jpg":"06f9c241","hero/cappadocia.jpg":"a687e9fa","hero/chiang-mai-960.jpg":"c4c6c698","hero/chiang-mai.jpg":"4d976f59","hero/doha-960.jpg":"056dbd39","hero/doha.jpg":"df99608a","hero/dubai-960.jpg":"b76ada80","hero/dubai.jpg":"064d296c","hero/goa-960.jpg":"72a9728a","hero/goa.jpg":"6beab113","hero/istanbul-960.jpg":"6e2f39fc","hero/istanbul-wall.jpg":"9a3cd34e","hero/istanbul.jpg":"ffcbb2fb","hero/kyoto-960.jpg":"e53f0be6","hero/kyoto.jpg":"75c1ecd7","hero/lisbon-960.jpg":"de79f1da","hero/lisbon.jpg":"1238d5ba","hero/london-960.jpg":"c7d7e65d","hero/london.jpg":"7111b088","hero/machu-picchu-960.jpg":"d9f8ff65","hero/machu-picchu.jpg":"70fb75d0","hero/maldives-960.jpg":"3dd16df2","hero/maldives.jpg":"08fbebd2","hero/marrakech-960.jpg":"0cba6f1b","hero/marrakech.jpg":"8accbdf5","hero/muscat-960.jpg":"a1c385fe","hero/muscat.jpg":"7089d9ff","hero/paris-960.jpg":"29bad64f","hero/paris-wall.jpg":"ec1a3818","hero/paris.jpg":"d1cf2fac","hero/petra-960.jpg":"8d74744c","hero/petra.jpg":"b8664f04","hero/pokhara-960.jpg":"78856d46","hero/pokhara.jpg":"273b11a2","hero/queenstown-960.jpg":"280d095c","hero/queenstown.jpg":"2177e851","hero/rome-960.jpg":"2fb2dc83","hero/singapore-960.jpg":"e000fc0c","hero/singapore.jpg":"d4d8044b","hero/tbilisi-960.jpg":"1110d453","hero/tbilisi-spot.jpg":"8b830c70","hero/tbilisi.jpg":"06f370b5","hero/tokyo-960.jpg":"22140087","hero/tokyo.jpg":"20a36e7e","hero/wadi-rum-960.jpg":"e25d3594","hero/wadi-rum.jpg":"ac1dd86f","hero/zanzibar-960.jpg":"71947f8c","hero/zanzibar.jpg":"cc33c1b5","hero/zurich-960.jpg":"0b56dd11","hero/zurich.jpg":"c5348f3f"};
+  function av(u) { var k = u.replace(/^\/assets\//, ''); return AV[k] ? u + '?v=' + AV[k] : u; }
+  /* ASSET-V:END */
   const ENGINE_V = '9535fd14cb';
   const CHECK = { on: !!(window.BRIMM_CHECK && window.BRIMM_CHECK.on), url: 'https://oejnnujlcmtzlkyifzag.supabase.co/functions/v1/api-proxy', key: '' };
   const PREVIEW = /^(localhost|127\.0\.0\.1)$/.test(location.hostname) && new URLSearchParams(location.search).has('preview');
@@ -245,12 +250,12 @@
   const k0 = keys[Math.floor(Math.random() * keys.length)];
   $('askPhoto').onload = () => { $('askCredit').hidden = false; };
   $('askPhoto').onerror = () => { $('askPhoto').hidden = true; $('askCredit').hidden = true; };
-  $('askPhoto').src = `/assets/hero/${k0}-960.jpg`;
+  $('askPhoto').src = av(`/assets/hero/${k0}-960.jpg`);
   $('askCredit').innerHTML = `<b>${PHOTOS[k0][0]}</b> · ${PHOTOS[k0][1]} on Unsplash`;
 
   let DATA = null;
   const picked = new Set(); let when = null;
-  fetch('/assets/check-data.json', { cache: 'no-cache' })   /* revalidate: a rebuilt list (25 Oct 2026: 'Turkey' → 'Türkiye') must not wait out a cached copy */.then(r => r.json()).then(d => {
+  fetch('/assets/check-data.json?v=813ab34e', { cache: 'no-cache' })   /* revalidate: a rebuilt list (25 Oct 2026: 'Turkey' → 'Türkiye') must not wait out a cached copy */.then(r => r.json()).then(d => {
     DATA = d;
     $('countryList').innerHTML = d.passports.map(c => `<option value="${c.n}">`).join('');
     // ?to=<place> (the itinerary pages' visa box, 24 Oct 2026) and ?home=<country> (the visa guide pages, 25 Oct 2026): filled in from
@@ -373,7 +378,7 @@
       $('readyPhoto').onload = () => { $('readyPhoto').hidden = false; $('readyPlain').hidden = true; $('readyCredit').hidden = false; $('readyHero').className = 'hero photo'; };
       $('readyPhoto').onerror = bare;
       $('readyPhoto').removeAttribute('src');   // the same city again must load again (an unchanged address fires no load)
-      $('readyPhoto').src = `/assets/hero/${k}-960.jpg`;
+      $('readyPhoto').src = av(`/assets/hero/${k}-960.jpg`);
     }
 
     // The store badges: which ones a visitor sees is ONE rule for the whole site (assets/stores.js BRIMM_SHOWS, founder 1 Nov 2026,

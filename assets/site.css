@@ -4,7 +4,7 @@
 /* TITLES IN THE APP'S TITLE FACE (founder, 30 Oct 2026 15:30 — "serif titles, Manrope hero", approved from the before/afters): page and
    section titles in Noto Serif Bold, everything else Manrope; the home's hero line stays Manrope. Self-hosted, Latin only (OFL, beside
    it). !important because each page's own styles set its titles' face and spacing, and this one rule must win on all of them. */
-@font-face{font-family:'Noto Serif';src:url('/assets/fonts/NotoSerif-Bold-latin.woff') format('woff');font-weight:700;font-style:normal;font-display:swap}
+@font-face{font-family:'Noto Serif';src:url('/assets/fonts/NotoSerif-Bold-latin.woff?v=291db946') format('woff');font-weight:700;font-style:normal;font-display:swap}
 h1,h2,h3,.tile b,.plan h3{font-family:'Noto Serif',Georgia,'Times New Roman',serif!important;font-weight:700!important;letter-spacing:-.01em!important}
 /* the brand line "Travel thoughts? brimm-it!" stays Manrope (founder): the HOME's hero (#top — the guides and itineraries also call their
    title box .hero, and theirs are titles) and the same line in the home's closing call, at exactly their old weight and spacing */
