@@ -22,17 +22,21 @@ for (const m of seoSrc.slice(seoSrc.indexOf('const PHOTO_CREDIT'), seoSrc.indexO
 const rowOf = (c) => DEST.find(r => r.city === c && (r.kind === 'destination' || !r.kind)) || DEST.find(r => r.city === c);
 const pinBy = (c, i = 0) => { const m = MARQUEE_PHOTOS.find(x => x.city === c); if (!m || !m.pins[i]) throw new Error(`no approved pin ${i} for ${c}`); return m.pins[i].by; };
 const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;');
-// [slug, city, credit source] — the founder's seven (29 Oct 2026 11:10), in his order. All tiles are the same kind; the grid (index.html)
-// lays them 3 + 4 on wide screens and Paris across the top then pairs on a phone, so there is no gap at any width.
+// [slug, city, credit source] — the founder's seven (29 Oct 2026 11:10), in his order, and Switzerland (HQ #110). All tiles are the same
+// kind; the grid (index.html) lays them 4 + 4 on wide screens, and on a phone Paris across the top, pairs, then the last across the
+// bottom, so there is no gap at any width.
 // 'pin1' = the place's second approved pin, where its first is the hero's or another section's (no photo twice on the page).
 const PLACES = [
   ['paris', 'Paris', 'pin'], ['rome', 'Rome', 'pin'], ['barcelona', 'Barcelona', 'pin'], ['london', 'London', 'seo'],
   ['istanbul', 'Istanbul', 'pin1'], ['tbilisi', 'Tbilisi', 'seo'], ['bali', 'Bali', 'pin1'],
+  // HQ #110(b), 1 Nov 2026: the eighth tile, Switzerland — the live Zurich plan page and its own photo. Its months are Zurich's own row
+  // (the one source), never typed here.
+  ['zurich', 'Zurich', 'seo'],
 ];
 // a tile's own file where the shared one would not do (a different approved pin, or a sharper size), and a focus point where the
 // landmark is not in the middle of the frame
 const WALL_SRC = { paris: 'paris-wall.jpg', rome: 'rome-960.jpg', barcelona: 'barcelona-960.jpg', london: 'london-960.jpg',
-  istanbul: 'istanbul-wall.jpg', tbilisi: 'tbilisi-960.jpg', bali: 'bali-wall.jpg' };
+  istanbul: 'istanbul-wall.jpg', tbilisi: 'tbilisi-960.jpg', bali: 'bali-wall.jpg', zurich: 'zurich-960.jpg' };
 const FOCUS = { barcelona: '50% 28%' };
 // THE HERO (founder, 29 Oct 2026 11:10): three scenes that change together — the city's approved photo behind, and on the phone the real
 // Home of the test account with that city's trip as its hero trip (assets/app/home-<slug>.webp, captured on the Pixel).
@@ -82,6 +86,6 @@ put('CREDIT', `  <p class="credit" id="credit"><b>${esc(first[1])}</b> · ${esc(
 put('WALL', `    <div class="wall rv">\n${tiles.join('\n')}\n    </div>`);
 put('PHOTOS', `  var PHOTOS = ${JSON.stringify(heroInfo)};`, '/* PHOTOS:START (written by tools/build-home.js) */', '/* PHOTOS:END */');
 fs.writeFileSync(path.join(SITE, 'index.html'), html);
-const eu = ['FR', 'IT', 'ES', 'GB'];   // Türkiye not counted
+const eu = ['FR', 'IT', 'ES', 'GB', 'CH'];   // Türkiye not counted
 console.log(`hero: ${heroInfo.map(h => h[1] + ' (' + h[2] + ')').join(' · ')}`);
 console.log(`wall: ${tiles.length} tiles, ${PLACES.filter(p => eu.includes(rowOf(p[1]).countryCode)).length} in Europe, ${tiles.filter(t => t.includes('<a class')).length} link to an itinerary page`);
