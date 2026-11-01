@@ -41,15 +41,13 @@ aside{display:grid;gap:12px;align-content:start}
 .ph{font-weight:800;font-size:15px}
 .pl{font-size:13.5px;color:var(--muted);margin-top:4px}
 .go{display:flex;align-items:center;justify-content:center;height:48px;margin-top:12px;border-radius:14px;background:var(--btn-grad);color:#fff;font-weight:800;font-size:15.5px}
-.stores{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
-.soon{flex:1;min-width:120px;text-align:center;font-size:13px;font-weight:700;color:var(--faint);border:1px dashed rgba(255,255,255,.22);border-radius:12px;padding:9px 8px}
-/* the app button (assets/app-button.js): on an iPhone it becomes a quiet "Coming soon to iPhone"; on a computer the Play QR shows */
-/* #330 (26 Oct 2026): the visa check on a city page is OUTLINED, so the one gradient "Plan your trip in brimm" leads */
+/* the app panel holds the official store badges, dimmed with "Coming soon" until each store is live (founder 1 Nov 2026, HQ #74; their
+   look is .app-badges in the website's assets/site.css, which rule shows which badge is assets/stores.js); on a computer, once Google
+   Play is live, the Play QR shows. #330 (26 Oct 2026): the visa check on a city page is OUTLINED */
 .go.out{background:none;border:1.5px solid var(--teal);color:var(--teal)}
 /* #449 (31 Oct 2026): "brimm-it!" is written with a hyphen and never broken at it */
 .nw{white-space:nowrap}
 .jump{display:block;margin-top:14px;text-align:center;font-weight:700;font-size:14px;color:var(--teal)}
-.go.soon{background:none;border:1px dashed rgba(255,255,255,.22);color:var(--faint);font-size:14px}
 .qr{display:flex;align-items:center;gap:12px;margin-top:12px;font-size:13px;line-height:1.45;color:var(--muted)}
 .qr span{text-wrap:balance}
 .qr[hidden]{display:none}

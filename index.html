@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>brimm — Travel thoughts? brimm it!</title>
+<title>brimm — Travel thoughts? brimm-it!</title>
 <link rel="canonical" href="https://brimm.ai/">
-<meta name="description" content="brimm plans your trip and checks the visa for your passport. Pick a place — brimm checks the visa and plans the days. On Android and iPhone.">
-<meta property="og:title" content="brimm — Travel thoughts? brimm it!">
+<meta name="description" content="brimm plans your trip and checks the visa for your passport. Pick a place — brimm checks the visa and plans the days. Coming soon to Google Play and the App Store.">
+<meta property="og:title" content="brimm — Travel thoughts? brimm-it!">
 <meta property="og:description" content="Visa? Checked. Days? Planned. A visa-checked trip planner for your passport.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://brimm.ai">
@@ -15,7 +15,7 @@
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="The brimm mark: a location pin brimming with sea, one sun dipping into it.">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="brimm — Travel thoughts? brimm it!">
+<meta name="twitter:title" content="brimm — Travel thoughts? brimm-it!">
 <meta name="twitter:description" content="Visa? Checked. Days? Planned.">
 <meta name="twitter:image" content="https://brimm.ai/assets/og-image.png">
 <meta name="theme-color" content="#060912">
@@ -82,6 +82,8 @@
   .badge{display:inline-flex;flex-direction:column;align-items:center;gap:6px;cursor:default}
   .badge img{display:block;height:44px;width:auto}
   .badge img.gp{height:64.7px;margin:-10.35px;max-width:none}
+  /* BOTH BADGES, "Coming soon" under each, until that store is live (founder, 1 Nov 2026 13:00, HQ #74; replaces the 31 Oct text
+     line): dimmed, never a link. Launch day = the switch in assets/stores.js turns it into the link and drops the words. */
   .badge.soon img{opacity:.55}
   .badge .soon-tag{font-size:10.5px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:var(--faint)}
   a.badge{cursor:pointer}
@@ -239,9 +241,8 @@
   <div class="scrim"></div>
   <div class="hero-in">
     <div class="copy">
-      <h1>Travel thoughts?<br><span class="grad">brimm it!</span></h1>
+      <h1>Travel thoughts?<br><span class="grad" style="white-space:nowrap">brimm-it!</span></h1>
       <p class="proof">Visa? <b>Checked.</b> Days? <b>Planned.</b></p>
-      <p class="sub">Pick a place. We'll check the visa and plan the days.</p>
       <div class="ctas">
         <a class="btn" href="/check" data-check-entry hidden>Check a visa — free</a>
         <div class="badges"><span class="badge soon" data-store="play" aria-label="Google Play: coming soon"><img class="gp" src="/assets/badges/google-play.png" alt="" width="167" height="65"><span class="soon-tag">Coming soon</span></span><span class="badge soon" data-store="ios" aria-label="App Store: coming soon"><img src="/assets/badges/app-store.svg" alt="" width="132" height="44"><span class="soon-tag">Coming soon</span></span></div>
@@ -369,7 +370,7 @@
 </section>
 
 <section class="final" id="get">
-  <h2 class="rv">Travel thoughts? <span class="grad">brimm it!</span></h2>
+  <h2 class="rv">Travel thoughts? <span class="grad" style="white-space:nowrap">brimm-it!</span></h2>
   <p class="rv">Your next trip starts with a thought.</p>
   <div class="badges rv"><span class="badge soon" data-store="play" aria-label="Google Play: coming soon"><img class="gp" src="/assets/badges/google-play.png" alt="" width="167" height="65"><span class="soon-tag">Coming soon</span></span><span class="badge soon" data-store="ios" aria-label="App Store: coming soon"><img src="/assets/badges/app-store.svg" alt="" width="132" height="44"><span class="soon-tag">Coming soon</span></span></div>
 </section>

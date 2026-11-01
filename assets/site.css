@@ -6,7 +6,7 @@
    it). !important because each page's own styles set its titles' face and spacing, and this one rule must win on all of them. */
 @font-face{font-family:'Noto Serif';src:url('/assets/fonts/NotoSerif-Bold-latin.woff') format('woff');font-weight:700;font-style:normal;font-display:swap}
 h1,h2,h3,.tile b,.plan h3{font-family:'Noto Serif',Georgia,'Times New Roman',serif!important;font-weight:700!important;letter-spacing:-.01em!important}
-/* the brand line "Travel thoughts? brimm it!" stays Manrope (founder): the HOME's hero (#top — the guides and itineraries also call their
+/* the brand line "Travel thoughts? brimm-it!" stays Manrope (founder): the HOME's hero (#top — the guides and itineraries also call their
    title box .hero, and theirs are titles) and the same line in the home's closing call, at exactly their old weight and spacing */
 #top.hero h1{font-family:'Manrope',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif!important;font-weight:800!important;letter-spacing:-.045em!important}
 .final h2{font-family:'Manrope',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif!important;font-weight:800!important;letter-spacing:-.03em!important}
@@ -41,3 +41,13 @@ footer.site-foot{display:block;max-width:none;margin:0;padding:0;text-align:left
 .site-foot .cols{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px}
 .site-foot .legal{max-width:1180px;margin:0 auto;padding:16px 20px 30px;border-top:1px solid rgba(255,255,255,.06);font-size:12.5px;color:#7C879F;display:flex;flex-wrap:wrap;gap:6px 14px;justify-content:space-between}
 @media (min-width:860px){.site-foot .in{grid-template-columns:1.2fr 2fr}.site-foot .cols{grid-template-columns:repeat(3,minmax(0,1fr))}}
+/* the store badges in the guides' "Make it yours in the brimm app" panel (assets/app-button.js; founder, 1 Nov 2026, HQ #74): the home's
+   badges, same sizes and the same dimmed "Coming soon"; the guides' badges are written .pending (no data-store), so stores.js's pass over
+   the home's .badge.soon[data-store] never rewrites them - app-button.js draws them */
+.app-badges{display:flex;justify-content:center;align-items:flex-start;flex-wrap:wrap;gap:16px;margin-top:14px}
+.app-badges .badge{display:inline-flex;flex-direction:column;align-items:center;gap:6px;cursor:default}
+.app-badges .badge img{display:block;height:44px;width:auto}
+.app-badges .badge img.gp{height:64.7px;margin:-10.35px;max-width:none}
+.app-badges .badge.pending img{opacity:.55}
+.app-badges .soon-tag{font-size:10.5px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:var(--faint)}
+.app-badges a.badge{cursor:pointer}

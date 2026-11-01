@@ -1,6 +1,6 @@
 // ═══ THE STORE SWITCHES — ONE PLACE (founder, 23 Oct 2026; one switch for every page since #336, 26 Oct 2026) ═══════════════════════
-// Each store says "Coming soon" — greyed, never a link — until ITS switch is on. The home page's badges AND every city / visa page's
-// "Plan your trip in brimm" button read THIS file, so the site flips in one edit: before launch no page links to a Play listing a
+// Each store says "Coming soon" — greyed, never a link — until ITS switch is on. The home page's and the check page's badges AND the
+// badges in every city / visa guide's app panel read THIS file, so the site flips in one edit: before launch no page links to a Play listing a
 // stranger cannot open. The App Store's url exists once its listing is created; an empty url keeps it "Coming soon".
 // THE VISA ANSWER SWITCH (founder, 29 Oct 2026 07:01): OFF until the answer goes on. While off, every way into the check is hidden —
 // each one is written `data-check-entry hidden`, so a visitor without scripts sees none either — and check.html reads this same switch
@@ -12,21 +12,34 @@ window.BRIMM_STORES = {
   ios:  { on: false, url: '', main: 'Download on the' },
 };
 
-// ═══ THE OFFICIAL STORE BADGES (founder, 28 Oct 2026 23:27) ═════════════════════════════════════════════════════════════════════════
-// Google's and Apple's own badge artwork (assets/badges/, unaltered). Every page writes a badge as `.badge.soon[data-store]` — dimmed,
-// "Coming soon" under it, not a link — so a visitor without scripts sees exactly that. While a store's switch above is OFF this does
-// nothing; ON (with a url) the same badge becomes the link to that store and loses its "Coming soon". Nothing else changes per page.
+// ═══ THE OFFICIAL STORE BADGES (founder, 28 Oct 2026 23:27; BADGES WITH "COMING SOON" UNTIL LIVE, 1 Nov 2026 13:00, HQ #74) ═══════════
+// Google's and Apple's own badge artwork (assets/badges/, unaltered). The home and the check page write each badge as
+// `.badge.soon[data-store]`, the guides as `.badge.pending` (assets/app-button.js redraws those), each with "Coming soon" under it, so
+// a visitor without scripts sees both badges, dimmed, no link. WHICH badges a visitor sees is ONE rule for
+// the whole site (home, check page, guides), BRIMM_SHOWS below (founder, HQ #74 + #71): before any store is live, everyone sees both;
+// once one is live, a phone sees only its own store (Android: Google Play; iPhone: the App Store, still "Coming soon" until it is live,
+// never a Play badge) and a computer sees both. ON (with a url), a store's badge becomes the link to that store, without the words.
 (function () {
+  var ua = navigator.userAgent || '';
+  window.BRIMM_DEVICE = /Android/i.test(ua) ? 'android'
+    : (/iPhone|iPad|iPod/i.test(ua) || (/Macintosh/.test(ua) && 'ontouchend' in document)) ? 'ios' : 'desktop';
+  window.BRIMM_LIVE = function (k) { var st = window.BRIMM_STORES[k]; return !!(st && st.on && st.url); };
+  window.BRIMM_SHOWS = function (k) {
+    if (!window.BRIMM_LIVE('play') && !window.BRIMM_LIVE('ios')) return true;
+    var d = window.BRIMM_DEVICE;
+    return d === 'desktop' || (d === 'android') === (k === 'play');
+  };
   function apply() {
     document.querySelectorAll('.badge[data-store]').forEach(function (el) {
-      var st = window.BRIMM_STORES[el.getAttribute('data-store')];
-      if (!st || !st.on || !st.url) return;
+      var k = el.getAttribute('data-store');
+      el.hidden = el.hidden || !window.BRIMM_SHOWS(k);
+      if (!window.BRIMM_LIVE(k)) return;
       var a = document.createElement('a');
-      a.className = 'badge'; a.href = st.url; a.rel = 'noopener';
+      a.className = 'badge'; a.href = window.BRIMM_STORES[k].url; a.rel = 'noopener';
       if (el.id) a.id = el.id;
       a.hidden = el.hidden;
       var img = el.querySelector('img').cloneNode(true);
-      img.alt = el.getAttribute('data-store') === 'play' ? 'Get it on Google Play' : 'Download on the App Store';
+      img.alt = k === 'play' ? 'Get it on Google Play' : 'Download on the App Store';
       a.appendChild(img);
       el.replaceWith(a);
     });

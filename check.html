@@ -85,6 +85,8 @@
   .badge[hidden]{display:none}
   .badge img{display:block;height:44px;width:auto}
   .badge img.gp{height:64.7px;margin:-10.35px;max-width:none}   /* the page-wide img max-width squeezed it 12% narrower */
+  /* BOTH BADGES, "Coming soon" under each, until that store is live (founder, 1 Nov 2026 13:00, HQ #74; replaces the 31 Oct text
+     line): dimmed, never a link. Launch day = the switch in assets/stores.js turns it into the link and drops the words. */
   .badge.soon img{opacity:.55}
   .badge .soon-tag{font-size:10.5px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:var(--faint)}
   a.badge{cursor:pointer}
@@ -374,9 +376,11 @@
       $('readyPhoto').src = `/assets/hero/${k}-960.jpg`;
     }
 
-    // The store button: Android → Google Play, iPhone → the App Store, desktop → a QR to continue on the phone.
+    // The store badges: which ones a visitor sees is ONE rule for the whole site (assets/stores.js BRIMM_SHOWS, founder 1 Nov 2026,
+    // HQ #74 + #71): both, each "Coming soon", until a store is live; then a phone sees its own store and a desktop both, plus the QR.
     const ua = navigator.userAgent, android = /Android/i.test(ua), ios = /iPhone|iPad|iPod/i.test(ua) || (/Macintosh/.test(ua) && 'ontouchend' in document);
-    $('playBtn').hidden = ios; $('iosBtn').hidden = android;   // a phone sees its own store; a desktop sees both and the QR
+    const shows = window.BRIMM_SHOWS || (() => true);   // stores.js failed to load: both badges, still dimmed (its markup), never a dead page
+    $('playBtn').hidden = !shows('play'); $('iosBtn').hidden = !shows('ios');
     $('qr').classList.toggle('on', !android && !ios);
     $('verdict').hidden = true; $('visaCard').hidden = false;
     if (answering) answer(pp, dd, home);
