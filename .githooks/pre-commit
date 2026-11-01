@@ -11,3 +11,6 @@ node tools/no-verdicts.js || exit 1
 # tooling (these guards) off the site. tools/no-providers.js, self-test first.
 node tools/no-providers.js --self-test || exit 1
 node tools/no-providers.js || exit 1
+# The visa answer cannot be switched on before the site hides what the app hides (1 Nov 2026, #487): tools/check-switch.js, self-test first.
+node tools/check-switch.js --self-test || exit 1
+node tools/check-switch.js || exit 1

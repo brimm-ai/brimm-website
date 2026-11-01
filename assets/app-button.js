@@ -32,14 +32,14 @@
     var el = document.createElement(on ? 'a' : 'span');
     el.className = 'badge' + (on ? '' : ' pending');
     var img = document.createElement('img');
-    img.src = art.src; img.width = art.w; img.height = art.h; img.alt = on ? art.alt : '';
+    // a screen reader names the store, then reads the "Coming soon" under it (founder, 1 Nov 2026); a live badge carries the full line
+    img.src = art.src; img.width = art.w; img.height = art.h; img.alt = on ? art.alt : art.name;
     if (art.cls) img.className = art.cls;
     el.appendChild(img);
     if (on) {
       el.href = k === 'play' ? (android ? intentFor(a) : PLAY) : stores.ios.url;
       if (!(k === 'play' && android)) { el.target = '_blank'; el.rel = 'noopener'; }
     } else {
-      el.setAttribute('aria-label', art.name + ': coming soon');
       var tag = document.createElement('span');
       tag.className = 'soon-tag'; tag.textContent = 'Coming soon';
       el.appendChild(tag);
