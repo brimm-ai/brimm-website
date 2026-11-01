@@ -245,7 +245,7 @@
   var AV = {"app/also.webp":"cdd0a7aa","app/ask.webp":"ae39a017","app/besttime.webp":"d4ddf6e2","app/budget.webp":"dda03dbe","app/chip-petra.webp":"39472d30","app/chip-tbilisi.webp":"83dbde8c","app/day.webp":"7b109c97","app/explore.webp":"1314bd23","app/globe.webp":"0f9b79ec","app/home-dubai.webp":"543b5324","app/home-paris.webp":"abe58dd3","app/home-singapore.webp":"211e1ef4","app/planning.webp":"79bc8ded","app/share.webp":"c0c731f5","app/travelmap.webp":"1ccfdc11","app/uae.webp":"93ff21cf","app/visa.webp":"0ddac656","hero/abu-dhabi-960.jpg":"b495e8d6","hero/abu-dhabi.jpg":"3c96eb57","hero/baku-960.jpg":"2e6baacf","hero/baku.jpg":"ee3646d0","hero/bali-960.jpg":"a685dd7e","hero/bali-wall.jpg":"aad88f09","hero/bali.jpg":"7ca5cab7","hero/bangkok-960.jpg":"117b2ed4","hero/bangkok.jpg":"19b265f6","hero/barcelona-960.jpg":"acccb6ac","hero/cairo-960.jpg":"76a563a4","hero/cairo.jpg":"1c61ad8c","hero/cappadocia-960.jpg":"06f9c241","hero/cappadocia.jpg":"a687e9fa","hero/chiang-mai-960.jpg":"c4c6c698","hero/chiang-mai.jpg":"4d976f59","hero/doha-960.jpg":"056dbd39","hero/doha.jpg":"df99608a","hero/dubai-960.jpg":"b76ada80","hero/dubai.jpg":"064d296c","hero/goa-960.jpg":"72a9728a","hero/goa.jpg":"6beab113","hero/istanbul-960.jpg":"6e2f39fc","hero/istanbul-wall.jpg":"9a3cd34e","hero/istanbul.jpg":"ffcbb2fb","hero/kyoto-960.jpg":"e53f0be6","hero/kyoto.jpg":"75c1ecd7","hero/lisbon-960.jpg":"de79f1da","hero/lisbon.jpg":"1238d5ba","hero/london-960.jpg":"c7d7e65d","hero/london.jpg":"7111b088","hero/machu-picchu-960.jpg":"d9f8ff65","hero/machu-picchu.jpg":"70fb75d0","hero/maldives-960.jpg":"3dd16df2","hero/maldives.jpg":"08fbebd2","hero/marrakech-960.jpg":"0cba6f1b","hero/marrakech.jpg":"8accbdf5","hero/muscat-960.jpg":"a1c385fe","hero/muscat.jpg":"7089d9ff","hero/paris-960.jpg":"29bad64f","hero/paris-wall.jpg":"ec1a3818","hero/paris.jpg":"d1cf2fac","hero/petra-960.jpg":"8d74744c","hero/petra.jpg":"b8664f04","hero/pokhara-960.jpg":"78856d46","hero/pokhara.jpg":"273b11a2","hero/queenstown-960.jpg":"280d095c","hero/queenstown.jpg":"2177e851","hero/rome-960.jpg":"2fb2dc83","hero/singapore-960.jpg":"e000fc0c","hero/singapore.jpg":"d4d8044b","hero/tbilisi-960.jpg":"1110d453","hero/tbilisi-spot.jpg":"8b830c70","hero/tbilisi.jpg":"06f370b5","hero/tokyo-960.jpg":"22140087","hero/tokyo.jpg":"20a36e7e","hero/wadi-rum-960.jpg":"e25d3594","hero/wadi-rum.jpg":"ac1dd86f","hero/zanzibar-960.jpg":"71947f8c","hero/zanzibar.jpg":"cc33c1b5","hero/zurich-960.jpg":"0b56dd11","hero/zurich.jpg":"c5348f3f"};
   function av(u) { var k = u.replace(/^\/assets\//, ''); return AV[k] ? u + '?v=' + AV[k] : u; }
   /* ASSET-V:END */
-  const ENGINE_V = '0defd77ef6';
+  const ENGINE_V = 'e6e014a982';
   const CHECK = { on: !!(window.BRIMM_CHECK && window.BRIMM_CHECK.on), url: 'https://oejnnujlcmtzlkyifzag.supabase.co/functions/v1/api-proxy', key: '' };
   const PREVIEW = /^(localhost|127\.0\.0\.1)$/.test(location.hostname) && new URLSearchParams(location.search).has('preview');
   const answering = CHECK.on || PREVIEW;
@@ -378,7 +378,10 @@
         a.conditions.rows.forEach(r => {
           const row = el('div', 'row'), m = MARK[r.state] || ['•', 'var(--muted)'], mk = el('span', 'mk', m[0]), tx = el('div', 'tx');
           mk.style.color = m[1]; mk.setAttribute('aria-hidden', 'true');
-          tx.appendChild(el('p', 'tt', r.title)); if (r.body) tx.appendChild(el('p', 'bd', r.body));
+          // #502 → B (founder, 1 Nov 2026 21:20): the site never asks for a document's expiry, so an expiry it cannot check says so in the
+          // site's own words (the app says "it has no expiry date", true there because its wallet asks). Keyed on kind + state, never the words.
+          const body = r.kind === 'documentValidity' && r.state === 'unknown' ? 'We can’t check this here; the brimm app checks it against your dates.' : r.body;
+          tx.appendChild(el('p', 'tt', r.title)); if (body) tx.appendChild(el('p', 'bd', body));
           row.append(mk, tx); vc.appendChild(row);
         });
       }
@@ -403,10 +406,18 @@
     chips.push(dd.name + (whenText ? ` · ${whenText}` : ''));
     $('summary').innerHTML = chips.map(c => `<span>${c.replace(/</g, '&lt;')}</span>`).join('');
     $('readyTitle').textContent = `Your ${dd.name} trip is ready to come together.`;
-    // The answer's photo also knows the home page's other approved city photos (founder #500 follow-up, 1 Nov 2026: "Tbilisi photo missing,
-    // add if trivial") — the ask screen's rotation stays the thirteen above.
-    const RESULT_PHOTOS = { ...PHOTOS, tbilisi: ['Tbilisi, Georgia', 'Anna Bannahyan'] };
-    const k = Object.keys(RESULT_PHOTOS).find(k => slug(RESULT_PHOTOS[k][0].split(',')[0]) === slug(dd.name));
+    // EVERY CITY WITH AN APPROVED SITE PHOTO GETS IT ON ITS ANSWER (founder #502, 1 Nov 2026 21:20 — Muscat too): the thirteen above plus
+    // every city photo the site already shows, each with the credit the site already prints for it (the city guides' hero credits and the
+    // home page wall). The credit names where the photo was taken ("Giza, Egypt" for Cairo, as Cairo's guide does). Matched by the city's
+    // own key, or by the photo's place. The ask screen's rotation stays the thirteen.
+    const RESULT_PHOTOS = { ...PHOTOS,
+      'abu-dhabi': ['Abu Dhabi, UAE', 'David Rodrigo'], baku: ['Baku, Azerbaijan', 'Lloyd Alozie'], bangkok: ['Bangkok, Thailand', 'Robson Hatsukami Morgan'],
+      barcelona: ['Barcelona, Spain', 'Pourya Gohari'], cairo: ['Giza, Egypt', 'Adrian Dascal'], 'chiang-mai': ['Chiang Mai, Thailand', 'matt mu'],
+      doha: ['Doha, Qatar', 'Lucca Belliboni'], goa: ['Cola Beach, Goa', 'Viraj Rajankar'], kyoto: ['Kifune Shrine, Kyoto', 'yoshie yokouchi'],
+      london: ['London, UK', 'Benjamin Davies'], maldives: ['Maldives', 'Ishan @seefromthesky'], muscat: ['Muscat, Oman', 'Adil Riyami'],
+      paris: ['Paris, France', 'Chris Karidis'], rome: ['Rome, Italy', 'Zach Dyson'], singapore: ['Singapore', 'Hu Chen'],
+      tbilisi: ['Tbilisi, Georgia', 'Anna Bannahyan'], zurich: ['Zurich, Switzerland', 'Henrique Ferreira'] };
+    const k = Object.keys(RESULT_PHOTOS).find(k => k === slug(dd.name) || slug(RESULT_PHOTOS[k][0].split(',')[0]) === slug(dd.name));
     // A city photo when one LOADS, else the dark ground with no empty band (founder, 24 Oct 2026); the credit only with a loaded photo.
     const bare = () => { $('readyPhoto').hidden = true; $('readyCredit').hidden = true; $('readyPlain').hidden = false; $('readyHero').className = 'hero bare'; };
     bare();
