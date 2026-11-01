@@ -62,6 +62,19 @@
   .opt{color:var(--faint);font-weight:500}
   input[type=text],select,input[type=date]{width:100%;height:52px;border-radius:14px;background:var(--card);border:1px solid var(--line);color:var(--ink);font:inherit;font-size:16px;padding:0 16px;outline:none;color-scheme:dark}
   input:focus,select:focus{border-color:var(--teal)}
+  /* THE SUGGESTION LIST UNDER A BOX (HQ #117) — the page's own, because a browser's <datalist> shows nothing on many phones */
+  .cb{position:relative}
+  .cb ul{position:absolute;z-index:30;left:0;right:0;top:calc(100% + 6px);margin:0;padding:6px;list-style:none;max-height:312px;overflow-y:auto;
+    border-radius:16px;background:var(--card2);border:1px solid rgba(126,200,200,.35);box-shadow:0 18px 40px rgba(0,0,0,.55);overscroll-behavior:contain}
+  .cb ul[hidden]{display:none}
+  .cb li{display:flex;align-items:center;gap:12px;min-height:48px;padding:6px 12px;border-radius:12px;cursor:pointer;font-size:15.5px;color:var(--ink)}
+  .cb li .fl{width:26px;font-size:20px;line-height:1;text-align:center;flex:none}
+  .cb li .sub{color:var(--faint);font-size:14px;margin-left:auto;padding-left:10px;white-space:nowrap}
+  .cb li .nm{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .cb li[aria-selected=true],.cb li:hover{background:rgba(126,200,200,.14)}
+  .cb li.none{cursor:default;color:var(--faint);background:none}
+  /* while a box is being typed in, room below the form so the page can lift the box and its list above a phone keyboard */
+  body.typing #form{padding-bottom:60vh}
   .chips{display:flex;flex-wrap:wrap;gap:8px}
   .chip{height:42px;padding:0 15px;border-radius:21px;border:1px solid var(--line);background:var(--card);color:var(--muted);font:inherit;font-size:14.5px;font-weight:600;cursor:pointer}
   .chip[aria-pressed=true]{border-color:var(--teal);background:rgba(126,200,200,.14);color:var(--ink);font-weight:800}
@@ -138,12 +151,12 @@
     <form id="form" novalidate>
       <div>
         <label for="passport">Your passport</label>
-        <input id="passport" type="text" list="countryList" autocomplete="off" placeholder="Start typing a country">
+        <div class="cb"><input id="passport" type="text" autocomplete="off" spellcheck="false" placeholder="Start typing a country" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="passportList"><ul id="passportList" role="listbox" aria-label="Countries" hidden></ul></div>
         <p class="err" id="passportErr">Pick your passport from the list.</p>
       </div>
       <div>
         <label for="home">Where you live</label>
-        <input id="home" type="text" list="countryList" autocomplete="off" placeholder="Start typing a country">
+        <div class="cb"><input id="home" type="text" autocomplete="off" spellcheck="false" placeholder="Start typing a country" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="homeList"><ul id="homeList" role="listbox" aria-label="Countries" hidden></ul></div>
       </div>
       <div>
         <span class="lbl">Visas or residency you hold <span class="opt">(tap any)</span></span>
@@ -159,7 +172,7 @@
       </div>
       <div>
         <label for="dest">Where to?</label>
-        <input id="dest" type="text" list="placeList" autocomplete="off" placeholder="A city or a country">
+        <div class="cb"><input id="dest" type="text" autocomplete="off" spellcheck="false" placeholder="A city or a country" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="destList"><ul id="destList" role="listbox" aria-label="Places" hidden></ul></div>
         <p class="err" id="destErr">Pick a place from the list.</p>
       </div>
       <div>
@@ -219,9 +232,8 @@
 
 <footer>© 2026 Brimm Limited, UAE · <a href="/privacy.html">Privacy</a> · <a href="/terms.html">Terms</a></footer>
 
-<datalist id="countryList"></datalist>
-<datalist id="placeList"></datalist>
 
+<script src="/assets/check-search.js?v=0236ce40"></script>
 <script src="/assets/stores.js?v=65cccb2f"></script>
 <script>
   // The thirteen approved hero photographs (the same set and credits as the home page). A destination shows ITS OWN photo when
@@ -264,9 +276,8 @@
 
   let DATA = null;
   const picked = new Set(); let when = null;
-  fetch('/assets/check-data.json?v=813ab34e', { cache: 'no-cache' })   /* revalidate: a rebuilt list (25 Oct 2026: 'Turkey' → 'Türkiye') must not wait out a cached copy */.then(r => r.json()).then(d => {
+  fetch('/assets/check-data.json?v=cb7983bd', { cache: 'no-cache' })   /* revalidate: a rebuilt list (25 Oct 2026: 'Turkey' → 'Türkiye') must not wait out a cached copy */.then(r => r.json()).then(d => {
     DATA = d;
-    $('countryList').innerHTML = d.passports.map(c => `<option value="${c.n}">`).join('');
     // ?to=<place> (the itinerary pages' visa box, 24 Oct 2026) and ?home=<country> (the visa guide pages, 25 Oct 2026): filled in from
     // our own lists — a city or a country the check knows, never free text; anything else leaves the field empty
     const q = new URLSearchParams(location.search), to = q.get('to'), home = q.get('home');
@@ -274,8 +285,6 @@
     if (toRow) $('dest').value = toRow.name === toRow.country ? toRow.country : `${toRow.name}, ${toRow.country}`;
     const homeRow = home && country(home);
     if (homeRow) $('home').value = homeRow.n;
-    $('placeList').innerHTML = d.places.map(p => `<option value="${p.city}, ${p.country}">`).join('')
-      + [...new Set(d.places.map(p => p.country))].map(c => `<option value="${c}">`).join('');
     $('holdings').innerHTML = d.holdings.map(h => `<button type="button" class="chip" data-id="${h.id}" aria-pressed="false">${h.label}</button>`).join('');
     $('gulf').innerHTML = '<option value="">Choose a country</option>' + d.gulf.map(g => `<option value="${g.c}">${g.n}</option>`).join('');
     // #310 (founder, 25 Oct 2026): the app's sixth holding — where an EU / Schengen residence can be issued, from the app's own lists
@@ -301,7 +310,63 @@
     $('dates').classList.toggle('on', when === 'dates');
   }));
 
-  const country = v => DATA && DATA.passports.find(c => c.n.toLowerCase() === v.trim().toLowerCase());
+  // a former name typed in full is the country (the app's countryByName: "Turkey" is Türkiye)
+  const country = v => DATA && DATA.passports.find(c => c.n.toLowerCase() === v.trim().toLowerCase() || (c.f || []).some(f => f.toLowerCase() === v.trim().toLowerCase()));
+
+  // ── THE SUGGESTION LISTS (HQ #117) ── type 2+ letters → up to 8 matches under the box, ranked as the app's search ranks them
+  // (assets/check-search.js); tap, click or Enter picks; ↑ ↓ move; Esc closes. The box keeps its own validation: a pick fills it with
+  // exactly the name country() / place() accept.
+  const FLAGS = (() => { try { const c = document.createElement('canvas'); c.width = c.height = 16; const x = c.getContext('2d');
+    x.textBaseline = 'top'; x.font = '14px sans-serif'; x.fillText('\u{1F1EF}\u{1F1F5}', 0, 0);
+    const d = x.getImageData(0, 0, 16, 16).data; for (let i = 0; i < d.length; i += 4) if (d[i] !== d[i + 1] || d[i + 1] !== d[i + 2]) return true; return false; } catch (e) { return false; } })();
+  // a flag only where the device draws one in colour (Windows draws two letters instead — then none, never "JP" in a box)
+  const flag = cc => FLAGS && /^[A-Z]{2}$/.test(cc || '') ? String.fromCodePoint(...[...cc].map(ch => 0x1F1A5 + ch.charCodeAt(0))) : '';
+  const esc = t => String(t).replace(/&/g, '&amp;').replace(/</g, '&lt;');
+  function suggest(inputId, find, row) {
+    const box = $(inputId), list = $(inputId + 'List'); let items = [], active = -1;
+    const close = () => { list.hidden = true; box.setAttribute('aria-expanded', 'false'); box.removeAttribute('aria-activedescendant'); active = -1; };
+    const mark = i => { active = i; [...list.children].forEach((li, k) => li.setAttribute('aria-selected', String(k === i)));
+      if (i >= 0 && list.children[i]) { box.setAttribute('aria-activedescendant', list.children[i].id); list.children[i].scrollIntoView({ block: 'nearest' }); } else box.removeAttribute('aria-activedescendant'); };
+    const pick = i => { const it = items[i]; if (!it) return; box.value = row(it).value; close(); box.dispatchEvent(new Event('change', { bubbles: true })); };
+    const open = () => {
+      const t = box.value.trim();
+      if (!DATA || t.length < 2) { close(); return; }
+      items = find(t);
+      list.innerHTML = items.length ? items.map((it, i) => { const r = row(it);
+        return `<li role="option" id="${inputId}-o${i}" aria-selected="false">${FLAGS && r.cc ? `<span class="fl" aria-hidden="true">${flag(r.cc)}</span>` : ""}<span class="nm">${esc(r.label)}</span>${r.sub ? `<span class="sub">${esc(r.sub)}</span>` : ''}</li>`; }).join('')
+        : '<li class="none" role="option" aria-disabled="true">No match — try another spelling</li>';
+      list.hidden = false; box.setAttribute('aria-expanded', 'true'); mark(-1); fit();
+    };
+    // the list stops where the phone's keyboard starts, so every row can be scrolled to (measured on the Pixel: "Where to?" left ~4 rows
+    // above the keyboard and the rest of a 312-px list behind it)
+    const fit = () => { if (list.hidden) return; const vv = window.visualViewport, top = list.getBoundingClientRect().top;
+      const room = vv ? vv.offsetTop + vv.height - top - 8 : 312; list.style.maxHeight = Math.max(150, Math.min(312, room)) + 'px'; };
+    // …and the box itself is never left under the keyboard: when the keyboard leaves less than three rows below it, the page lifts it
+    // (measured on the Pixel: Chrome lifted "Where to?" once, and on the next try — its toolbar coming back as the box was tapped — left
+    // it hidden behind the keyboard)
+    const lift = () => { const vv = window.visualViewport; if (!vv || document.activeElement !== box) return;
+      const r = box.getBoundingClientRect(), bottom = vv.offsetTop + vv.height;
+      if (r.bottom + 160 > bottom || r.top < vv.offsetTop) window.scrollBy(0, r.top - vv.offsetTop - 72); fit(); };
+    if (window.visualViewport) { visualViewport.addEventListener('resize', lift); visualViewport.addEventListener('scroll', fit); }
+    box.addEventListener('focus', () => { document.body.classList.add('typing'); setTimeout(lift, 350); });
+    box.addEventListener('input', open);
+    box.addEventListener('focus', open);
+    box.addEventListener('keydown', e => {
+      if (list.hidden) { if (e.key === 'ArrowDown') { open(); e.preventDefault(); } return; }
+      if (e.key === 'ArrowDown') { mark(Math.min(active + 1, items.length - 1)); e.preventDefault(); }
+      else if (e.key === 'ArrowUp') { mark(Math.max(active - 1, -1)); e.preventDefault(); }
+      else if (e.key === 'Enter' && active >= 0) { pick(active); e.preventDefault(); }
+      else if (e.key === 'Escape') { close(); e.preventDefault(); }
+    });
+    // pressing an option must not take the focus from the box first (the list would close under the finger)
+    list.addEventListener('mousedown', e => e.preventDefault());
+    list.addEventListener('click', e => { const li = e.target.closest('li[id]'); if (li) pick([...list.children].indexOf(li)); });
+    box.addEventListener('blur', () => setTimeout(() => { close(); if (!document.activeElement || !document.activeElement.closest('.cb')) document.body.classList.remove('typing'); }, 120));
+  }
+  suggest('passport', t => brimmSearch.countries(t, DATA.passports, 8), c => ({ label: c.n, value: c.n, cc: c.c }));
+  suggest('home', t => brimmSearch.countries(t, DATA.passports, 8), c => ({ label: c.n, value: c.n, cc: c.c }));
+  suggest('dest', t => brimmSearch.destinations(t, DATA, 8), p => p.whole ? { label: p.country, value: p.country, cc: p.cc, sub: 'Whole country' }
+    : { label: p.city, value: `${p.city}, ${p.country}`, cc: p.cc, sub: p.country });
   const place = v => {
     if (!DATA) return null; const t = v.trim().toLowerCase();
     const p = DATA.places.find(p => `${p.city}, ${p.country}`.toLowerCase() === t || p.city.toLowerCase() === t);
