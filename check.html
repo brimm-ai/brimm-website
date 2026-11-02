@@ -56,7 +56,8 @@
   .eyebrow{font-size:12px;letter-spacing:2.2px;text-transform:uppercase;color:var(--teal);font-weight:800;margin-bottom:8px}
   /* the headline is in the site's title face (the shared stylesheet's serif), like every page title - PD #528 A, 3 Nov 2026 (founder 30 Oct:
      serif titles; the home's brand line is the only Manrope hero) */
-  h1{font-size:clamp(28px,6.4vw,40px);line-height:1.1;font-weight:800;letter-spacing:-.02em;text-shadow:0 2px 18px rgba(0,0,0,.35)}
+  /* the same size rule as every page title (the guides' clamp), and balanced line breaks so no word sits alone (PD #535 A, 3 Nov 2026) */
+  h1{font-size:clamp(26px,5.4vw,40px);text-wrap:balance;line-height:1.1;font-weight:800;letter-spacing:-.02em;text-shadow:0 2px 18px rgba(0,0,0,.35)}
   .lead{font-size:15.5px;color:var(--muted);margin:14px 0 4px}
   form{display:flex;flex-direction:column;gap:18px;padding:8px 0 36px}
   label,.lbl{display:block;font-size:13.5px;font-weight:700;color:var(--muted);margin-bottom:7px}
