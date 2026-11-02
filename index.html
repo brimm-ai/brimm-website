@@ -200,6 +200,11 @@
   .glist .fl{font-size:22px;line-height:1}
   .glist .all{grid-column:1/-1;justify-content:center;background:linear-gradient(100deg,rgba(53,125,125,.35),rgba(124,82,248,.35));border-color:rgba(167,139,250,.35)}
   @media (min-width:900px){.glist{grid-template-columns:repeat(5,minmax(0,1fr))}}
+  /* three groups of five (HQ #118): a short label over each row; on a phone the fifth spans both columns, so no row has a gap */
+  .ghead{margin:26px 0 10px;font-size:12px;letter-spacing:2px;text-transform:uppercase;color:var(--teal);font-weight:800}
+  .glist + .ghead{margin-top:28px}
+  @media (max-width:899px){.glist.five a:nth-child(5){grid-column:1/-1}}
+  .glist.end{margin-top:22px;grid-template-columns:1fr}
 
   /* ── PRICING (the wording and rules unchanged) ── */
   #pricing{padding:90px 0 40px}
@@ -324,19 +329,32 @@
 
 <section class="guides" id="guides">
   <div class="wrap">
-    <div class="shead c rv"><span class="tag">Visa guides</span><h2>Visa guides for <span class="grad">UAE residents</span></h2><p class="lede">What decides your answer, and the official site to apply.</p><p class="lede">Starting with UAE residents. In the app, brimm checks any passport, wherever you live.</p></div>
-    <div class="glist rv">
+    <div class="shead c rv"><span class="tag">Visa guides</span><h2>Visa guides for <span class="grad">your trip</span></h2><p class="lede">What decides your answer, and the official site to apply.</p><p class="lede">In the app, brimm checks any passport, wherever you live.</p></div>
+    <p class="ghead rv">For UAE residents</p>
+    <div class="glist five rv">
       <a href="/visa/georgia-for-uae-residents/"><span class="fl" aria-hidden="true">🇬🇪</span>Georgia</a>
       <a href="/visa/azerbaijan-for-uae-residents/"><span class="fl" aria-hidden="true">🇦🇿</span>Azerbaijan</a>
       <a href="/visa/armenia-for-uae-residents/"><span class="fl" aria-hidden="true">🇦🇲</span>Armenia</a>
       <a href="/visa/turkiye-for-uae-residents/"><span class="fl" aria-hidden="true">🇹🇷</span>Türkiye</a>
       <a href="/visa/egypt-for-uae-residents/"><span class="fl" aria-hidden="true">🇪🇬</span>Egypt</a>
-      <a href="/visa/thailand-for-uae-residents/"><span class="fl" aria-hidden="true">🇹🇭</span>Thailand</a>
-      <a href="/visa/schengen-for-uae-residents/"><span class="fl" aria-hidden="true">🇪🇺</span>Schengen</a>
-      <a href="/visa/uk-for-uae-residents/"><span class="fl" aria-hidden="true">🇬🇧</span>UK</a>
-      <a href="/visa/japan-for-uae-residents/"><span class="fl" aria-hidden="true">🇯🇵</span>Japan</a>
-      <a href="/visa/visa-free-countries-for-uae-residents/"><span class="fl" aria-hidden="true">🌍</span>All guides</a>
     </div>
+    <p class="ghead rv">For Indian passport holders</p>
+    <div class="glist five rv">
+      <a href="/visa/uae-for-indian-passport-holders/"><span class="fl" aria-hidden="true">🇦🇪</span>UAE</a>
+      <a href="/visa/thailand-for-indian-passport-holders/"><span class="fl" aria-hidden="true">🇹🇭</span>Thailand</a>
+      <a href="/visa/schengen-for-indian-passport-holders/"><span class="fl" aria-hidden="true">🇪🇺</span>Schengen</a>
+      <a href="/visa/turkiye-for-indian-passport-holders/"><span class="fl" aria-hidden="true">🇹🇷</span>Türkiye</a>
+      <a href="/visa/indonesia-for-indian-passport-holders/"><span class="fl" aria-hidden="true">🇮🇩</span>Indonesia</a>
+    </div>
+    <p class="ghead rv">For any passport</p>
+    <div class="glist five rv">
+      <a href="/visa/schengen-visa-requirements/"><span class="fl" aria-hidden="true">🇪🇺</span>Schengen</a>
+      <a href="/visa/uk-visa-requirements/"><span class="fl" aria-hidden="true">🇬🇧</span>UK</a>
+      <a href="/visa/usa-visa-requirements/"><span class="fl" aria-hidden="true">🇺🇸</span>USA</a>
+      <a href="/visa/japan-visa-requirements/"><span class="fl" aria-hidden="true">🇯🇵</span>Japan</a>
+      <a href="/visa/thailand-visa-requirements/"><span class="fl" aria-hidden="true">🇹🇭</span>Thailand</a>
+    </div>
+    <div class="glist end rv"><a href="/visa/"><span class="fl" aria-hidden="true">🌍</span>All guides</a></div>
   </div>
 </section>
 
