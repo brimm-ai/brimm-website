@@ -26,7 +26,7 @@ const FOOT = (extra) => `<!-- SITE-FOOT:START (tools/site-chrome.js) -->
   <div class="legal"><span>© 2026 Brimm Limited, UAE</span><span>${extra ? extra + ' · ' : ''}<a href="mailto:support@brimm.ai">support@brimm.ai</a></span></div>
 </footer>
 <!-- SITE-FOOT:END -->`;
-const pages = ['index.html', 'privacy.html', 'terms.html', 'delete-account.html']
+const pages = ['index.html', 'check.html', 'privacy.html', 'terms.html', 'delete-account.html']   // check.html since HQ #148 (2 Nov 2026)
   .concat(fs.readdirSync(path.join(SITE, 'itinerary')).map(d => `itinerary/${d}/index.html`))
   // a guide is a folder; /visa/ itself is visa/index.html (the all-guides page, HQ #118, 1 Nov 2026)
   .concat(fs.readdirSync(path.join(SITE, 'visa'), { withFileTypes: true }).filter(d => d.isDirectory()).map(d => `visa/${d.name}/index.html`))
