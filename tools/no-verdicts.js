@@ -34,6 +34,11 @@ const EXEMPT_SLUG = 'visa-free-countries-for-uae-residents', EXEMPT_PAGE = `visa
 
 const RULED = [
   'Travel insurance is required for all tourists',   // founder, 25 Oct 2026 09:20 (#2) and 10:30 (#306: the law's word): Georgia, no amount
+  // founder, HQ #133, 2 Nov 2026 07:06 — the insurance line (Qatar for Indian passports, Saudi Arabia for any passport) and the profession
+  // line (UAE, Qatar, Oman for any passport), each only where the rules data carries that condition, followed by the official link.
+  // The insurance line's first sentence is also a tile title on its own (without its full stop), so that sentence is listed by itself.
+  'Travel health insurance is required for this visit',
+  'Easier entry depends on your profession. Check the official list to see if yours qualifies.',
 ];
 const decode = (s) => s.replace(/&amp;/g, '&').replace(/&nbsp;/g, ' ').replace(/&#39;|&rsquo;/g, "'").replace(/&quot;/g, '"');
 /** What a visitor or a crawler reads: text, meta content, alt/title/aria-label, ld+json — not CSS, not other scripts. */
@@ -69,10 +74,13 @@ if (require.main === module) {
       '<p>Data from Travel Buddy</p>', '<p>Kashmir</p>', '<p>Brimm checks it</p>', '<img alt="eVisa portal">',
       '<script type="application/ld+json">{"name":"Thailand visa-free"}</script>', '<p>A visa is required for all visitors</p>', '<p>Travel insurance is required for all tourists. A visa is required too.</p>',
       '<p>Travel insurance is required for all visitors</p>',   // the 09:20 wording, replaced at 10:30 (#306) — no longer a ruled sentence
+      '<p>Travel health insurance is required for this visit. A visa is required too.</p>', '<p>Travel health insurance is required for all visitors</p>',   // #133: only the ruled sentence passes
       '<p>Plan a week in Srinagar</p>', '<img alt="Pangong Tso at dawn">', '<p>Leh is the base</p>',   // promoted content: the Kashmir rule
       '<p>Photos from Unsplash</p>', '<p class="lead">Rules on Unsplash</p>', '<p class="credit"><b>Srinagar, India</b> · A Name on Unsplash</p>'];   // the credit allowance is the credit line only, and its place is still read
     const clean = ['<p>What decides your answer</p>', '<p class="credit"><b>Tbilisi, Georgia</b> · Anna Bannahyan on Unsplash</p>','<a href="https://www.evisa.gov.ge/GeoVisa/">Georgia’s official visa site ↗</a><span>evisa.gov.ge</span>',
-      '<p>© 2026 Brimm Limited, UAE</p>', '<p class="ti">🩺 Travel insurance is required for all tourists</p>', '<p>Lehigh Valley and Ashleigh Park</p>', '<style>.a{color:red}</style><p>Rules change. Always confirm with the official source before you book.</p>'];
+      '<p>© 2026 Brimm Limited, UAE</p>', '<p class="ti">🩺 Travel insurance is required for all tourists</p>',
+      '<p>Travel health insurance is required for this visit. Have proof ready — you may be asked for it.</p>', '<p class="ti">🩺 Travel health insurance is required for this visit</p>',
+      '<li>Easier entry depends on your profession. Check the official list to see if yours qualifies.</li>', '<p>Lehigh Valley and Ashleigh Park</p>', '<style>.a{color:red}</style><p>Rules change. Always confirm with the official source before you book.</p>'];
     const missed = planted.filter(h => !check(h, 'visa/x/index.html').length);
     const flagged = clean.filter(h => check(h, 'visa/x/index.html').length);
     // the exemption: the founder's search title passes on its own page and nowhere else, and the rest of that page is still checked
