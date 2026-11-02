@@ -67,6 +67,10 @@
   .cb ul{position:absolute;z-index:30;left:0;right:0;top:calc(100% + 6px);margin:0;padding:6px;list-style:none;max-height:312px;overflow-y:auto;
     border-radius:16px;background:var(--card2);border:1px solid rgba(126,200,200,.35);box-shadow:0 18px 40px rgba(0,0,0,.55);overscroll-behavior:contain}
   .cb ul[hidden]{display:none}
+  /* the scrollbar stays off the rounded corners (HQ #121): a slim thumb on a track inset top and bottom */
+  .cb ul::-webkit-scrollbar{width:8px}
+  .cb ul::-webkit-scrollbar-track{background:transparent;margin:14px 0}
+  .cb ul::-webkit-scrollbar-thumb{background:rgba(126,200,200,.35);border-radius:8px}
   .cb li{display:flex;align-items:center;gap:12px;min-height:48px;padding:6px 12px;border-radius:12px;cursor:pointer;font-size:15.5px;color:var(--ink)}
   .cb li .fl{width:26px;font-size:20px;line-height:1;text-align:center;flex:none}
   .cb li .sub{color:var(--faint);font-size:14px;margin-left:auto;padding-left:10px;white-space:nowrap}
