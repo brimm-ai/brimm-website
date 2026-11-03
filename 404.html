@@ -27,8 +27,9 @@
   .lost h1{font-size:clamp(26px,5.4vw,40px);line-height:1.12;letter-spacing:-0.02em;text-wrap:balance}
   .lost p{margin-top:14px;color:#c8d4e2;font-size:16.5px;text-wrap:balance}
   .lost .ctas{display:flex;flex-wrap:wrap;justify-content:center;gap:12px;margin-top:30px}
-  .lost .ctas a{display:inline-flex;align-items:center;justify-content:center;min-width:150px;padding:14px 22px;border-radius:999px;
+  .lost .ctas a{display:inline-flex;align-items:center;justify-content:center;min-width:150px;padding:14px 13px;border-radius:999px;
     font-weight:800;text-decoration:none}
+  /* 13 px sides (was 22): "Check your visa" (HQ #199) fits the same 150 px pill, so the pair stays side by side down to 360 px */
   .lost .ctas .btn{background:var(--btn);color:#fff}
   .lost .ctas .out{border:1.5px solid var(--teal);color:var(--teal)}
 </style>
@@ -52,7 +53,7 @@
     <p>This page wandered off the map.</p>
     <div class="ctas">
       <a class="out" href="/">Home</a>
-      <a class="btn" href="/check" data-check-entry hidden>Check a visa</a>
+      <a class="btn" href="/check" data-check-entry hidden>Check your visa</a>
     </div>
   </main>
   <!-- SITE-FOOT:START (tools/site-chrome.js) -->
