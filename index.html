@@ -198,6 +198,8 @@
   .glist a{display:flex;align-items:center;gap:10px;padding:14px 14px;border-radius:16px;background:var(--card);border:1px solid var(--line);text-decoration:none;font-weight:700;font-size:15px;transition:border-color .25s ease,transform .25s ease}
   .glist a:hover{border-color:rgba(126,200,200,.5);transform:translateY(-2px)}
   .glist .fl{font-size:22px;line-height:1}
+  /* the flags are pictures (founder, 3 Nov 2026, mock #104): Windows has no flag emoji and drew two letters ("GE") - assets/flags, flag-icons 7.2.3, MIT (LICENSE.txt beside them) */
+  .glist img.fl{width:22px;height:16px;border-radius:3px;object-fit:cover;flex:none;box-shadow:0 0 0 1px rgba(255,255,255,.12)}
   @media (min-width:900px){.glist{grid-template-columns:repeat(5,minmax(0,1fr))}}
   /* three groups of five (HQ #118): a short label over each row; on a phone the fifth spans both columns, so no row has a gap */
   .ghead{margin:26px 0 10px;font-size:12px;letter-spacing:2px;text-transform:uppercase;color:var(--teal);font-weight:800}
@@ -331,27 +333,27 @@
     <div class="shead c rv"><span class="tag">Visa guides</span><h2>Visa guides for <span class="grad">your trip</span></h2><p class="lede">What decides your answer, and the official site to apply.</p><p class="lede">In the app, brimm checks any passport, wherever you live.</p></div>
     <p class="ghead rv">For UAE residents</p>
     <div class="glist five rv">
-      <a href="/visa/georgia-for-uae-residents/"><span class="fl" aria-hidden="true">🇬🇪</span>Georgia</a>
-      <a href="/visa/azerbaijan-for-uae-residents/"><span class="fl" aria-hidden="true">🇦🇿</span>Azerbaijan</a>
-      <a href="/visa/armenia-for-uae-residents/"><span class="fl" aria-hidden="true">🇦🇲</span>Armenia</a>
-      <a href="/visa/turkiye-for-uae-residents/"><span class="fl" aria-hidden="true">🇹🇷</span>Türkiye</a>
-      <a href="/visa/egypt-for-uae-residents/"><span class="fl" aria-hidden="true">🇪🇬</span>Egypt</a>
+      <a href="/visa/georgia-for-uae-residents/"><img class="fl" src="/assets/flags/ge.svg?v=3821d90a" alt="" width="22" height="16" loading="lazy" decoding="async">Georgia</a>
+      <a href="/visa/azerbaijan-for-uae-residents/"><img class="fl" src="/assets/flags/az.svg?v=33ad245b" alt="" width="22" height="16" loading="lazy" decoding="async">Azerbaijan</a>
+      <a href="/visa/armenia-for-uae-residents/"><img class="fl" src="/assets/flags/am.svg?v=efb6cdaa" alt="" width="22" height="16" loading="lazy" decoding="async">Armenia</a>
+      <a href="/visa/turkiye-for-uae-residents/"><img class="fl" src="/assets/flags/tr.svg?v=256a1d6a" alt="" width="22" height="16" loading="lazy" decoding="async">Türkiye</a>
+      <a href="/visa/egypt-for-uae-residents/"><img class="fl" src="/assets/flags/eg.svg?v=c5997f42" alt="" width="22" height="16" loading="lazy" decoding="async">Egypt</a>
     </div>
     <p class="ghead rv">For Indian passport holders</p>
     <div class="glist five rv">
-      <a href="/visa/uae-for-indian-passport-holders/"><span class="fl" aria-hidden="true">🇦🇪</span>UAE</a>
-      <a href="/visa/thailand-for-indian-passport-holders/"><span class="fl" aria-hidden="true">🇹🇭</span>Thailand</a>
-      <a href="/visa/schengen-for-indian-passport-holders/"><span class="fl" aria-hidden="true">🇪🇺</span>Schengen</a>
-      <a href="/visa/turkiye-for-indian-passport-holders/"><span class="fl" aria-hidden="true">🇹🇷</span>Türkiye</a>
-      <a href="/visa/indonesia-for-indian-passport-holders/"><span class="fl" aria-hidden="true">🇮🇩</span>Indonesia</a>
+      <a href="/visa/uae-for-indian-passport-holders/"><img class="fl" src="/assets/flags/ae.svg?v=3bc52a4a" alt="" width="22" height="16" loading="lazy" decoding="async">UAE</a>
+      <a href="/visa/thailand-for-indian-passport-holders/"><img class="fl" src="/assets/flags/th.svg?v=329cc0d5" alt="" width="22" height="16" loading="lazy" decoding="async">Thailand</a>
+      <a href="/visa/schengen-for-indian-passport-holders/"><img class="fl" src="/assets/flags/eu.svg?v=67040ccd" alt="" width="22" height="16" loading="lazy" decoding="async">Schengen</a>
+      <a href="/visa/turkiye-for-indian-passport-holders/"><img class="fl" src="/assets/flags/tr.svg?v=256a1d6a" alt="" width="22" height="16" loading="lazy" decoding="async">Türkiye</a>
+      <a href="/visa/indonesia-for-indian-passport-holders/"><img class="fl" src="/assets/flags/id.svg?v=5cd3acc4" alt="" width="22" height="16" loading="lazy" decoding="async">Indonesia</a>
     </div>
     <p class="ghead rv">For any passport</p>
     <div class="glist five rv">
-      <a href="/visa/schengen-visa-requirements/"><span class="fl" aria-hidden="true">🇪🇺</span>Schengen</a>
-      <a href="/visa/uk-visa-requirements/"><span class="fl" aria-hidden="true">🇬🇧</span>UK</a>
-      <a href="/visa/usa-visa-requirements/"><span class="fl" aria-hidden="true">🇺🇸</span>USA</a>
-      <a href="/visa/japan-visa-requirements/"><span class="fl" aria-hidden="true">🇯🇵</span>Japan</a>
-      <a href="/visa/thailand-visa-requirements/"><span class="fl" aria-hidden="true">🇹🇭</span>Thailand</a>
+      <a href="/visa/schengen-visa-requirements/"><img class="fl" src="/assets/flags/eu.svg?v=67040ccd" alt="" width="22" height="16" loading="lazy" decoding="async">Schengen</a>
+      <a href="/visa/uk-visa-requirements/"><img class="fl" src="/assets/flags/gb.svg?v=c8be1e72" alt="" width="22" height="16" loading="lazy" decoding="async">UK</a>
+      <a href="/visa/usa-visa-requirements/"><img class="fl" src="/assets/flags/us.svg?v=e7be4240" alt="" width="22" height="16" loading="lazy" decoding="async">USA</a>
+      <a href="/visa/japan-visa-requirements/"><img class="fl" src="/assets/flags/jp.svg?v=bfea80ba" alt="" width="22" height="16" loading="lazy" decoding="async">Japan</a>
+      <a href="/visa/thailand-visa-requirements/"><img class="fl" src="/assets/flags/th.svg?v=329cc0d5" alt="" width="22" height="16" loading="lazy" decoding="async">Thailand</a>
     </div>
     <div class="glist end rv"><a href="/visa/"><span class="fl" aria-hidden="true">🌍</span>All guides</a></div>
   </div>
