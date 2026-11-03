@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Page not found — brimm</title>
+<meta name="description" content="This page isn't on brimm.ai.">
+<!-- the 404 (founder, HQ #172, 3 Nov 2026): GitHub Pages serves this file for any address that has no page. Never indexed, never in the
+     sitemap, no tracking. Every address on it starts with "/" because it is served at whatever path was asked for (/visa/x/ too). -->
+<meta name="robots" content="noindex">
+<style>
+  /* Manrope, served from this site (no third-party font call); SIL OFL: /assets/fonts/Manrope-OFL.txt */
+  @font-face{font-family:'Manrope';src:url('/assets/fonts/Manrope-Regular-latin.ttf?v=35083cda') format('truetype');font-weight:400 600;font-display:swap}
+  @font-face{font-family:'Manrope';src:url('/assets/fonts/Manrope-Bold-latin.ttf?v=0702f46a') format('truetype');font-weight:700 900;font-display:swap}
+  :root{ --night:#060912; --teal:#7EC8C8; --purple:#A78BFA; --ink:#e8eef6; --mute:#93a6bd; --btn:linear-gradient(100deg,#357D7D,#7C52F8); }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{background:var(--night);color:var(--ink);font-family:'Manrope',-apple-system,BlinkMacSystemFont,sans-serif;line-height:1.6;
+    -webkit-font-smoothing:antialiased;position:relative;overflow-x:hidden;}
+  .glow{position:fixed;border-radius:50%;filter:blur(90px);opacity:0.14;z-index:0;pointer-events:none;}
+  .g1{width:500px;height:500px;background:radial-gradient(circle,var(--teal),transparent 68%);top:-160px;left:-140px;}
+  .g2{width:560px;height:560px;background:radial-gradient(circle,var(--purple),transparent 68%);top:20%;right:-220px;}
+  /* one centred block: the legal pages' ground and glow, the home's pills */
+  .lost{position:relative;z-index:2;min-height:calc(100vh - 64px);display:flex;flex-direction:column;align-items:center;justify-content:center;
+    text-align:center;max-width:620px;margin:0 auto;padding:56px 24px 72px;}
+  .lost .icon{font-size:56px;line-height:1;margin-bottom:18px}
+  .lost .eyebrow{font-size:12px;font-weight:800;letter-spacing:2px;color:var(--teal);margin-bottom:12px}
+  .lost h1{font-size:clamp(26px,5.4vw,40px);line-height:1.12;letter-spacing:-0.02em;text-wrap:balance}
+  .lost p{margin-top:14px;color:#c8d4e2;font-size:16.5px;text-wrap:balance}
+  .lost .ctas{display:flex;flex-wrap:wrap;justify-content:center;gap:12px;margin-top:30px}
+  .lost .ctas a{display:inline-flex;align-items:center;justify-content:center;min-width:150px;padding:14px 22px;border-radius:999px;
+    font-weight:800;text-decoration:none}
+  .lost .ctas .btn{background:var(--btn);color:#fff}
+  .lost .ctas .out{border:1.5px solid var(--teal);color:var(--teal)}
+</style>
+<link rel="preload" href="/assets/fonts/NotoSerif-Bold-latin.woff?v=291db946" as="font" type="font/woff" crossorigin>
+<link rel="stylesheet" href="/assets/site.css?v=9a003e8e">
+</head>
+<body>
+  <div class="glow g1"></div>
+  <div class="glow g2"></div>
+  <!-- SITE-HEAD:START (tools/site-chrome.js) -->
+<header class="site-head solid always" id="head"><div class="in">
+  <a class="brand" href="/" aria-label="brimm home"><img class="lmark" src="/assets/mark-dark-foreground.svg?v=9adad0c8" alt="" width="34" height="34"><img class="lword" src="/assets/wordmark-dark.svg?v=5cb54eac" alt="brimm" width="76" height="22"></a>
+  <nav aria-label="Main"><a class="wide" href="/#how">How it works</a><a href="/#places">Destinations</a><a class="wide" href="/#guides">Visa guides</a><a href="/#pricing">Pricing</a><a class="wide" href="/check.html" data-check-entry hidden>Visa check</a><a class="cta" href="/#get" data-getapp hidden>Get the app</a></nav>
+</div></header>
+<div class="head-space" aria-hidden="true"></div>
+<!-- SITE-HEAD:END -->
+  <main class="lost">
+    <div class="icon" aria-hidden="true">🧭</div>
+    <p class="eyebrow">404</p>
+    <h1>Wrong turn? Even great travellers take one.</h1>
+    <p>This page wandered off the map.</p>
+    <div class="ctas">
+      <a class="out" href="/">Home</a>
+      <a class="btn" href="/check" data-check-entry hidden>Check a visa</a>
+    </div>
+  </main>
+  <!-- SITE-FOOT:START (tools/site-chrome.js) -->
+<footer class="site-foot">
+  <div class="in">
+    <div><a class="brand" href="/" aria-label="brimm home"><img class="lmark" src="/assets/mark-dark-foreground.svg?v=9adad0c8" alt="" width="33" height="33"><img class="lword" src="/assets/wordmark-dark.svg?v=5cb54eac" alt="brimm" width="72" height="21"></a><p class="foot-tag">What are you brimming today?</p></div>
+    <div class="cols">
+      <div><h4>brimm</h4><ul><li><a href="/#how">How it works</a></li><li><a href="/#places">Destinations</a></li><li><a href="/#pricing">Pricing</a></li></ul></div>
+      <div><h4>Visa guides</h4><ul><li><a href="/visa/visa-free-countries-for-uae-residents/">For UAE residents</a></li><li><a href="/visa/georgia-for-uae-residents/">Georgia</a></li><li><a href="/visa/schengen-for-uae-residents/">Schengen</a></li><li><a href="/visa/uk-for-uae-residents/">UK</a></li></ul></div>
+      <div><h4>Help</h4><ul><li><a href="mailto:support@brimm.ai">Contact</a></li><li><a href="/privacy.html">Privacy</a></li><li><a href="/terms.html">Terms</a></li><li><a href="/delete-account.html">Delete account</a></li></ul></div>
+    </div>
+  </div>
+  <div class="legal"><span>© 2026 Brimm Limited, UAE</span><span><a href="mailto:support@brimm.ai">support@brimm.ai</a></span></div>
+</footer>
+<!-- SITE-FOOT:END -->
+<script src="/assets/stores.js?v=65cccb2f"></script>
+<script src="/assets/site.js?v=0e7df8ad"></script>
+</body>
+</html>

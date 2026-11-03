@@ -26,7 +26,7 @@ const FOOT = (extra) => `<!-- SITE-FOOT:START (tools/site-chrome.js) -->
   <div class="legal"><span>© 2026 Brimm Limited, UAE</span><span>${extra ? extra + ' · ' : ''}<a href="mailto:support@brimm.ai">support@brimm.ai</a></span></div>
 </footer>
 <!-- SITE-FOOT:END -->`;
-const pages = ['index.html', 'check.html', 'privacy.html', 'terms.html', 'delete-account.html']   // check.html since HQ #148 (2 Nov 2026)
+const pages = ['index.html', 'check.html', 'privacy.html', 'terms.html', 'delete-account.html', '404.html']   // check.html since HQ #148 (2 Nov 2026); 404.html since HQ #172 (3 Nov 2026)
   .concat(fs.readdirSync(path.join(SITE, 'itinerary')).map(d => `itinerary/${d}/index.html`))
   // a guide is a folder; /visa/ itself is visa/index.html (the all-guides page, HQ #118, 1 Nov 2026)
   .concat(fs.readdirSync(path.join(SITE, 'visa'), { withFileTypes: true }).filter(d => d.isDirectory()).map(d => `visa/${d.name}/index.html`))
@@ -34,7 +34,7 @@ const pages = ['index.html', 'check.html', 'privacy.html', 'terms.html', 'delete
 const bad = [];
 for (const f of pages) {
   const p = path.join(SITE, f); let h = fs.readFileSync(p, 'utf8');
-  const legal = /^(privacy|terms|delete-account)\.html$/.test(f);
+  const legal = /^(privacy|terms|delete-account|404)\.html$/.test(f);   // no photo at the top: the solid header (the 404 since HQ #172)
   const extra = (h.match(/<footer class="wrap"><span>(Updated [^<]*)<\/span>/) || h.match(/SITE-FOOT:START[\s\S]*?<span>(Updated [^<·]*?) · <a/) || [])[1] || null;
   // the header: between markers if already stamped, else the page's old header block
   if (h.includes('<!-- SITE-HEAD:START')) h = h.replace(/<!-- SITE-HEAD:START[\s\S]*?<!-- SITE-HEAD:END -->/, HEAD(legal));
