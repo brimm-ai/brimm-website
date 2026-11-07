@@ -13,10 +13,11 @@ const HEAD = (solid) => `<!-- SITE-HEAD:START (tools/site-chrome.js) -->
   <nav aria-label="Main"><a class="wide" href="/#how">How it works</a><a href="/#places">Destinations</a><a class="wide" href="/#guides">Visa guides</a><a href="/#pricing">Pricing</a><a class="wide" href="/check.html" data-check-entry hidden>Visa check</a><a class="cta" href="/#get" data-getapp hidden>Get the app</a></nav>
 </div></header>${solid ? '\n<div class="head-space" aria-hidden="true"></div>' : ''}
 <!-- SITE-HEAD:END -->`;
+// the five profiles (founder 7 Nov 2026 15:50, HQ #506; before/after approved on HQ mock #157): white official marks (Simple Icons 13.0.0)
 const FOOT = (extra) => `<!-- SITE-FOOT:START (tools/site-chrome.js) -->
 <footer class="site-foot">
   <div class="in">
-    <div>${BRAND(21)}<p class="foot-tag">What are you brimming today?</p></div>
+    <div>${BRAND(21)}<p class="foot-tag">What are you brimming today?</p><div class="foot-social"><a href="https://instagram.com/brimm.ai" aria-label="brimm on Instagram" rel="me noopener" target="_blank"><img src="/assets/social/instagram.svg" alt="" width="18" height="18"></a><a href="https://tiktok.com/@brimm.ai" aria-label="brimm on TikTok" rel="me noopener" target="_blank"><img src="/assets/social/tiktok.svg" alt="" width="18" height="18"></a><a href="https://facebook.com/brimmai" aria-label="brimm on Facebook" rel="me noopener" target="_blank"><img src="/assets/social/facebook.svg" alt="" width="18" height="18"></a><a href="https://x.com/brimm_ai" aria-label="brimm on X" rel="me noopener" target="_blank"><img src="/assets/social/x.svg" alt="" width="18" height="18"></a><a href="https://linkedin.com/company/brimm-ai" aria-label="brimm on LinkedIn" rel="me noopener" target="_blank"><img src="/assets/social/linkedin.svg" alt="" width="18" height="18"></a></div></div>
     <div class="cols">
       <div><h4>brimm</h4><ul><li><a href="/#how">How it works</a></li><li><a href="/#places">Destinations</a></li><li><a href="/#pricing">Pricing</a></li></ul></div>
       <div><h4>Visa guides</h4><ul><li><a href="/visa/visa-free-countries-for-uae-residents/">For UAE residents</a></li><li><a href="/visa/georgia-for-uae-residents/">Georgia</a></li><li><a href="/visa/schengen-for-uae-residents/">Schengen</a></li><li><a href="/visa/uk-for-uae-residents/">UK</a></li></ul></div>
