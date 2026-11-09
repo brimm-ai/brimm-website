@@ -89,6 +89,8 @@ ${CSS}
   </aside>
 </main>
 <!-- SITE-FOOT:START (tools/site-chrome.js) -->
+<!-- the page's own date: tools/site-chrome.js keeps it in the footer's right-hand line, as on every page (without it the email jumped onto the copyright row on phones: review 10 Nov 2026) -->
+<footer><span>Updated November 2026 · <a href="mailto:support@brimm.ai">support@brimm.ai</a></span></footer>
 <!-- SITE-FOOT:END -->
 <script src="/assets/stores.js"></script>
 <script src="/assets/app-button.js"></script>
