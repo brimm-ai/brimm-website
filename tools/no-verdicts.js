@@ -93,7 +93,9 @@ if (require.main === module) {
   }
   const dir = path.join(root, 'visa');
   const pages = fs.existsSync(dir) ? fs.readdirSync(dir).filter(d => fs.existsSync(path.join(dir, d, 'index.html'))).map(d => `visa/${d}/index.html`) : [];
-  const bad = pages.flatMap(p => check(fs.readFileSync(path.join(root, p), 'utf8'), p));
-  if (bad.length) { console.error(`no-verdicts: ${bad.length} fault(s) on the visa guide pages — the answer only ever comes from the live check:\n  ${bad.join('\n  ')}`); process.exit(1); }
-  console.log(`no-verdicts: ${pages.length} visa guide page(s) read, no verdict written`);
+  // the event pages carry the same rule (UAE National Day 2026, HQ #878, 9 Nov 2026: each place opens the live check, no verdict written)
+  const events = ['uae-national-day-2026/index.html'].filter(p => fs.existsSync(path.join(root, p)));
+  const bad = pages.concat(events).flatMap(p => check(fs.readFileSync(path.join(root, p), 'utf8'), p));
+  if (bad.length) { console.error(`no-verdicts: ${bad.length} fault(s) on the visa guide and event pages — the answer only ever comes from the live check:\n  ${bad.join('\n  ')}`); process.exit(1); }
+  console.log(`no-verdicts: ${pages.length} visa guide page(s) and ${events.length} event page(s) read, no verdict written`);
 }
