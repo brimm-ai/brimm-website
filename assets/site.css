@@ -23,7 +23,11 @@ h1,h2,h3,.tile b,.plan h3{font-family:'Noto Serif',Georgia,'Times New Roman',ser
 .site-head.solid{background:rgba(6,9,18,.86);-webkit-backdrop-filter:saturate(140%) blur(10px);backdrop-filter:saturate(140%) blur(10px);border-bottom:1px solid rgba(255,255,255,.07)}
 .site-head.solid .brand img{filter:none}
 @media (max-width:720px){.site-head nav .wide{display:none}.site-head nav{gap:16px;font-size:13.5px}}
-@media (max-width:360px){.site-head nav{display:none}}
+@media (max-width:360px){html:not(.has-getapp) .site-head nav{display:none}}
+/* launch day (9 Nov 2026 prep, mock site-switch): "Get the app" stays on one line; on a narrow phone it is the only thing beside the logo */
+.site-head nav a.cta{white-space:nowrap}
+@media (max-width:720px){html.has-getapp .site-head nav{gap:12px}html.has-getapp .site-head nav a.cta{padding:8px 13px}}
+@media (max-width:440px){html.has-getapp .site-head nav a:not(.cta){display:none}}
 [hidden]{display:none!important}
 /* the older page styles say `nav{…}` and `footer{…}` for their own bars — those bars are gone, so the shared ones are kept clear of them */
 .site-head nav{position:static;inset:auto;z-index:auto;max-width:none;margin:0;padding:0;justify-content:flex-end;background:none}

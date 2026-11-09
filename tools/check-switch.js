@@ -35,6 +35,20 @@ function verdict({ stores, page, engine }) {
   return missing;
 }
 
+// THE STORE SWITCH AND THE WORDS SEARCH ENGINES READ (launch-day prep, 9 Nov 2026). The badges follow assets/stores.js in the browser, but a
+// page's <meta name="description"> is read by Google from the HTML as written: switching a store on while the home's description still says
+// it is coming soon would put a stale line in search results. So a store cannot be switched on while that line names it as coming soon.
+// ⚠️ It reads the home's description only — the one place the site states store availability in its head (grep, 9 Nov 2026); a new page
+// that says it is not covered.
+const storeOn = (stores, k) => new RegExp(k + '\\s*:\\s*\\{\\s*on\\s*:\\s*true\\b').test(stores);
+const metaDesc = home => ((home.match(/<meta\s+name="description"\s+content="([^"]*)"/i) || [])[1] || '');
+function storeWords({ stores, home }) {
+  const d = metaDesc(home), out = [];
+  if (storeOn(stores, 'play') && /coming soon[^.]*google play/i.test(d)) out.push('Google Play is switched on but index.html\'s meta description still says it is coming soon');
+  if (storeOn(stores, 'ios') && /coming soon[^.]*app store/i.test(d)) out.push('the App Store is switched on but index.html\'s meta description still says it is coming soon');
+  return out;
+}
+
 if (process.argv.includes('--self-test')) {
   const OFF = 'window.BRIMM_CHECK = { on: false };', ON = 'window.BRIMM_CHECK = { on: true };';
   const CALL = 'const E = await loadEngine(); E.rememberVisaLinksDown(j.visaLinksDown);', NOCALL = 'const E = await loadEngine();';
@@ -47,7 +61,15 @@ if (process.argv.includes('--self-test')) {
   const passed = [{ stores: OFF, page: NOCALL, engine: NOENG }, { stores: ON, page: CALL, engine: ENG }];
   const miss = refused.filter(c => verdict(c).length === 0), wrong = passed.filter(c => verdict(c).length > 0);
   if (miss.length || wrong.length) { console.error('check-switch self-test FAILED — passed a planted case:', miss, 'refused a clean one:', wrong); process.exit(1); }
-  console.log(`check-switch self-test: all ${refused.length} planted cases refused, ${passed.length} clean cases pass`);
+  // the store words: the real stores.js shape, the real home description, and the launch-day wording
+  const S = (p, i) => `window.BRIMM_STORES = {\n  play: { on: ${p}, url: 'https://play.google.com/store/apps/details?id=ai.brimm.app', main: 'Get it on' },\n  ios:  { on: ${i}, url: '', main: 'Download on the' },\n};`;
+  const H = d => `<meta name="description" content="${d}">`;
+  const SOON = H('brimm plans your trip. Coming soon to Google Play and the App Store.'), PLAYLIVE = H('brimm plans your trip. Get it on Google Play; coming soon to the App Store.');
+  const wRefused = [{ stores: S(true, false), home: SOON }, { stores: S(true, true), home: PLAYLIVE }, { stores: S(false, true), home: SOON }];
+  const wPassed = [{ stores: S(false, false), home: SOON }, { stores: S(true, false), home: PLAYLIVE }, { stores: S(true, true), home: H('brimm plans your trip. Get it on Google Play and the App Store.') }];
+  const wMiss = wRefused.filter(c => storeWords(c).length === 0), wWrong = wPassed.filter(c => storeWords(c).length > 0);
+  if (wMiss.length || wWrong.length) { console.error('check-switch self-test FAILED (store words) — passed:', wMiss, 'refused:', wWrong); process.exit(1); }
+  console.log(`check-switch self-test: all ${refused.length + wRefused.length} planted cases refused, ${passed.length + wPassed.length} clean cases pass`);
   process.exit(0);
 }
 const read = f => { try { return fs.readFileSync(path.join(root, f), 'utf8'); } catch { return ''; } };
@@ -55,4 +77,6 @@ const files = { stores: read('assets/stores.js'), page: read('check.html'), engi
 if (!files.stores) { console.error('check-switch: assets/stores.js not found'); process.exit(1); }
 const missing = verdict(files);
 if (missing.length) { console.error(`check-switch: the visa answer is switched ON but the hidden-links list (#487) is not wired:\n  ${missing.join('\n  ')}`); process.exit(1); }
+const stale = storeWords({ stores: files.stores, home: read('index.html') });
+if (stale.length) { console.error(`check-switch: ${stale.join('; ')} — change that line in the same commit as the switch`); process.exit(1); }
 console.log(isOn(files.stores) ? 'check-switch: answer ON and the hidden-links list is wired' : 'check-switch: answer OFF — the hidden-links list is required before it goes on');

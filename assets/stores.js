@@ -56,8 +56,12 @@ window.BRIMM_STORES = {
         s.textContent = s.textContent.split('"description":' + off).join('"description":' + on);
       });
     }
-    var p = window.BRIMM_STORES.play;
-    if (p && p.on && p.url) document.querySelectorAll('[data-getapp]').forEach(function (el) { el.hidden = false; });
+    // 'Get the app' only where the visitor's OWN store is live (founder's launch-day prep, 9 Nov 2026; mock D:/brimm-planning/2026-11-09/launch/
+    // site-switch): an iPhone never gets a button to a store that is not live; a computer gets it once either store is. The class lets the
+    // phone header give the button the room it needs (site.css, has-getapp).
+    var d = window.BRIMM_DEVICE, L = window.BRIMM_LIVE;
+    var mine = d === 'android' ? L('play') : d === 'ios' ? L('ios') : L('play') || L('ios');
+    if (mine) { document.documentElement.classList.add('has-getapp'); document.querySelectorAll('[data-getapp]').forEach(function (el) { el.hidden = false; }); }
   }
   if (document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', apply); document.addEventListener('DOMContentLoaded', doors); } else { apply(); doors(); }
 })();
