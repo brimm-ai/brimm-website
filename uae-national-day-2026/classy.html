@@ -45,11 +45,6 @@ h2.pp{font-family:'Noto Serif',serif;font-size:24px;margin:34px 0 4px}.pps{color
 .nd2 h1{font-size:clamp(30px,6.4vw,54px);line-height:1.08;max-width:20ch;text-wrap:balance}
 .nd2 h1 .d{display:none}
 .nd2 h1 .q{display:block;margin-top:.28em;font-size:.62em;line-height:1.2;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;text-shadow:none}
-.nd2 .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:4px 0 22px}
-.nd2 .stats div{border-radius:18px;padding:16px 10px 14px;text-align:center;background:linear-gradient(180deg,rgba(255,255,255,.08),rgba(255,255,255,.025));border:1px solid rgba(255,255,255,.13);box-shadow:inset 0 1px 0 rgba(255,255,255,.1)}
-.nd2 .stats b{display:block;font-family:'Noto Serif',serif;font-size:clamp(34px,8vw,46px);line-height:1;letter-spacing:-.02em}
-.nd2 .stats div:first-child b{color:#F5C451}
-.nd2 .stats span{display:block;margin-top:8px;font-size:12.5px;font-weight:700;color:#C9CFE3;line-height:1.3}
 .nd2 .grid{padding-top:26px;gap:26px}
 .nd2 .lead{font-size:16px;line-height:1.65;max-width:62ch}
 .nd2 .note{display:inline-block;margin:14px 0 6px;padding:8px 12px;border-radius:12px;font-size:12.5px;font-weight:600;color:#F3DDA4;background:rgba(245,196,81,.09);border:1px solid rgba(245,196,81,.28)}
@@ -59,7 +54,7 @@ h2.pp{font-family:'Noto Serif',serif;font-size:24px;margin:34px 0 4px}.pps{color
 .nd2 .cal .lv{background:linear-gradient(180deg,#F9D67A,#EDB542);border-color:transparent;box-shadow:0 8px 20px rgba(245,196,81,.18),inset 0 1px 0 rgba(255,255,255,.5)}
 .nd2 .cal .hol{background:linear-gradient(180deg,#76D7D3,#46B2B6);border-color:transparent;box-shadow:0 8px 20px rgba(92,198,198,.18),inset 0 1px 0 rgba(255,255,255,.45)}
 .nd2 .key{font-weight:600;gap:6px 18px}.nd2 .key i{border-radius:50%}
-.nd2 h2.pp{margin:46px 0 2px;font-size:25px;letter-spacing:-.01em}
+.nd2 h2.pp{margin:46px 0 2px;font-size:25px;letter-spacing:-.01em;text-wrap:balance}
 .nd2 h2.pp::before{content:'';display:block;width:44px;height:3px;border-radius:3px;margin-bottom:14px;background:var(--grad)}
 .nd2 .pps{margin-bottom:12px}
 .nd2 .places{display:grid;gap:10px}
@@ -69,14 +64,13 @@ h2.pp{font-family:'Noto Serif',serif;font-size:24px;margin:34px 0 4px}.pps{color
 .nd2 .tips{margin-top:34px}
 .nd2 .panel,.nd2 .tips{border-radius:18px;background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.02)),var(--card)}
 @media (hover:hover){.nd2 .prow:hover{transform:translateY(-2px);border-color:rgba(126,200,200,.45)}}
-@media (min-width:860px){.nd2 .hero{padding:150px 0 44px}.nd2 .crumb{font-size:12px;letter-spacing:2.4px}.nd2 .places{grid-template-columns:1fr 1fr}.nd2 .stats{max-width:560px}}
+@media (min-width:860px){.nd2 .hero{padding:150px 0 44px}.nd2 .crumb{font-size:12px;letter-spacing:2.4px}.nd2 h1{max-width:24ch}}
 @media (prefers-reduced-motion:no-preference){
   @keyframes nd2rise{from{transform:translateY(14px)}to{transform:none}}
   @keyframes nd2in{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
   @keyframes nd2glow{from{transform:translate3d(-2%,0,0)}to{transform:translate3d(2%,-2%,0)}}
   .nd2 .hero::before{animation:nd2glow 16s ease-in-out infinite alternate}
   .nd2 .hero .in{animation:nd2rise .6s cubic-bezier(.2,.7,.2,1) both}
-  .nd2 .stats div{animation:nd2in .5s cubic-bezier(.2,.7,.2,1) both;animation-delay:calc(var(--i)*70ms + 120ms)}
   .nd2 .cal div{animation:nd2in .45s cubic-bezier(.2,.7,.2,1) both;animation-delay:calc(var(--i)*40ms + 260ms)}
   .nd2.io .prow{opacity:0;transform:translateY(12px);transition:opacity .5s ease,transform .5s cubic-bezier(.2,.7,.2,1)}
   .nd2.io .prow.in{opacity:1;transform:none}
@@ -96,7 +90,6 @@ h2.pp{font-family:'Noto Serif',serif;font-size:24px;margin:34px 0 4px}.pps{color
 </header>
 <main class="wrap grid">
   <article>
-    <div class="stats"><div style="--i:0"><b>9</b><span>days off</span></div><div style="--i:1"><b>3</b><span>days of leave</span></div><div style="--i:2"><b>2</b><span>holiday days (expected)</span></div></div>
     <p class="lead">The UAE National Day holiday is expected on Wednesday 2 and Thursday 3 December 2026. Take three days of leave, Monday 30 November, Tuesday 1 and Friday 4 December, and you are off for nine days: Saturday 28 November to Sunday 6 December.</p>
     <p class="note">⚠️ Expected dates: the official announcement has not been made yet.</p>
     <div class="cal"><div class="we" style="--i:0"><span>Sat</span><b>28</b></div><div class="we" style="--i:1"><span>Sun</span><b>29</b></div><div class="lv" style="--i:2"><span>Mon</span><b>30</b></div><div class="lv" style="--i:3"><span>Tue</span><b>1</b></div><div class="hol" style="--i:4"><span>Wed</span><b>2</b></div><div class="hol" style="--i:5"><span>Thu</span><b>3</b></div><div class="lv" style="--i:6"><span>Fri</span><b>4</b></div><div class="we" style="--i:7"><span>Sat</span><b>5</b></div><div class="we" style="--i:8"><span>Sun</span><b>6</b></div></div><div class="key"><span><i style="background:#F5C451"></i>3 days of leave</span><span><i style="background:#5CC6C6"></i>2 days of holiday (expected)</span><span><i style="border:1.5px solid rgba(255,255,255,.3)"></i>4 weekend days</span></div>
