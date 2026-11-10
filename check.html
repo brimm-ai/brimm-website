@@ -85,6 +85,17 @@
   .chip{height:42px;padding:0 15px;border-radius:21px;border:1px solid var(--line);background:var(--card);color:var(--muted);font:inherit;font-size:14.5px;font-weight:600;cursor:pointer}
   .chip[aria-pressed=true]{border-color:var(--teal);background:rgba(126,200,200,.14);color:var(--ink);font-weight:800}
   .chip.when[aria-pressed=true]{border-color:var(--purple);background:rgba(167,139,250,.16)}
+  /* PROGRESS LINE + TICKS (founder, HQ #964 on mock #207, 10 Nov 2026): four segments for the four answers the check uses (passport,
+     where you live, visas you hold, where to; "When?" is optional and not counted); a tick on each answered box and on each picked choice.
+     The visas segment fills once a visa is picked or once "Where to?" is answered (holding none is an answer too). Same questions, same button. */
+  .prog{display:flex;gap:6px;margin:2px 0 -4px}
+  .prog i{flex:1;height:4px;border-radius:4px;background:rgba(255,255,255,.12);transition:background .25s}
+  .prog i.on{background:linear-gradient(90deg,#5CC6C6,#A98AF5)}
+  .cb.ok input{border-color:rgba(126,200,200,.6);background:rgba(126,200,200,.07);padding-right:46px;font-weight:700}
+  .cb.ok::after{content:'✓';position:absolute;right:16px;top:26px;transform:translateY(-50%);font-size:18px;font-weight:800;color:#7EC8C8;pointer-events:none}
+  .chip[aria-pressed=true]::before{content:'✓ ';font-weight:800;color:#7EC8C8}
+  .go{box-shadow:0 12px 30px rgba(124,82,248,.3),inset 0 1px 0 rgba(255,255,255,.22)}
+  @media (prefers-reduced-motion:reduce){.prog i{transition:none}}
   .dates{display:none;gap:10px;margin-top:10px}.dates.on{display:flex}.dates>div{flex:1}
   .gulf{display:none;margin-top:10px}.gulf.on{display:block}
   .err{color:#FF9B9B;font-size:13.5px;margin-top:6px;display:none}.err.on{display:block}
@@ -155,6 +166,7 @@
   <div class="wrap">
     <p class="lead">Your passport, where you live and the visas you hold all change the answer.</p>
     <form id="form" novalidate>
+      <div class="prog" id="prog" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
       <div>
         <label for="passport">Your passport</label>
         <div class="cb"><input id="passport" type="text" autocomplete="off" spellcheck="false" placeholder="Start typing a country" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="passportList"><ul id="passportList" role="listbox" aria-label="Countries" hidden></ul></div>
@@ -477,6 +489,16 @@
       $('visaCard').hidden = true;   // the answer is on screen — its promise card would say it twice (founder #269 → A, 23 Oct 2026 23:15)
     } catch (e) { show(navigator.onLine ? MESSAGES.did_not_go_through : MESSAGES.offline); }
   }
+
+  // the progress line and the ticks (HQ #964): read from the same checks the button uses (country() / place()), on every change
+  const progress = () => {
+    if (!DATA) return;
+    const pp = !!country($('passport').value), hm = !!country($('home').value), dd = !!place($('dest').value);
+    [['passport', pp], ['home', hm], ['dest', dd]].forEach(([id, ok]) => $(id).parentElement.classList.toggle('ok', ok));
+    [pp, hm, picked.size > 0 || dd, dd].forEach((on, i) => $('prog').children[i].classList.toggle('on', on));
+  };
+  ['input', 'change', 'click', 'keyup'].forEach(t => $('form').addEventListener(t, () => setTimeout(progress, 0)));
+  const waitData = setInterval(() => { if (DATA) { clearInterval(waitData); progress(); } }, 100);
 
   $('form').addEventListener('submit', e => {
     e.preventDefault();
