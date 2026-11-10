@@ -27,6 +27,19 @@ const FOOT = (extra) => `<!-- SITE-FOOT:START (tools/site-chrome.js) -->
   <div class="legal"><span>© 2026 Brimm Limited, UAE</span><span>${extra ? extra + ' · ' : ''}<a href="mailto:support@brimm.ai">support@brimm.ai</a></span></div>
 </footer>
 <!-- SITE-FOOT:END -->`;
+// THE VISITOR COUNTER (founder, HQ #983, 10 Nov 2026: "Cloudflare Web Analytics, free, cookieless, on every brimm.ai page"). ONE public
+// beacon token, created by the founder in his Cloudflare account; it is a public value by design (it is in every page's source), so it
+// lives here, not in a secret. EMPTY = OFF: no tag is written and nothing loads, so this file can ship before the token exists. The
+// privacy line that goes with it is the founder's wording (HQ mock) and goes live in the same commit as the token.
+// What it does: counts page views (the page, the page the visitor came from, browser, device type, country). No cookies, no local storage,
+// no fingerprinting. Cloudflare's own snippet, deferred. MEASURED 10 Nov 2026 on a local copy, home page, Lighthouse phone setting: off
+// 92/93/92, on 90/92/91 (about +140 ms blocking time); loading it 1.2 s after the page instead was no better (93/93/90/88/89), so the
+// standard tag stays. The live home page (no counter) measured 95/99/99 the same evening, so there is room; re-measure live once the
+// token is in (bar: 90).
+const CF_BEACON_TOKEN = process.env.CF_BEACON_TOKEN_PREVIEW || '';   // the env var is for a local Lighthouse preview only; never committed
+const BEACON = CF_BEACON_TOKEN
+  ? `<!-- ANALYTICS:START (tools/site-chrome.js) -->\n<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "${CF_BEACON_TOKEN}"}'></script>\n<!-- ANALYTICS:END -->`
+  : '';
 const pages = ['index.html', 'check.html', 'privacy.html', 'terms.html', 'delete-account.html', '404.html']   // check.html since HQ #148 (2 Nov 2026); 404.html since HQ #172 (3 Nov 2026)
   .concat(fs.readdirSync(path.join(SITE, 'itinerary')).map(d => `itinerary/${d}/index.html`))
   // a guide is a folder; /visa/ itself is visa/index.html (the all-guides page, HQ #118, 1 Nov 2026)
@@ -53,7 +66,11 @@ for (const f of pages) {
   if (!h.includes('/assets/stores.js')) h = h.replace('</body>', '<script src="/assets/stores.js"></script>\n</body>');
   if (!h.includes('/assets/site.js')) h = h.replace('</body>', '<script src="/assets/site.js"></script>\n</body>');
   if ((h.match(/SITE-HEAD:START/g) || []).length !== 1 || (h.match(/SITE-FOOT:START/g) || []).length !== 1) bad.push(`${f}: header/footer not exactly once`);
+  // the counter: one block just before </body>, rewritten every run (removed again when the token is emptied)
+  h = h.replace(/\n?<!-- ANALYTICS:START[\s\S]*?<!-- ANALYTICS:END -->/, '');
+  if (BEACON) h = h.replace('</body>', BEACON + '\n</body>');
+  if ((h.match(/ANALYTICS:START/g) || []).length !== (BEACON ? 1 : 0)) bad.push(`${f}: the visitor counter is not written exactly ${BEACON ? 'once' : 'zero times'}`);
   fs.writeFileSync(p, h);
 }
 if (bad.length) { console.error(bad.join('\n')); process.exit(1); }
-console.log(`${pages.length} pages: one header, one footer, site.css + stores.js + site.js`);
+console.log(`${pages.length} pages: one header, one footer, site.css + stores.js + site.js; visitor counter ${BEACON ? 'ON' : 'off (no token yet)'}`);
