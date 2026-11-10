@@ -102,3 +102,25 @@ footer a{color:var(--teal);font-weight:700}
 .vcheck .facts{display:grid;gap:2px;margin-top:8px;font-size:14px;color:var(--muted)}
 .vcheck .facts b{color:var(--ink);font-weight:700}
 @media (min-width:900px){.tiles.four{grid-template-columns:repeat(2,1fr)}}
+/* DAY CARDS, OPTION A (founder, HQ #964 on mock #207, 10 Nov 2026; written by tools/day-cards.js): each full day is a <details> card - the
+   day number and its title in the title face as the summary, a timeline of its stops, day 1 open and the rest folded until tapped (all
+   on a computer too: one column, as on a phone). The stops stay in the HTML either way. */
+.days{gap:14px;grid-template-columns:1fr!important}
+.day{padding:0;overflow:hidden;border-radius:18px;background:linear-gradient(180deg,rgba(255,255,255,.055),rgba(255,255,255,.02)),var(--card)}
+.later,.tips{border-radius:18px;background:linear-gradient(180deg,rgba(255,255,255,.055),rgba(255,255,255,.02)),var(--card)}
+.day summary{display:grid;grid-template-columns:1fr 30px;align-items:center;column-gap:12px;padding:15px 16px 13px;cursor:pointer;list-style:none}
+.day summary::-webkit-details-marker{display:none}
+.day summary .dn{display:block;font-size:11.5px;letter-spacing:1.6px;font-weight:800;color:var(--teal);text-transform:uppercase}
+.day summary .dt{display:block;margin-top:3px;font-family:'Noto Serif',Georgia,serif;font-weight:700;font-size:18.5px;line-height:1.25;color:#fff;text-wrap:balance}
+.day summary .dn{grid-column:1;grid-row:1}
+.day summary .dt{grid-column:1;grid-row:2}
+.day summary::after{content:'';grid-column:2;grid-row:1 / span 2;width:30px;height:30px;border-radius:50%;border:1px solid rgba(255,255,255,.16);
+  background:center/12px no-repeat url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5l5 5 5-5' fill='none' stroke='%23C9CFE3' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E")}
+.day[open] summary::after{transform:rotate(180deg);border-color:rgba(126,200,200,.5)}
+.day summary:focus-visible{outline:2px solid var(--teal);outline-offset:-2px;border-radius:18px}
+.day ul{position:relative;padding:4px 16px 18px;gap:16px}
+.day li{grid-template-columns:48px 28px 1fr;column-gap:0;position:relative}
+.day li::before{content:'';grid-column:2;grid-row:1 / span 2;box-sizing:border-box;width:12px;height:12px;margin:4px 0 0 8px;border-radius:50%;background:#0E1530;border:2px solid var(--teal);position:relative;z-index:1}
+.day li:not(:last-child)::after{content:'';position:absolute;left:61px;top:17px;bottom:-22px;width:2px;border-radius:2px;background:rgba(126,200,200,.38)}
+.day li .t{grid-column:1;grid-row:1 / span 2}
+.day li b,.day li .l{grid-column:3}
