@@ -18,3 +18,7 @@ node tools/check-switch.js || exit 1
 # or stale /assets address cannot be committed, whichever tool wrote the page. tools/stamp-assets.js, self-test first.
 node tools/stamp-assets.js --self-test || exit 1
 node tools/stamp-assets.js --check || exit 1
+# Every page names its own address once, and the sitemap lists only those addresses (10 Nov 2026, HQ #946: Search Console's
+# "Duplicate without user-selected canonical"): tools/check-canonicals.js, self-test first.
+node tools/check-canonicals.js --self-test || exit 1
+node tools/check-canonicals.js || exit 1
