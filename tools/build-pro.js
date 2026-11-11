@@ -15,7 +15,7 @@ const fs = require('fs'), path = require('path');
 const SITE = path.join(__dirname, '..');
 const CONFIG = {
   env: 'sandbox',                                      // 'sandbox' until the live account is verified (PD #1073), then 'production'
-  token: '',                                           // the founder's client-side token (test_… / live_…) - not given yet
+  token: 'test_4f4541d6d063c8f406681d3c7f3',           // the founder's SANDBOX client-side token (11 Nov 2026, Code tab; public by design). Live: a live_… token + env 'production'
   monthly: 'pri_01m75zns308e2x2y6qw4dedcqv',           // brimm Pro Monthly (sandbox; PD #1073)
   yearly: 'pri_01m75zq119a0v22x32qybnpw61',            // brimm Pro Yearly (sandbox; PD #1073)
   launchDiscount: '',                                  // "Launch offer: 90% off the first month" - its dsc_… id (monthly only); not given yet
