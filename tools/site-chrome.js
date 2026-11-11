@@ -21,7 +21,7 @@ const FOOT = (extra) => `<!-- SITE-FOOT:START (tools/site-chrome.js) -->
     <div class="cols">
       <div><h4>brimm</h4><ul><li><a href="/#how">How it works</a></li><li><a href="/#places">Destinations</a></li><li><a href="/#pricing">Pricing</a></li></ul></div>
       <div><h4>Visa guides</h4><ul><li><a href="/visa/visa-free-countries-for-uae-residents/">For UAE residents</a></li><li><a href="/visa/georgia-for-uae-residents/">Georgia</a></li><li><a href="/visa/schengen-for-uae-residents/">Schengen</a></li><li><a href="/visa/uk-for-uae-residents/">UK</a></li></ul></div>
-      <div><h4>Help</h4><ul><li><a href="mailto:support@brimm.ai">Contact</a></li><li><a href="/privacy.html">Privacy</a></li><li><a href="/terms.html">Terms</a></li><li><a href="/delete-account.html">Delete account</a></li></ul></div>
+      <div><h4>Help</h4><ul><li><a href="mailto:support@brimm.ai">Contact</a></li><li><a href="/privacy.html">Privacy</a></li><li><a href="/terms.html">Terms</a></li><li><a href="/refunds.html">Refunds</a></li><li><a href="/delete-account.html">Delete account</a></li></ul></div>
     </div>
   </div>
   <div class="legal"><span>© 2026 Brimm Limited, UAE</span><span>${extra ? extra + ' · ' : ''}<a href="mailto:support@brimm.ai">support@brimm.ai</a></span></div>
@@ -48,11 +48,13 @@ const pages = ['index.html', 'check.html', 'privacy.html', 'terms.html', 'delete
   .concat(fs.readdirSync(path.join(SITE, 'visa'), { withFileTypes: true }).filter(d => d.isDirectory()).map(d => `visa/${d.name}/index.html`))
   .concat(fs.existsSync(path.join(SITE, 'visa', 'index.html')) ? ['visa/index.html'] : [])
   // event pages (UAE National Day 2026: tools/build-national-day.js, founder HQ #878, 9 Nov 2026)
-  .concat(['uae-national-day-2026/index.html'].filter(f => fs.existsSync(path.join(SITE, f))));
+  .concat(['uae-national-day-2026/index.html'].filter(f => fs.existsSync(path.join(SITE, f))))
+  // the Refunds & cancellation policy (founder, 11 Nov 2026, for Paddle's review: tools/build-refunds.js)
+  .concat(['refunds.html'].filter(f => fs.existsSync(path.join(SITE, f))));
 const bad = [];
 for (const f of pages) {
   const p = path.join(SITE, f); let h = fs.readFileSync(p, 'utf8');
-  const legal = /^(privacy|terms|delete-account|404)\.html$/.test(f);   // no photo at the top: the solid header (the 404 since HQ #172)
+  const legal = /^(privacy|terms|delete-account|404|refunds)\.html$/.test(f);   // no photo at the top: the solid header (the 404 since HQ #172)
   const extra = (h.match(/<footer class="wrap"><span>(Updated [^<]*)<\/span>/) || h.match(/SITE-FOOT:START[\s\S]*?<span>(Updated [^<·]*?) · <a/) || [])[1] || null;
   // the header: between markers if already stamped, else the page's old header block
   if (h.includes('<!-- SITE-HEAD:START')) h = h.replace(/<!-- SITE-HEAD:START[\s\S]*?<!-- SITE-HEAD:END -->/, HEAD(legal));
