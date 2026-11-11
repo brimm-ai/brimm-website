@@ -221,10 +221,10 @@
   .fineprint a{color:var(--teal);font-weight:700;text-decoration:none}
   /* Pro's two ways to pay, with no amount typed (founder, 11 Nov 2026: "Free vs Pro monthly/yearly without invented numbers"); the price
      itself comes from Paddle on /pro, or from the store in the app */
-  .bill{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:0 0 16px}
-  .bill div{border:1px solid rgba(255,255,255,.16);border-radius:14px;padding:10px 12px;background:rgba(255,255,255,.05)}
+  .bill{display:grid;grid-template-columns:1fr 1fr;gap:4px 16px;margin:0 0 16px}   /* plain lines, not boxes: they are not buttons (review 11 Nov) */
   .bill b{display:block;color:#fff;font-size:15.5px;font-weight:800}
   .bill span{font-size:13px;color:var(--muted)}
+  @media (min-width:860px){.plans{align-items:start}}
   /* the web checkout's door (founder ruling via PD #1072, 11 Nov 2026) */
   .gopro{display:block;margin-top:18px;text-align:center;padding:14px 22px;border-radius:999px;background:var(--btn);color:#fff;font-weight:800;text-decoration:none}
   .honest{margin:18px auto 0;font-size:14px;color:var(--faint);max-width:760px;text-align:center}
@@ -395,7 +395,7 @@
           <li><svg class="ico" viewBox="0 0 24 24"><path d="M5 12l5 5 9-10"/></svg>A plain purchase — no free trial that turns into a charge, easy to cancel</li>
         </ul>
         <a class="gopro" href="/pro">Go Pro</a>
-        <p class="fineprint"><span aria-hidden="true">ⓘ</span> Your price shows in your local currency before you pay: here on brimm.ai, or in the app through Google Play or the App Store. Cancel any time: <a href="/refunds.html">Refunds</a>.</p>
+        <p class="fineprint"><span aria-hidden="true">ⓘ</span> Your price shows in your local currency before you pay. Cancel any time: <a href="/refunds.html">Refunds</a>.</p>
       </div>
     </div>
     <p class="honest">No ads, no sponsored places.</p>

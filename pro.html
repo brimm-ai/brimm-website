@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Get brimm Pro — brimm</title>
-<meta name="description" content="Get brimm Pro, monthly or yearly, in your own currency. Payments are taken by Paddle, our reseller and merchant of record.">
+<meta name="description" content="Get brimm Pro, billed monthly or yearly, in your own currency. Payments are taken by Paddle, our reseller and merchant of record.">
 <meta name="robots" content="noindex">
 <style>
   /* Manrope, served from this site (no third-party font call); SIL OFL: /assets/fonts/Manrope-OFL.txt */
@@ -54,14 +54,15 @@
   .step .num{display:inline-block;width:24px;height:24px;border-radius:50%;background:rgba(126,200,200,.18);color:var(--teal);font-size:13px;font-weight:800;text-align:center;line-height:24px;margin-right:8px}
   .field{width:100%;height:50px;border-radius:14px;background:#0E1424;border:1px solid rgba(255,255,255,.14);color:var(--ink);font:inherit;font-size:16px;padding:0 14px;margin-top:6px}
   .field:focus{outline:none;border-color:var(--teal)}
+  .field+.field{margin-top:10px}
   .opts{display:grid;gap:10px;margin-top:8px}
   .opt{display:flex;flex-direction:column;align-items:flex-start;gap:6px;border:1px solid rgba(255,255,255,.14);border-radius:14px;padding:14px 16px;cursor:pointer;background:rgba(255,255,255,.03);color:var(--ink);font:inherit;text-align:left;width:100%}
   .opt[aria-pressed=true]{border-color:var(--teal);background:rgba(126,200,200,.10)}
-  .opt b{font-size:16px}.opt small{display:block;color:var(--mute);font-size:13px;margin-top:2px}
+  .opt b{font-size:16px}.opt small{display:block;color:var(--mute);font-size:13px}
   .opt .price{font-weight:800;font-size:16px;white-space:nowrap}
   .offer{color:#FAC775;font-weight:700}
   .pay{display:block;width:100%;height:54px;border:0;border-radius:999px;margin-top:6px;background:linear-gradient(100deg,#357D7D,#7C52F8);color:#fff;font:inherit;font-size:16.5px;font-weight:800;cursor:pointer}
-  .pay[disabled]{opacity:.45;cursor:not-allowed}
+  .pay[disabled]{background:#2A3350;color:#C9CFE3;cursor:not-allowed}
   .note{font-size:13px;color:var(--mute);margin-top:10px}
   .msg{border-radius:14px;padding:12px 14px;background:rgba(250,199,117,.08);border:1px solid rgba(250,199,117,.35);color:#F3DDA4;font-size:14px;margin:0 0 14px}
   .done{text-align:center;padding:26px 20px}
@@ -84,28 +85,31 @@
 <!-- SITE-HEAD:END -->
   <div class="wrap">
     <div class="content">
-<div class="doc-head"><h1>Get brimm Pro</h1><div class="updated">Monthly or yearly, in your own currency</div></div>
+<div class="doc-head"><h1>Get brimm Pro</h1><div class="updated">Pay in your own currency</div></div>
 
 <div id="buy">
-<p class="msg" id="closed" hidden>Payments on brimm.ai are not open yet. You can get Pro in the brimm app.</p>
+<p class="msg" id="closed" hidden>Payments on brimm.ai are not open yet.</p>
 <div class="step"><h2><span class="num">1</span>Your brimm account</h2>
-<p>Enter the email you use in the brimm app. Pro switches on for that account.</p>
-<input class="field" id="email" type="email" autocomplete="email" placeholder="you@example.com" aria-label="Email of your brimm account"></div>
-<div class="step"><h2><span class="num">2</span>Monthly or yearly</h2>
+<p>Use exactly the email you sign in with in the brimm app. Pro switches on for that account.</p>
+<input class="field" id="email" type="email" autocomplete="email" placeholder="you@example.com" aria-label="Email of your brimm account">
+<input class="field" id="email2" type="email" autocomplete="off" placeholder="Type it again" aria-label="Type the email again">
+<p class="note" id="emailNote" hidden>The two emails don't match yet.</p></div>
+<div class="step"><h2><span class="num">2</span>Choose how often you pay</h2>
 <div class="opts">
-<button type="button" class="opt" data-plan="monthly" aria-pressed="true"><span><b>Monthly</b><small id="mSub">Billed every month</small></span><span class="price" id="mPrice">…</span></button>
-<button type="button" class="opt" data-plan="yearly" aria-pressed="false"><span><b>Yearly</b><small>Billed once a year</small></span><span class="price" id="yPrice">…</span></button>
+<button type="button" class="opt" data-plan="monthly" aria-pressed="true"><b>Monthly</b><span class="price" id="mPrice"></span><small id="mSub">Billed every month</small></button>
+<button type="button" class="opt" data-plan="yearly" aria-pressed="false"><b>Yearly</b><span class="price" id="yPrice"></span><small id="ySub">Billed once a year</small></button>
 </div>
 <p class="note" id="priceNote">Loading your price…</p></div>
 <button type="button" class="pay" id="pay" disabled>Continue to payment</button>
-<p class="note">Payments are taken by Paddle, our reseller and merchant of record. Prices include tax where it applies. Pro renews until you cancel, and you can cancel at any time: see <a href="/refunds.html">Refunds</a>.</p>
+<p class="note" id="payNote">Enter your email twice to continue.</p>
+<p class="note">Payments are taken by Paddle, our reseller and merchant of record. The price shown includes tax where it applies. Pro renews until you cancel. To cancel, use the link in your Paddle receipt, or email <a href="mailto:support@brimm.ai">support@brimm.ai</a>. Refunds: see <a href="/refunds.html">Refunds</a>.</p>
 </div>
 
 <div class="done" id="done" hidden>
 <div class="big" aria-hidden="true">✓</div>
-<h2>Pro is on</h2>
-<p>Open the brimm app and sign in with <strong id="doneEmail">the same email</strong>.</p>
-<p class="note">A receipt from Paddle is on its way to your inbox.</p>
+<h2>Payment received</h2>
+<p>Pro switches on for <strong id="doneEmail"></strong> within a few minutes. Open the brimm app and sign in with that email.</p>
+<p class="note">Paddle emails your receipt. If Pro is not on within an hour, email <a href="mailto:support@brimm.ai">support@brimm.ai</a>.</p>
 </div>
 
 <script>
@@ -113,35 +117,41 @@
   var C = {"env":"sandbox","token":"","monthly":"pri_01m75zns308e2x2y6qw4dedcqv","yearly":"pri_01m75zq119a0v22x32qybnpw61","launchDiscount":""};
   var $ = function(id){ return document.getElementById(id); };
   var plan = 'monthly', ready = false;
-  var okEmail = function(){ return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test($('email').value.trim()); };
-  var refresh = function(){ $('pay').disabled = !(ready && okEmail()); };
+  var em = function(){ return $('email').value.trim(); };
+  var okEmail = function(){ return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em()) && em().toLowerCase() === $('email2').value.trim().toLowerCase(); };
+  var refresh = function(){
+    var ok = okEmail(); $('pay').disabled = !(ready && ok);
+    $('emailNote').hidden = !($('email2').value.trim() && !ok);
+    $('payNote').hidden = ok || !ready;
+  };
   [].forEach.call(document.querySelectorAll('.opt'), function(b){ b.addEventListener('click', function(){
     plan = b.dataset.plan; [].forEach.call(document.querySelectorAll('.opt'), function(x){ x.setAttribute('aria-pressed', x === b); });
   }); });
-  $('email').addEventListener('input', refresh);
-  var q = new URLSearchParams(location.search);
-  if (q.get('done') === '1') { $('buy').hidden = true; $('done').hidden = false; if (q.get('email')) $('doneEmail').textContent = q.get('email'); return; }
+  $('email').addEventListener('input', refresh); $('email2').addEventListener('input', refresh);
   // no client token = no checkout: said plainly, nothing pretends to work
-  if (!C.token || !window.Paddle) { $('closed').hidden = false; $('priceNote').textContent = 'Prices show here once payments open.'; $('mPrice').textContent = ''; $('yPrice').textContent = ''; return; }
+  if (!C.token || !window.Paddle) { $('closed').hidden = false; $('priceNote').textContent = 'Prices show here once payments open.'; $('payNote').hidden = true; return; }
   if (C.env === 'sandbox') Paddle.Environment.set('sandbox');
+  // the success screen is shown in the page only after Paddle reports the checkout complete; the email never goes into the address bar
   Paddle.Initialize({ token: C.token, eventCallback: function(e){
-    if (e && e.name === 'checkout.completed') location.href = '/pro?done=1&email=' + encodeURIComponent($('email').value.trim());
+    if (e && e.name === 'checkout.completed') { $('doneEmail').textContent = em(); $('buy').hidden = true; $('done').hidden = false; window.scrollTo(0, 0); }
   } });
-  // the visitor's own prices, from Paddle (location from the visitor's connection); the launch offer only where it applies
-  var items = [{ priceId: C.monthly, quantity: 1 }, { priceId: C.yearly, quantity: 1 }];
-  var req = { items: items }; if (C.launchDiscount) req.discountId = C.launchDiscount;
+  // the visitor's own prices from Paddle (location from the visitor's connection), shown with tax as Paddle computes it (unit TOTAL);
+  // the first-month line appears only when Paddle reports a real discount on the monthly price, never for tax alone
+  var req = { items: [{ priceId: C.monthly, quantity: 1 }, { priceId: C.yearly, quantity: 1 }] };
+  if (C.launchDiscount) req.discountId = C.launchDiscount;
   Paddle.PricePreview(req).then(function(r){
     var li = r.data.details.lineItems, m = li.find(function(x){ return x.price.id === C.monthly; }), y = li.find(function(x){ return x.price.id === C.yearly; });
-    $('mPrice').textContent = m.formattedUnitTotals.subtotal + ' a month';
-    $('yPrice').textContent = y.formattedUnitTotals.subtotal + ' a year';
-    if (C.launchDiscount && m.formattedTotals.total !== m.formattedUnitTotals.subtotal) $('mSub').innerHTML = '<span class="offer">First month ' + m.formattedTotals.total + '</span>, then billed every month';
+    var full = m.formattedUnitTotals.total;
+    $('mPrice').textContent = full + ' a month';
+    $('yPrice').textContent = y.formattedUnitTotals.total + ' a year';
+    if (C.launchDiscount && m.totals && Number(m.totals.discount) > 0) { $('mPrice').innerHTML = '<span class="offer">' + m.formattedTotals.total + ' first month</span>'; $('mSub').textContent = 'Then ' + full + ' every month'; }
     $('priceNote').textContent = 'Your price, in ' + r.data.currencyCode + ', before you pay.';
     ready = true; refresh();
-  }).catch(function(){ $('priceNote').textContent = 'Prices couldn’t load. Refresh the page to try again.'; });
+  }).catch(function(){ $('priceNote').textContent = 'Prices couldn’t load. Refresh the page to try again.'; $('payNote').hidden = true; });
   $('pay').addEventListener('click', function(){
-    var email = $('email').value.trim(); if (!okEmail()) return;
-    var o = { items: [{ priceId: plan === 'yearly' ? C.yearly : C.monthly, quantity: 1 }], customer: { email: email },
-      customData: { brimm_email: email }, settings: { displayMode: 'overlay', theme: 'dark', allowLogout: false } };
+    if (!okEmail()) return;
+    var o = { items: [{ priceId: plan === 'yearly' ? C.yearly : C.monthly, quantity: 1 }], customer: { email: em() },
+      customData: { brimm_email: em() }, settings: { displayMode: 'overlay', theme: 'dark', allowLogout: false } };
     if (plan === 'monthly' && C.launchDiscount) o.discountId = C.launchDiscount;
     Paddle.Checkout.open(o);
   });
