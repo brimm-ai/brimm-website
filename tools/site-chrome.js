@@ -50,11 +50,11 @@ const pages = ['index.html', 'check.html', 'privacy.html', 'terms.html', 'delete
   // event pages (UAE National Day 2026: tools/build-national-day.js, founder HQ #878, 9 Nov 2026)
   .concat(['uae-national-day-2026/index.html'].filter(f => fs.existsSync(path.join(SITE, f))))
   // the Refunds & cancellation policy (founder, 11 Nov 2026, for Paddle's review: tools/build-refunds.js)
-  .concat(['refunds.html'].filter(f => fs.existsSync(path.join(SITE, f))));
+  .concat(['refunds.html', 'pro.html'].filter(f => fs.existsSync(path.join(SITE, f))));
 const bad = [];
 for (const f of pages) {
   const p = path.join(SITE, f); let h = fs.readFileSync(p, 'utf8');
-  const legal = /^(privacy|terms|delete-account|404|refunds)\.html$/.test(f);   // no photo at the top: the solid header (the 404 since HQ #172)
+  const legal = /^(privacy|terms|delete-account|404|refunds|pro)\.html$/.test(f);   // no photo at the top: the solid header (the 404 since HQ #172)
   const extra = (h.match(/<footer class="wrap"><span>(Updated [^<]*)<\/span>/) || h.match(/SITE-FOOT:START[\s\S]*?<span>(Updated [^<·]*?) · <a/) || [])[1] || null;
   // the header: between markers if already stamped, else the page's old header block
   if (h.includes('<!-- SITE-HEAD:START')) h = h.replace(/<!-- SITE-HEAD:START[\s\S]*?<!-- SITE-HEAD:END -->/, HEAD(legal));
