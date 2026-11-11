@@ -21,7 +21,9 @@ const dirs = fs.readdirSync(path.join(SITE, 'itinerary')).filter(d => fs.existsS
 const bad = []; let changed = 0, days = 0;
 for (const d of dirs) {
   const rel = `itinerary/${d}/index.html`, p = path.join(SITE, rel);
-  const h0 = fs.readFileSync(p, 'utf8');
+  // the page is read and written with plain LF line endings: a Windows checkout (core.autocrlf) once left a stray carriage return inside
+  // every card on the live site (10 Nov 2026) and made this check fail on a clean copy. Normalising here closes that at the source.
+  const raw = fs.readFileSync(p, 'utf8'), h0 = raw.replace(/\r\n/g, '\n');
   const ld = [...h0.matchAll(/<script type="application\/ld\+json"[^>]*>([\s\S]*?)<\/script>/g)].map(m => { try { return JSON.parse(m[1]); } catch { return null; } });
   const items = ld.flat().flatMap(j => (j && j.itinerary && j.itinerary.itemListElement) || []);   // the block is an array of two objects
   const titleOf = {}; for (const it of items) { const m = /^Day (\d+)(?:: (.*))?$/.exec(it.name || ''); if (m) titleOf[m[1]] = m[2] || ''; }
@@ -43,7 +45,7 @@ for (const d of dirs) {
   days += (h.match(/<details class="day"/g) || []).length;
   if ((h.match(/<details class="day" open>/g) || []).length !== 1) bad.push(`${rel}: day 1 is not the one open day`);
   if (/<section class="day">/.test(h)) bad.push(`${rel}: an old day card is left`);
-  if (h !== h0) { changed++; if (!CHECK) fs.writeFileSync(p, h); }
+  if (h !== raw) { changed++; if (!CHECK) fs.writeFileSync(p, h); }
 }
 if (bad.length) { console.error(`day-cards: ${bad.length} fault(s):\n  ${bad.join('\n  ')}`); process.exit(1); }
 if (CHECK && changed) { console.error(`day-cards --check: ${changed} page(s) are not in the option-A shape; run node tools/day-cards.js`); process.exit(1); }

@@ -36,9 +36,11 @@ const FOOT = (extra) => `<!-- SITE-FOOT:START (tools/site-chrome.js) -->
 // 92/93/92, on 90/92/91 (about +140 ms blocking time); loading it 1.2 s after the page instead was no better (93/93/90/88/89), so the
 // standard tag stays. The live home page (no counter) measured 95/99/99 the same evening, so there is room; re-measure live once the
 // token is in (bar: 90).
-const CF_BEACON_TOKEN = process.env.CF_BEACON_TOKEN_PREVIEW || '';   // the env var is for a local Lighthouse preview only; never committed
+// ON since 11 Nov 2026: the founder's site token (Cloudflare account team@brimm.ai), given in the Code tab with the snippet below - Cloudflare's
+// own snippet as he pasted it (type='module', which also runs after the page). Emptying the token switches the counter off on the next run.
+const CF_BEACON_TOKEN = '85e4c7648517449caa94634ceeb46c7e';
 const BEACON = CF_BEACON_TOKEN
-  ? `<!-- ANALYTICS:START (tools/site-chrome.js) -->\n<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "${CF_BEACON_TOKEN}"}'></script>\n<!-- ANALYTICS:END -->`
+  ? `<!-- ANALYTICS:START (tools/site-chrome.js) -->\n<!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "${CF_BEACON_TOKEN}"}'></script><!-- End Cloudflare Web Analytics -->\n<!-- ANALYTICS:END -->`
   : '';
 const pages = ['index.html', 'check.html', 'privacy.html', 'terms.html', 'delete-account.html', '404.html']   // check.html since HQ #148 (2 Nov 2026); 404.html since HQ #172 (3 Nov 2026)
   .concat(fs.readdirSync(path.join(SITE, 'itinerary')).map(d => `itinerary/${d}/index.html`))
