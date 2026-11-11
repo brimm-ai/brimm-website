@@ -22,3 +22,5 @@ node tools/stamp-assets.js --check || exit 1
 # "Duplicate without user-selected canonical"): tools/check-canonicals.js, self-test first.
 node tools/check-canonicals.js --self-test || exit 1
 node tools/check-canonicals.js || exit 1
+# The city itinerary day cards are option A (founder, HQ #964, 10 Nov 2026): tools/day-cards.js --check refuses a page left in another shape.
+node tools/day-cards.js --check || exit 1
