@@ -19,9 +19,9 @@ const FOOT = (extra) => `<!-- SITE-FOOT:START (tools/site-chrome.js) -->
   <div class="in">
     <div>${BRAND(21)}<p class="foot-tag">What are you brimming today?</p><div class="foot-social"><a href="https://instagram.com/brimm.ai" aria-label="brimm on Instagram" rel="me noopener" target="_blank"><img src="/assets/social/instagram.svg" alt="" width="18" height="18"></a><a href="https://tiktok.com/@brimm.ai" aria-label="brimm on TikTok" rel="me noopener" target="_blank"><img src="/assets/social/tiktok.svg" alt="" width="18" height="18"></a><a href="https://facebook.com/brimmai" aria-label="brimm on Facebook" rel="me noopener" target="_blank"><img src="/assets/social/facebook.svg" alt="" width="18" height="18"></a><a href="https://x.com/brimm_ai" aria-label="brimm on X" rel="me noopener" target="_blank"><img src="/assets/social/x.svg" alt="" width="18" height="18"></a><a href="https://linkedin.com/company/brimm-ai" aria-label="brimm on LinkedIn" rel="me noopener" target="_blank"><img src="/assets/social/linkedin.svg" alt="" width="18" height="18"></a><a href="https://www.youtube.com/@brimm_ai" aria-label="brimm on YouTube" rel="me noopener" target="_blank"><img src="/assets/social/youtube.svg" alt="" width="18" height="18"></a></div></div>
     <div class="cols">
-      <div><h4>brimm</h4><ul><li><a href="/#how">How it works</a></li><li><a href="/#places">Destinations</a></li><li><a href="/#pricing">Pricing</a></li></ul></div>
+      <div><h4>brimm</h4><ul><li><a href="/#how">How it works</a></li><li><a href="/#places">Destinations</a></li><li><a href="/pricing.html">Pricing</a></li><li><a href="/about.html">About</a></li></ul></div>
       <div><h4>Visa guides</h4><ul><li><a href="/visa/visa-free-countries-for-uae-residents/">For UAE residents</a></li><li><a href="/visa/georgia-for-uae-residents/">Georgia</a></li><li><a href="/visa/schengen-for-uae-residents/">Schengen</a></li><li><a href="/visa/uk-for-uae-residents/">UK</a></li></ul></div>
-      <div><h4>Help</h4><ul><li><a href="mailto:support@brimm.ai">Contact</a></li><li><a href="/privacy.html">Privacy</a></li><li><a href="/terms.html">Terms</a></li><li><a href="/delete-account.html">Delete account</a></li></ul></div>
+      <div><h4>Help</h4><ul><li><a href="/contact.html">Contact</a></li><li><a href="/privacy.html">Privacy</a></li><li><a href="/terms.html">Terms</a></li><li><a href="/refunds.html">Refunds &amp; cancellation</a></li><li><a href="/delete-account.html">Delete account</a></li></ul></div>
     </div>
   </div>
   <div class="legal"><span>© 2026 Brimm Limited, UAE</span><span>${extra ? extra + ' · ' : ''}<a href="mailto:support@brimm.ai">support@brimm.ai</a></span></div>
@@ -48,11 +48,13 @@ const pages = ['index.html', 'check.html', 'privacy.html', 'terms.html', 'delete
   .concat(fs.readdirSync(path.join(SITE, 'visa'), { withFileTypes: true }).filter(d => d.isDirectory()).map(d => `visa/${d.name}/index.html`))
   .concat(fs.existsSync(path.join(SITE, 'visa', 'index.html')) ? ['visa/index.html'] : [])
   // event pages (UAE National Day 2026: tools/build-national-day.js, founder HQ #878, 9 Nov 2026)
-  .concat(['uae-national-day-2026/index.html'].filter(f => fs.existsSync(path.join(SITE, f))));
+  .concat(['uae-national-day-2026/index.html'].filter(f => fs.existsSync(path.join(SITE, f))))
+  // the payment pages (pricing, refunds, about, contact): DRAFT 11 Nov 2026 for the payment-provider applications, tools/build-payment-pages.js
+  .concat(['pricing.html', 'refunds.html', 'about.html', 'contact.html'].filter(f => fs.existsSync(path.join(SITE, f))));
 const bad = [];
 for (const f of pages) {
   const p = path.join(SITE, f); let h = fs.readFileSync(p, 'utf8');
-  const legal = /^(privacy|terms|delete-account|404)\.html$/.test(f);   // no photo at the top: the solid header (the 404 since HQ #172)
+  const legal = /^(privacy|terms|delete-account|404|pricing|refunds|about|contact)\.html$/.test(f);   // no photo at the top: the solid header (the 404 since HQ #172)
   const extra = (h.match(/<footer class="wrap"><span>(Updated [^<]*)<\/span>/) || h.match(/SITE-FOOT:START[\s\S]*?<span>(Updated [^<·]*?) · <a/) || [])[1] || null;
   // the header: between markers if already stamped, else the page's old header block
   if (h.includes('<!-- SITE-HEAD:START')) h = h.replace(/<!-- SITE-HEAD:START[\s\S]*?<!-- SITE-HEAD:END -->/, HEAD(legal));
