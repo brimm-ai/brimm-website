@@ -94,6 +94,10 @@
   .cb.ok input{border-color:rgba(126,200,200,.6);background:rgba(126,200,200,.07);padding-right:46px;font-weight:700}
   .cb.ok::after{content:'✓';position:absolute;right:16px;top:26px;transform:translateY(-50%);font-size:18px;font-weight:800;color:#7EC8C8;pointer-events:none}
   .chip[aria-pressed=true]::before{content:'✓ ';font-weight:800;color:#7EC8C8}
+  /* #213 (founder-approved mock, 10 Nov 2026): a visa the passport does not need is struck, says why, and cannot be picked */
+  .chip.no{cursor:not-allowed;background:transparent;border-style:dashed;border-color:rgba(255,255,255,.16);color:#8E96B0;font-weight:600;height:auto;min-height:42px;padding:7px 15px;text-align:left;line-height:1.25}
+  .chip.no b{font-weight:600;text-decoration:line-through;text-decoration-color:rgba(142,150,176,.8)}
+  .chip.no small{display:block;font-size:12.5px;font-weight:600;color:#AEB6CF;text-decoration:none}
   .go{box-shadow:0 12px 30px rgba(124,82,248,.3),inset 0 1px 0 rgba(255,255,255,.22)}
   @media (prefers-reduced-motion:reduce){.prog i{transition:none}}
   .dates{display:none;gap:10px;margin-top:10px}.dates.on{display:flex}.dates>div{flex:1}
@@ -288,7 +292,7 @@
   var AV = {"app/also.webp":"cdd0a7aa","app/ask.webp":"ae39a017","app/besttime.webp":"d4ddf6e2","app/budget.webp":"dda03dbe","app/chip-petra.webp":"39472d30","app/chip-tbilisi.webp":"83dbde8c","app/day.webp":"7b109c97","app/explore.webp":"20d6f531","app/globe.webp":"0f9b79ec","app/home-dubai.webp":"543b5324","app/home-paris.webp":"abe58dd3","app/home-singapore.webp":"211e1ef4","app/planning.webp":"52589e52","app/share.webp":"9921c623","app/travelmap.webp":"1ccfdc11","app/uae.webp":"93ff21cf","app/visa.webp":"0ddac656","hero/abu-dhabi-960.jpg":"b495e8d6","hero/abu-dhabi.jpg":"3c96eb57","hero/baku-960.jpg":"2e6baacf","hero/baku.jpg":"ee3646d0","hero/bali-960.jpg":"a685dd7e","hero/bali-wall.jpg":"aad88f09","hero/bali.jpg":"7ca5cab7","hero/bangkok-960.jpg":"117b2ed4","hero/bangkok.jpg":"19b265f6","hero/barcelona-960.jpg":"acccb6ac","hero/cairo-960.jpg":"76a563a4","hero/cairo.jpg":"1c61ad8c","hero/cappadocia-960.jpg":"06f9c241","hero/cappadocia.jpg":"a687e9fa","hero/chiang-mai-960.jpg":"c4c6c698","hero/chiang-mai.jpg":"4d976f59","hero/doha-960.jpg":"056dbd39","hero/doha.jpg":"df99608a","hero/dubai-960.jpg":"b76ada80","hero/dubai.jpg":"064d296c","hero/goa-960.jpg":"72a9728a","hero/goa.jpg":"6beab113","hero/istanbul-960.jpg":"6e2f39fc","hero/istanbul-wall.jpg":"9a3cd34e","hero/istanbul.jpg":"ffcbb2fb","hero/kyoto-960.jpg":"e53f0be6","hero/kyoto.jpg":"75c1ecd7","hero/lisbon-960.jpg":"de79f1da","hero/lisbon.jpg":"1238d5ba","hero/london-960.jpg":"c7d7e65d","hero/london.jpg":"7111b088","hero/machu-picchu-960.jpg":"d9f8ff65","hero/machu-picchu.jpg":"70fb75d0","hero/maldives-960.jpg":"3dd16df2","hero/maldives.jpg":"08fbebd2","hero/marrakech-960.jpg":"0cba6f1b","hero/marrakech.jpg":"8accbdf5","hero/muscat-960.jpg":"a1c385fe","hero/muscat.jpg":"7089d9ff","hero/paris-960.jpg":"29bad64f","hero/paris-wall.jpg":"ec1a3818","hero/paris.jpg":"d1cf2fac","hero/petra-960.jpg":"8d74744c","hero/petra.jpg":"b8664f04","hero/pokhara-960.jpg":"78856d46","hero/pokhara.jpg":"273b11a2","hero/queenstown-960.jpg":"280d095c","hero/queenstown.jpg":"2177e851","hero/rome-960.jpg":"2fb2dc83","hero/singapore-960.jpg":"e000fc0c","hero/singapore.jpg":"d4d8044b","hero/tbilisi-960.jpg":"1110d453","hero/tbilisi-spot.jpg":"8b830c70","hero/tbilisi.jpg":"06f370b5","hero/tokyo-960.jpg":"22140087","hero/tokyo.jpg":"20a36e7e","hero/wadi-rum-960.jpg":"e25d3594","hero/wadi-rum.jpg":"ac1dd86f","hero/zanzibar-960.jpg":"71947f8c","hero/zanzibar.jpg":"cc33c1b5","hero/zurich-960.jpg":"0b56dd11","hero/zurich.jpg":"c5348f3f"};
   function av(u) { var k = u.replace(/^\/assets\//, ''); return AV[k] ? u + '?v=' + AV[k] : u; }
   /* ASSET-V:END */
-  const ENGINE_V = 'e6e014a982';
+  const ENGINE_V = '31b0eade1f';
   const CHECK = { on: !!(window.BRIMM_CHECK && window.BRIMM_CHECK.on), url: 'https://oejnnujlcmtzlkyifzag.supabase.co/functions/v1/api-proxy', key: '' };
   const PREVIEW = /^(localhost|127\.0\.0\.1)$/.test(location.hostname) && new URLSearchParams(location.search).has('preview');
   const answering = CHECK.on || PREVIEW;
@@ -324,6 +328,7 @@
     // #310 (founder, 25 Oct 2026): the app's sixth holding — where an EU / Schengen residence can be issued, from the app's own lists
     $('eu').innerHTML = '<option value="">Choose a country</option>' + (d.eu || []).map(g => `<option value="${g.c}">${g.n}</option>`).join('');
     $('holdings').querySelectorAll('.chip').forEach(b => b.addEventListener('click', () => {
+      if (b.classList.contains('no')) return;   // #213: a visa this passport does not need cannot be picked
       const on = b.getAttribute('aria-pressed') !== 'true'; b.setAttribute('aria-pressed', on);
       on ? picked.add(b.dataset.id) : picked.delete(b.dataset.id);
       $('gulfBox').classList.toggle('on', picked.has('GCC'));
@@ -490,6 +495,44 @@
     } catch (e) { show(navigator.onLine ? MESSAGES.did_not_go_through : MESSAGES.offline); }
   }
 
+  // ── THE VISA CHIPS FOLLOW THE PASSPORT (#213, founder-approved mock 10 Nov 2026; PD ruling A on #1012) ──
+  // Once a passport is picked, the server door `web-rows` answers the four visa rows (US, UK, Canada, Schengen) from the shared visa store
+  // (the provider only on a miss — never the visitor's 10 checks). Each row is read by the APP'S OWN rule, bundled in the engine
+  // (webRowState = the app's sign-up path → visaRowState): a visa the passport does not need is struck, says why in the mock's words, and
+  // cannot be picked. "We could not check" (a refused, failed or offline ask, or a row the door could not get) is never "not needed": the
+  // chip stays as it is. Gulf and EU residence chips are never touched. The words are chosen from the verdict's STATUS CODE, never by
+  // reading a sentence.
+  const ROW_WHY = { home: () => 'your own passport', visa_free: () => 'no visa needed', freedom: () => 'no visa needed',
+    eta: s => s ? `${/^[aeiou]/i.test(s) ? 'an' : 'a'} ${s} is enough` : null };
+  let rowsFor = null, rowsAsk = 0;
+  const clearRows = () => $('holdings').querySelectorAll('.chip.no').forEach(b => {
+    b.classList.remove('no'); b.removeAttribute('aria-disabled'); b.textContent = DATA.holdings.find(h => h.id === b.dataset.id).label; });
+  const followPassport = async () => {
+    if (!DATA || !CHECK.on) return;
+    const pp = country($('passport').value), code = pp ? pp.c : null;
+    if (code === rowsFor) return;
+    rowsFor = code; const ask = ++rowsAsk; clearRows();
+    if (!pp || !navigator.onLine) return;
+    try {
+      const [E, r] = await Promise.all([loadEngine(), fetch(CHECK.url, { method: 'POST', headers: { 'Content-Type': 'application/json', apikey: CHECK.key, Authorization: 'Bearer ' + CHECK.key },
+        body: JSON.stringify({ service: 'web-rows', passport: pp.c, hp: $('hp').value }) })]);
+      const j = await r.json().catch(() => ({}));
+      if (ask !== rowsAsk || j.kind !== 'rows' || !j.rows) return;
+      const today = new Date().toISOString().slice(0, 10);
+      Object.entries(j.rows).forEach(([id, row]) => {
+        const b = $('holdings').querySelector(`.chip[data-id="${id}"]`); if (!b || !row) return;
+        const st = E.webRowState(row.unknown ? null : row.body, row.destination, pp.n, today);
+        const why = !st.needed && ROW_WHY[st.status] ? ROW_WHY[st.status](st.scheme) : null;
+        if (!why) return;
+        b.classList.add('no'); b.setAttribute('aria-disabled', 'true'); b.setAttribute('aria-pressed', 'false'); picked.delete(id);
+        const t = document.createElement('b'), w = document.createElement('small'); t.textContent = b.textContent; w.textContent = why;
+        b.textContent = ''; b.append(t, w);
+      });
+    } catch (e) { /* not checked = the chips stay as they are */ }
+  };
+  let rowsTimer = null;
+  ['input', 'change'].forEach(t => $('passport').addEventListener(t, () => { clearTimeout(rowsTimer); rowsTimer = setTimeout(followPassport, 350); }));
+
   // the progress line and the ticks (HQ #964): read from the same checks the button uses (country() / place()), on every change
   const progress = () => {
     if (!DATA) return;
@@ -498,7 +541,7 @@
     [pp, hm, picked.size > 0 || dd, dd].forEach((on, i) => $('prog').children[i].classList.toggle('on', on));
   };
   ['input', 'change', 'click', 'keyup'].forEach(t => $('form').addEventListener(t, () => setTimeout(progress, 0)));
-  const waitData = setInterval(() => { if (DATA) { clearInterval(waitData); progress(); } }, 100);
+  const waitData = setInterval(() => { if (DATA) { clearInterval(waitData); progress(); followPassport(); } }, 100);
 
   $('form').addEventListener('submit', e => {
     e.preventDefault();
