@@ -45,7 +45,7 @@ for (const d of dirs) {
   days += (h.match(/<details class="day"/g) || []).length;
   if ((h.match(/<details class="day" open>/g) || []).length !== 1) bad.push(`${rel}: day 1 is not the one open day`);
   if (/<section class="day">/.test(h)) bad.push(`${rel}: an old day card is left`);
-  if (h !== raw) { changed++; if (!CHECK) fs.writeFileSync(p, h); }
+  if (h !== h0) { changed++; if (!CHECK) fs.writeFileSync(p, h); }   // against the LF-normalised page: a CRLF checkout is not a change (15 Nov 2026)
 }
 if (bad.length) { console.error(`day-cards: ${bad.length} fault(s):\n  ${bad.join('\n  ')}`); process.exit(1); }
 if (CHECK && changed) { console.error(`day-cards --check: ${changed} page(s) are not in the option-A shape; run node tools/day-cards.js`); process.exit(1); }

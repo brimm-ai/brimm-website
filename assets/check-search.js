@@ -29,7 +29,7 @@
     if (p.r && (fold(p.r) === q || city.startsWith(q))) return 0.4;
     if (fold(p.country) === q || aliasHit(aliases, p.cc, q) === 'exact') return 0.5;
     if (p.a && p.a.some(a => fold(a) === q)) return 0.6;
-    if (city.startsWith(q)) return 1;
+    if (city.startsWith(q) || (p.b && p.b.some(a => fold(a).startsWith(q)))) return 1;   // an island typed from its start (#1337, the app's rule)
     if (city.includes(q)) return 2;
     if (p.a && p.a.some(a => fold(a).includes(q))) return 3;
     const country = fold(p.country), al = aliasHit(aliases, p.cc, q);

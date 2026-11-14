@@ -267,7 +267,7 @@
 <!-- SITE-FOOT:END -->
 
 
-<script src="/assets/check-search.js?v=0236ce40"></script>
+<script src="/assets/check-search.js?v=7b30749f"></script>
 <script src="/assets/site.js?v=0e7df8ad"></script>
 <script src="/assets/stores.js?v=65cccb2f"></script>
 <script>
@@ -311,7 +311,7 @@
 
   let DATA = null;
   const picked = new Set(); let when = null;
-  fetch('/assets/check-data.json?v=cb7983bd', { cache: 'no-cache' })   /* revalidate: a rebuilt list (25 Oct 2026: 'Turkey' → 'Türkiye') must not wait out a cached copy */.then(r => r.json()).then(d => {
+  fetch('/assets/check-data.json?v=4edfbd7d', { cache: 'no-cache' })   /* revalidate: a rebuilt list (25 Oct 2026: 'Turkey' → 'Türkiye') must not wait out a cached copy */.then(r => r.json()).then(d => {
     DATA = d;
     // ?to=<place> (the itinerary pages' visa box, 24 Oct 2026) and ?home=<country> (the visa guide pages, 25 Oct 2026): filled in from
     // our own lists — a city or a country the check knows, never free text; anything else leaves the field empty
