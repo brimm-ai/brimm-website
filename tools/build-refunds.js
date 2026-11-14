@@ -20,33 +20,26 @@ const ph = (s) => `<span class="ph">[FOUNDER: ${s}]</span>`;
 let h = fs.readFileSync(path.join(SITE, 'terms.html'), 'utf8').replace(/\r\n/g, '\n');
 const once = (a, b) => { if (h.split(a).length !== 2) throw new Error('expected one: ' + String(a).slice(0, 50)); h = h.replace(a, () => b); };
 once(/<title>[^<]*<\/title>/.exec(h)[0], '<title>Refunds &amp; cancellation — brimm</title>');
-once(/<meta name="description" content="[^"]*">/.exec(h)[0], '<meta name="description" content="How to cancel brimm Pro and how refunds work: in the app through Google Play or the App Store, and on brimm.ai through Paddle.">');
+once(/<meta name="description" content="[^"]*">/.exec(h)[0], '<meta name="description" content="How to cancel brimm Pro and how refunds work: in the app through Google Play or the App Store.">');
 once('<link rel="canonical" href="https://brimm.ai/terms.html">', '<link rel="canonical" href="https://brimm.ai/refunds.html">');
 const a = h.indexOf('<div class="doc-head">'), z = h.indexOf('    </div>\n  </div>\n  <!-- SITE-FOOT:START');
 if (a < 0 || z < 0) throw new Error('terms.html shell changed');
-const body = `<div class="doc-head"><h1>Refunds &amp; cancellation</h1><div class="updated">Last updated: 11 November 2026</div></div>
+const body = `<div class="doc-head"><h1>Refunds &amp; cancellation</h1><div class="updated">Last updated: 14 November 2026</div></div>
 
 <p>This page explains how to cancel brimm Pro and how to ask for a refund. Who handles your refund depends on where you bought Pro.</p>
 <h2>1. Pro bought in the iPhone app</h2>
 <p>Apple takes the payment for purchases in the iPhone app, and refunds for them are handled by Apple under its own rules. To ask for a refund, go to Apple's <a href="https://reportaproblem.apple.com" rel="noopener">Report a Problem</a> page.</p>
 <h2>2. Pro bought in the Android app through Google Play</h2>
 <p>Google Play takes the payment for purchases in the Android app, and refunds for them are handled by Google Play under its own rules. To ask for a refund, follow Google's help page <a href="https://support.google.com/googleplay/answer/2479637" rel="noopener">Request a refund on Google Play</a>.</p>
-<h2>3. Pro bought through our own checkout</h2>
-<p>Our own checkout is run by Paddle, our reseller and merchant of record: Paddle takes the payment and is the seller named on your receipt.</p>
-<ul>
-<li><strong>Cancelling:</strong> you can cancel at any time. Pro stays on until the end of the period you have already paid for, and it does not renew.</li>
-<li><strong>Refunds:</strong> to ask for a refund, email <a href="mailto:support@brimm.ai">support@brimm.ai</a> within 14 days of a charge, from the email address on your receipt. We handle refund requests with Paddle, under <a href="https://www.paddle.com/legal/buyer-terms" rel="noopener">Paddle's buyer terms</a>.</li>
-</ul>
-<h2>4. How to cancel</h2>
+<h2>3. How to cancel</h2>
 <ul>
 <li><strong>iPhone:</strong> open Settings, tap your name, then Subscriptions, and cancel brimm Pro.</li>
 <li><strong>Android:</strong> open the Google Play app, tap your profile, then Payments &amp; subscriptions, then Subscriptions, and cancel brimm Pro.</li>
-<li><strong>Our own checkout:</strong> use the "Manage subscription" link in your Paddle receipt email, or email <a href="mailto:support@brimm.ai">support@brimm.ai</a> and we will cancel it for you.</li>
 </ul>
 <p>When you cancel, Pro stays on until the end of the period you have already paid for. <strong>Deleting your brimm account does not cancel a subscription</strong>: cancel it first, or you may continue to be charged.</p>
-<h2>5. Contact</h2>
+<h2>4. Contact</h2>
 <p>Questions about a payment, a refund or cancelling: <a href="mailto:support@brimm.ai">support@brimm.ai</a>. brimm is run by Brimm Limited, United Arab Emirates.</p>
 `;
 h = h.slice(0, a) + body + h.slice(z);
 fs.writeFileSync(OUT, h);
-console.log('written refunds.html (Last updated: 11 November 2026)');
+console.log('written refunds.html (Last updated: 14 November 2026)');
