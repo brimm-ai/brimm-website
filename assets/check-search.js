@@ -41,7 +41,9 @@
   function ranked(q, data) {
     const hits = [];
     data.places.forEach((p, i) => { const t = tier(p, q, data.countryAliases); if (t >= 0) hits.push({ p, t, i }); });
-    return hits.sort((a, b) => a.t - b.t || a.i - b.i);
+    // the main stay base leads under its island's name (#613, the app's mainBaseFirst); `b` = baseFor, `m` = mainBaseFor
+    const leads = (x, y) => (x.m || []).some(n => fold(n).includes(q) && (y.b || []).includes(n) && !(y.m || []).includes(n));
+    return hits.sort((a, b) => a.t - b.t || (leads(a.p, b.p) ? -1 : leads(b.p, a.p) ? 1 : 0) || a.i - b.i);
   }
   function places(query, data) {
     const q = fold(query.trim()); if (!q) return [];
