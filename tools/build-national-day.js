@@ -9,11 +9,13 @@
 const fs = require('fs'), path = require('path');
 const SITE = path.join(__dirname, '..');
 const OUT = path.join(SITE, 'uae-national-day-2026', 'index.html');
-const TITLE = "UAE National Day 2026: 9 days off with 3 days' leave — where can your passport go?";
-const DESC = "UAE National Day 2026 is expected on Wednesday 2 and Thursday 3 December. Take 3 days of leave for 9 days off, then check what your passport needs for each place.";
+const TITLE = "UAE National Day 2026: 9 days off with 2 days' leave — where can your passport go?";
+const DESC = "UAE National Day 2026 is expected from Wednesday 2 to Friday 4 December. Take 2 days of leave for 9 days off, then check what your passport needs for each place.";
 const URL_ = 'https://brimm.ai/uae-national-day-2026/';
-// the 9 days: weekday, date, kind (we = weekend, lv = a day of leave, hol = the expected holiday)
-const DAYS = [['Sat', 28, 'we'], ['Sun', 29, 'we'], ['Mon', 30, 'lv'], ['Tue', 1, 'lv'], ['Wed', 2, 'hol'], ['Thu', 3, 'hol'], ['Fri', 4, 'lv'], ['Sat', 5, 'we'], ['Sun', 6, 'we']];
+// the 9 days: weekday, date, kind (we = weekend, lv = a day of leave, hol = the expected holiday). 16 Nov 2026: the holiday is Wed 2 - Fri 4
+// (founder's facts, 14 Nov 2026), so 2 days of leave; the legend counts from this list, never a typed number.
+const DAYS = [['Sat', 28, 'we'], ['Sun', 29, 'we'], ['Mon', 30, 'lv'], ['Tue', 1, 'lv'], ['Wed', 2, 'hol'], ['Thu', 3, 'hol'], ['Fri', 4, 'hol'], ['Sat', 5, 'we'], ['Sun', 6, 'we']];
+const nDays = (k) => DAYS.filter((d) => d[2] === k).length;
 // the places, grouped as in the approved mock (the same places as the National Day posts)
 const GROUPS = [
   ['Indian passport, living in the UAE', [['Tbilisi', 'Georgia'], ['Yerevan', 'Armenia']]],
@@ -88,7 +90,7 @@ const Q = ' — where can your passport go?';
 if (!TITLE.endsWith(Q)) throw new Error('the title no longer ends with its question');
 const H1 = esc(TITLE.slice(0, -Q.length)) + ' <span class="d">—</span><span class="q">where can your passport go?</span>';
 const cal = '<div class="cal">' + DAYS.map(([w, d, k], i) => `<div class="${k}" style="--i:${i}"><span>${w}</span><b>${d}</b></div>`).join('') + '</div>'
-  + '<div class="key"><span><i style="background:#F5C451"></i>3 days of leave</span><span><i style="background:#5CC6C6"></i>2 days of holiday (expected)</span>'
+  + '<div class="key"><span><i style="background:#F5C451"></i>' + nDays('lv') + ' days of leave</span><span><i style="background:#5CC6C6"></i>' + nDays('hol') + ' days of holiday (expected)</span>'
   + '<span><i style="border:1.5px solid rgba(255,255,255,.3)"></i>4 weekend days</span></div>';
 const groups = GROUPS.map(([h, places]) => `<h2 class="pp">${esc(h)}</h2><p class="pps">Ideas for 9 days:</p><div class="places">`
   + places.map(([c, ctry]) => `<div class="prow"><div><b>${esc(c)}</b><small>${esc(ctry)}</small></div>`
@@ -126,7 +128,7 @@ ${CSS}
 </header>
 <main class="wrap grid">
   <article>
-    <p class="lead">The UAE National Day holiday is expected on Wednesday 2 and Thursday 3 December 2026. Take three days of leave, Monday 30 November, Tuesday 1 and Friday 4 December, and you are off for nine days: Saturday 28 November to Sunday 6 December.</p>
+    <p class="lead">The UAE National Day holiday is expected from Wednesday 2 to Friday 4 December 2026. Take two days of leave, Monday 30 November and Tuesday 1 December, and you are off for nine days: Saturday 28 November to Sunday 6 December.</p>
     <p class="note">⚠️ Expected dates: the official announcement has not been made yet.</p>
     ${cal}
     ${groups}
