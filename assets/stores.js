@@ -8,7 +8,7 @@
 // in brimm-ai): the doors show.
 window.BRIMM_CHECK = { on: true };   // ON 1 Nov 2026 (founder, HQ #500 19:58: "GO NOW, AS IS")
 window.BRIMM_STORES = {
-  play: { on: false, url: 'https://play.google.com/store/apps/details?id=ai.brimm.app', main: 'Get it on' },
+  play: { on: true,  url: 'https://play.google.com/store/apps/details?id=ai.brimm.app', main: 'Get it on' },
   ios:  { on: false, url: '', main: 'Download on the' },
 };
 
