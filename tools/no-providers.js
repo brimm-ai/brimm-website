@@ -29,10 +29,12 @@ const ALLOWED = [
   { why: 'the database host the check calls', re: /https:\/\/oejnnujlcmtzlkyifzag\.supabase\.co\/functions\/v1\/api-proxy/g },
   { why: 'the database host, inside the bundled engine (its module and setting names)', re: /supabase/gi, only: 'assets/check-engine.js' },
   { why: 'open founder question: apply-link table keys', re: /"https:\/\/link\.travel-buddy\.ai\/\?link=[0-9A-Za-z]+"(?=:)/g, only: 'assets/check-engine.js' },
-  // The link-in-bio page (mock #319, founder-approved via PD #2302, 23 Nov 2026) names its booking partners by design: their two
-  // tracked link addresses and their two name labels, in exactly these shapes, on that one page. Any other mention, anywhere, still fails.
-  { why: 'link-in-bio partners (mock #319, PD #2302)', only: 'go/index.html',
-    re: /"https:\/\/www\.discovercars\.com\/\?a_aid=brimmai"|"https:\/\/www\.getyourguide\.com\/\?partner_id=GKK1SCA&amp;utm_medium=online_publisher"|<span class="s">(?:DiscoverCars|GetYourGuide)<\/span>/g },
+  // THE LINK-IN-BIO PAGE IS THE ONE PAGE ALLOWED TO NAME PARTNERS (founder, #670 via PD #2323, 23 Nov 2026): every partner whose link
+  // pays us, as a tile. Allowed ONLY as a whole tile link — this exact element shape, a partner's own host (or the network's tracked
+  // redirect host), a partner's name as its words — on go/index.html. A partner named in a comment, a label, any other element or any
+  // other page still fails, and so does every name that is not a booking partner (the vendor, the AI service, crash reporting).
+  { why: 'link-in-bio partner tiles (#670, PD #2323)', only: 'go/index.html',
+    re: /<a class="tile" href="https:\/\/(?:www\.)?(?:agoda\.com|expedia\.com|hotels\.com|getyourguide\.com|affiliate\.klook\.com|tp\.media|discovercars\.com)\/[^"\s<>]*" target="_blank" rel="noopener sponsored">(?:Agoda|Expedia|Hotels\.com|GetYourGuide|Klook|Tiqets|DiscoverCars|GetRentacar|Aviasales|Airalo)<\/a>/g },
 ];
 const TEXT = /\.(html?|js|json|xml|txt|css|svg|md)$/i;
 
@@ -53,14 +55,17 @@ if (process.argv.includes('--self-test')) {
     ['assets/check-engine.js', 'const u = "https://link.travel-buddy.ai/?link=1E2T1";'],   // the vendor address NOT as a table key
     ['check.html', 'Photos from Unsplash'], ['assets/x.js', 'Sentry.init()'], ['index.html', 'Book with GetYourGuide'],
     ['privacy.html', 'built with Claude'],
-    ['go/index.html', '<!-- tours by GetYourGuide -->'], ['index.html', '<span class="s">DiscoverCars</span>'],
-    ['go/index.html', 'href="https://www.getyourguide.com/s/?q=dubai"'],
+    ['go/index.html', '<!-- tours by GetYourGuide -->'], ['go/index.html', '<!-- the network is Travelpayouts -->'],
+    ['index.html', '<a class="tile" href="https://www.discovercars.com/?a_aid=brimmai" target="_blank" rel="noopener sponsored">DiscoverCars</a>'],
+    ['go/index.html', '<a class="tile" href="https://openai.com/" target="_blank" rel="noopener sponsored">Airalo</a>'],
+    ['go/index.html', '<span class="gl">Klook</span>'], ['go/index.html', '<a class="tile" href="https://www.agoda.com/" target="_blank" rel="noopener sponsored">built with Claude</a>'],
   ];
   const clean = [
     ['index.html', 'Petra, Jordan · Photo: Emile Guillemot on Unsplash'], ['check.html', "url: 'https://oejnnujlcmtzlkyifzag.supabase.co/functions/v1/api-proxy'"],
     ['assets/check-engine.js', '{"https://link.travel-buddy.ai/?link=2E12T1":"https://icp.gov.ae/en"}'], ['assets/check-engine.js', 'const supabase_1=require("./supabase");'],
-    ['go/index.html', '<a href="https://www.discovercars.com/?a_aid=brimmai" target="_blank"><span class="s">DiscoverCars</span></a>'],
-    ['go/index.html', '<a href="https://www.getyourguide.com/?partner_id=GKK1SCA&amp;utm_medium=online_publisher"><span class="s">GetYourGuide</span></a>'],
+    ['go/index.html', '<a class="tile" href="https://www.discovercars.com/?a_aid=brimmai" target="_blank" rel="noopener sponsored">DiscoverCars</a>'],
+    ['go/index.html', '<a class="tile" href="https://tp.media/r?marker=748081&amp;p=8310&amp;u=https%3A%2F%2Fwww.airalo.com%2F&amp;campaign_id=541" target="_blank" rel="noopener sponsored">Airalo</a>'],
+    ['go/index.html', '<a class="tile" href="https://www.hotels.com/affiliate?landingPage=https%3A%2F%2Fwww.hotels.com%2F&amp;camref=1101l6uQQL" target="_blank" rel="noopener sponsored">Hotels.com</a>'],
   ];
   const missed = planted.filter(([f, s]) => !scanText(f, s).length), wrong = clean.filter(([f, s]) => scanText(f, s).length);
   if (missed.length || wrong.length) { console.error('no-providers self-test FAILED', { missed, wrong }); process.exit(1); }

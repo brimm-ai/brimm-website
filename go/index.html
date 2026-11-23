@@ -5,117 +5,190 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>brimm — Travel thoughts? brimm-it!</title>
 <meta name="description" content="Get brimm, the travel planner that checks your visa and plans your days.">
-<!-- The link-in-bio page (mock #319, founder-approved via PD #2302, 23 Nov 2026). Not for search: it repeats the home page's job for
-     people arriving from a social bio, so it is noindex, carries no canonical and is in no sitemap (tools/check-canonicals.js). -->
+<!-- The link-in-bio page, v2 (PD #2310 + #2323, 23 Nov 2026: the same look as the home page's hero — a city photo under the dark
+     scrim, the site's gradient, type and logo — and every partner whose link pays us, small and grouped). Not for search: it repeats
+     the home page's job for people arriving from a social bio, so it is noindex, carries no canonical and is in no sitemap
+     (tools/check-canonicals.js). This is the ONE page allowed to name partners (founder, #670 via #2323; tools/no-providers.js). -->
 <meta name="robots" content="noindex">
 <meta name="color-scheme" content="dark light">
-<meta name="theme-color" content="#070C16" media="(prefers-color-scheme: dark)">
-<meta name="theme-color" content="#F4F6FB" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#060912">
 <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg?v=bf8a6d0a">
 <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png?v=e0c97112">
 <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png?v=90fac137">
-<link rel="preload" href="/assets/fonts/NotoSerif-Bold-latin.woff?v=291db946" as="font" type="font/woff" crossorigin>
+<link rel="preload" href="/assets/hero/paris-960.jpg?v=29bad64f" as="image" fetchpriority="high">
+<link rel="preload" href="/assets/fonts/Manrope-Bold-latin.ttf?v=0702f46a" as="font" type="font/ttf" crossorigin>
 <style>
-  /* Manrope and Noto Serif, served from this site (no third-party font call); SIL OFL: /assets/fonts/ */
+  /* Manrope, served from this site (no third-party font call); SIL OFL: /assets/fonts/ */
   @font-face{font-family:'Manrope';src:url('/assets/fonts/Manrope-Regular-latin.ttf?v=35083cda') format('truetype');font-weight:400 600;font-display:swap}
   @font-face{font-family:'Manrope';src:url('/assets/fonts/Manrope-Bold-latin.ttf?v=0702f46a') format('truetype');font-weight:700 900;font-display:swap}
-  @font-face{font-family:'Noto Serif';src:url('/assets/fonts/NotoSerif-Bold-latin.woff?v=291db946') format('woff');font-weight:700;font-style:normal;font-display:swap}
-  /* Dark is the mock (#319); light is the same page on a pale ground — same order, same words, same gradient button. */
+  /* The home page's own tokens (index.html :root). The photo top is the hero and stays night in both schemes; below it the page
+     follows the visitor's light or dark. */
   :root{
-    --bg:#070C16; --bg2:#0E1530; --ink:#F2F5FA; --sub:#C4CEDC; --mute:#8D9AB0;
-    --card:#111A30; --card-line:rgba(160,176,214,0.22); --kicker:#7EC8C8;
-    --glow-a:rgba(126,200,200,0.10); --glow-b:rgba(167,139,250,0.10);
+    --night:#060912; --teal:#7EC8C8;
+    --grad:linear-gradient(100deg,#A6EBEB 0%,#C9B6FF 100%); --btn:linear-gradient(100deg,#357D7D,#7C52F8);
+    --bg:#060912; --ink:#EEF2FA; --sub:#B3BDD3; --mute:#8A95AD; --label:#7EC8C8;
+    --card:#121B36; --card-line:rgba(255,255,255,.12); --tile:#121B36; --tile-line:rgba(255,255,255,.10);
+    color-scheme:dark;
   }
-  @media (prefers-color-scheme: light){
-    :root{
-      --bg:#F4F6FB; --bg2:#E9EEF8; --ink:#0B1324; --sub:#3A475E; --mute:#5B6880;
-      --card:#FFFFFF; --card-line:rgba(20,32,64,0.14); --kicker:#2B6F70;
-      --glow-a:rgba(126,200,200,0.22); --glow-b:rgba(167,139,250,0.18);
-    }
-  }
+  @media (prefers-color-scheme: light){ :root:not([data-theme="dark"]){
+      --bg:#F4F6FB; --ink:#0B1324; --sub:#3A475E; --mute:#5B6880; --label:#2B6F70;
+      --card:#FFFFFF; --card-line:rgba(20,32,64,.14); --tile:#FFFFFF; --tile-line:rgba(20,32,64,.14);
+      color-scheme:light } }
+  :root[data-theme="light"]{
+      --bg:#F4F6FB; --ink:#0B1324; --sub:#3A475E; --mute:#5B6880; --label:#2B6F70;
+      --card:#FFFFFF; --card-line:rgba(20,32,64,.14); --tile:#FFFFFF; --tile-line:rgba(20,32,64,.14);
+      color-scheme:light }
   *{margin:0;padding:0;box-sizing:border-box}
   html{-webkit-text-size-adjust:100%}
-  body{
-    min-height:100vh; min-height:100dvh;
-    background:radial-gradient(120% 70% at 15% 0%,var(--glow-a),transparent 60%),
-               radial-gradient(110% 60% at 100% 55%,var(--glow-b),transparent 60%),
-               linear-gradient(180deg,var(--bg2),var(--bg) 45%);
-    background-color:var(--bg); background-attachment:fixed;
-    color:var(--ink); font-family:'Manrope',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
-    -webkit-font-smoothing:antialiased; line-height:1.35;
-  }
-  main{max-width:440px;margin:0 auto;padding:44px 24px calc(28px + env(safe-area-inset-bottom));display:flex;flex-direction:column;align-items:center;text-align:center}
-  .logo{display:flex;align-items:center;justify-content:center;gap:4px;text-decoration:none}
-  .logo .m{width:62px;height:62px;margin-right:-10px}
-  .logo .w{height:36px;width:auto}
-  h1{font-family:'Noto Serif',Georgia,'Times New Roman',serif;font-weight:700;font-size:clamp(19px,5.6vw,25px);letter-spacing:-.01em;line-height:1.25;margin-top:22px}
-  /* the tagline is two whole pieces: it may wrap between them, never at the hyphen (the app does the same) */
-  h1 .pc{white-space:nowrap}
-  .proof{font-size:15px;color:var(--sub);margin-top:8px}
-  .links{width:100%;display:flex;flex-direction:column;gap:11px;margin-top:30px}
-  .btn{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;min-height:54px;padding:12px 18px;
-    border-radius:16px;background:var(--card);border:1px solid var(--card-line);color:var(--ink);text-decoration:none;
-    -webkit-tap-highlight-color:transparent;transition:transform .12s ease}
-  a.btn:active{transform:scale(.985)}
-  a.btn:focus-visible{outline:2px solid var(--kicker);outline-offset:3px}
-  .btn .t{font-weight:700;font-size:17px;letter-spacing:-.005em}
-  .btn .s{font-weight:400;font-size:13px;color:var(--sub)}
-  /* the one filled button: the app's button pair, white words (the app's rule: white text on buttons) */
-  .btn.primary{background:linear-gradient(90deg,#357D7D,#7C52F8) border-box;border-color:transparent;color:#fff}
-  .btn.primary .s{color:rgba(255,255,255,.88)}
+  body{background:var(--bg);color:var(--ink);font-family:'Manrope',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;line-height:1.35;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  img{display:block;max-width:100%}
+
+  /* ── THE HERO: the home page's slideshow photo and scrim, one compact block ── */
+  .hero{position:relative;overflow:hidden;color:#fff;background:var(--night)}
+  .slides{position:absolute;inset:0}
+  .slides img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transform:scale(1.06);transition:opacity 1.6s ease,transform 9s linear}
+  .slides img.on{opacity:1;transform:scale(1)}
+  @media (prefers-reduced-motion:reduce){.slides img{transition:none;transform:none}}
+  /* the home page's scrim, shortened to this block: the sky stays bright, darkening where the words sit, ending on the page ground */
+  .scrim{position:absolute;inset:0;background:linear-gradient(180deg,rgba(6,9,18,.42) 0%,rgba(6,9,18,.05) 16%,rgba(6,9,18,.55) 40%,rgba(6,9,18,.80) 62%,rgba(6,9,18,.90) 86%,#060912 100%)}
+  .hero-in{position:relative;z-index:2;max-width:440px;margin:0 auto;
+    padding:calc(18px + env(safe-area-inset-top,0px)) max(20px,env(safe-area-inset-right,0px)) 46px max(20px,env(safe-area-inset-left,0px))}
+  .brand{display:inline-flex;align-items:center;gap:8px;text-decoration:none}
+  .brand img{filter:drop-shadow(0 1px 2px rgba(6,9,18,.7)) drop-shadow(0 0 6px rgba(6,9,18,.6))}   /* the site header's */
+  .brand .m{width:38px;height:38px}
+  .brand .w{height:25px;width:auto}
+  .copy{margin-top:118px;text-align:center}
+  h1{font-size:clamp(36px,10.4vw,46px);line-height:1;letter-spacing:-.045em;font-weight:800;text-shadow:0 4px 30px rgba(0,0,0,.35);text-wrap:balance}
+  .grad{background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;white-space:nowrap}
+  .proof{margin-top:12px;font-size:18px;font-weight:800;letter-spacing:-.01em}
+  .proof b{color:var(--teal);font-weight:800}
+  .credit{position:absolute;right:12px;bottom:10px;z-index:3;font-size:10.5px;color:#fff;background:rgba(6,9,18,.66);padding:2px 8px;border-radius:999px}
+  .credit b{font-weight:700}
+
+  /* ── THE LINKS ── */
+  main{max-width:440px;margin:0 auto;padding:16px max(20px,env(safe-area-inset-right,0px)) calc(24px + env(safe-area-inset-bottom,0px)) max(20px,env(safe-area-inset-left,0px))}
+  .links{display:flex;flex-direction:column;gap:10px}
+  .btn{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;min-height:54px;padding:10px 20px;border-radius:999px;
+    background:var(--card);border:1px solid var(--card-line);color:var(--ink);text-decoration:none;text-align:center;-webkit-tap-highlight-color:transparent;transition:transform .12s ease}
+  a.btn:active,a.tile:active{transform:scale(.985)}
+  a.btn:focus-visible,a.tile:focus-visible{outline:2px solid var(--teal);outline-offset:3px}
+  .btn .t{font-weight:800;font-size:16.5px;letter-spacing:-.005em}
+  .btn .s{font-weight:700;font-size:10.5px;letter-spacing:.5px;text-transform:uppercase;color:var(--mute)}   /* the home badges' "Coming soon" */
+  /* the one filled button: the site's button pair, white words */
+  .btn.primary{background:var(--btn) border-box;border-color:transparent;color:#fff}
+  .btn.primary .s{color:rgba(255,255,255,.86)}
   .btn.soon{cursor:default}
-  .kicker{margin-top:26px;margin-bottom:-1px;font-size:12px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--kicker)}
-  .fine{margin-top:26px;font-size:13px;color:var(--sub)}
+
+  /* ── PARTNERS: small tiles, grouped; every tile the same size (a 3-column grid; a group of 2 spans 2 columns) ── */
+  .kicker{margin:24px 0 10px;text-align:center;font-size:14px;font-weight:800;letter-spacing:.02em;color:var(--label)}   /* the site's .eyebrow, never uppercase */
+  .row{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px 6px}
+  .row + .row{margin-top:10px}
+  .grp{min-width:0}
+  .grp.s1{grid-column:span 1}.grp.mid{grid-column:2}   /* a lone tile sits in the middle column, centred under the row above */.grp.s2{grid-column:span 2}.grp.s3{grid-column:span 3}
+  .gl{display:block;margin:0 0 5px 2px;font-size:12px;font-weight:700;letter-spacing:.01em;color:var(--mute)}   /* not uppercase: it would print "ESIM" */
+  .tiles{display:grid;gap:6px}
+  .s1 .tiles{grid-template-columns:1fr}.s2 .tiles{grid-template-columns:repeat(2,minmax(0,1fr))}.s3 .tiles{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .tile{display:flex;align-items:center;justify-content:center;min-height:40px;padding:6px 4px;border-radius:12px;background:var(--tile);border:1px solid var(--tile-line);
+    color:var(--ink);text-decoration:none;font-weight:700;font-size:13px;letter-spacing:-.01em;text-align:center;white-space:nowrap;transition:transform .12s ease;-webkit-tap-highlight-color:transparent}
+  .fine{margin-top:22px;text-align:center;font-size:12.5px;color:var(--sub)}
   .fine span{white-space:nowrap}
-  .copy{margin-top:22px;font-size:12px;color:var(--mute)}
+  .copy-line{margin-top:10px;text-align:center;font-size:11.5px;color:var(--mute)}
 </style>
 <script src="/assets/stores.js?v=65cccb2f"></script>
 </head>
 <body>
-<main>
-  <a class="logo" href="https://brimm.ai/" aria-label="brimm home">
-    <img class="m" src="/assets/mark-dark-foreground.svg?v=88298876" alt="" width="62" height="62">
-    <img class="w" src="/assets/wordmark-dark.svg?v=b7c08c48" alt="brimm" width="124" height="36">
-  </a>
-  <h1><span class="pc">Travel thoughts?</span> <span class="pc">brimm-it!</span></h1>
-  <p class="proof">Visa? Checked. Days? Planned.</p>
+<header class="hero">
+  <div class="slides" id="slides" aria-hidden="true"><img class="on" src="/assets/hero/paris-960.jpg?v=29bad64f" alt="" fetchpriority="high"></div>
+  <div class="scrim"></div>
+  <div class="hero-in">
+    <a class="brand" href="https://brimm.ai/" aria-label="brimm home"><img class="m" src="/assets/mark-dark-foreground.svg?v=88298876" alt="" width="38" height="38"><img class="w" src="/assets/wordmark-dark.svg?v=b7c08c48" alt="brimm" width="86" height="25"></a>
+    <div class="copy">
+      <h1>Travel thoughts?<br><span class="grad">brimm-it!</span></h1>
+      <p class="proof">Visa? <b>Checked.</b> Days? <b>Planned.</b></p>
+    </div>
+  </div>
+  <p class="credit" id="credit"><b>Paris, France</b> · Chris Karidis on Unsplash</p>
+</header>
 
+<main>
   <nav class="links" aria-label="brimm links">
     <!-- THE STORE BUTTONS read the site's one store switch (assets/stores.js BRIMM_STORES): "Coming soon", never a link, until THAT
          store is on; then the button becomes the link to it and the "Coming soon" line goes. Written as not-links, so a visitor
          without scripts never gets a link to a listing they cannot open. -->
-    <div class="btn primary soon" data-go-store="play" aria-disabled="true">
-      <span class="t">Get brimm on Google Play</span><span class="s">Coming soon</span>
-    </div>
-    <div class="btn soon" data-go-store="ios" aria-disabled="true">
-      <span class="t">Get brimm on the App Store</span><span class="s">Coming soon</span>
-    </div>
+    <div class="btn primary soon" data-go-store="play" aria-disabled="true"><span class="t">Get brimm on Google Play</span><span class="s">Coming soon</span></div>
+    <div class="btn soon" data-go-store="ios" aria-disabled="true"><span class="t">Get brimm on the App Store</span><span class="s">Coming soon</span></div>
     <a class="btn" href="https://brimm.ai/"><span class="t">brimm.ai</span></a>
-
-    <p class="kicker">Book with our partners</p>
-    <!-- Partner links: the tracking id rides inside the link and is never shown (mock #319). A fixed order, never by commission. -->
-    <a class="btn" href="https://www.discovercars.com/?a_aid=brimmai" target="_blank" rel="noopener sponsored"><span class="t">Car hire</span><span class="s">DiscoverCars</span></a>
-    <a class="btn" href="https://www.agoda.com/?cid=1979526" target="_blank" rel="noopener sponsored"><span class="t">Hotels</span><span class="s">Agoda</span></a>
-    <a class="btn" href="https://www.getyourguide.com/?partner_id=GKK1SCA&amp;utm_medium=online_publisher" target="_blank" rel="noopener sponsored"><span class="t">Tours</span><span class="s">GetYourGuide</span></a>
   </nav>
 
+  <section aria-labelledby="pk">
+    <h2 class="kicker" id="pk">Book with our partners</h2>
+    <!-- Every partner whose link pays us (PD #2323), in the PD's order. Each tracking id rides inside its link and is never shown; the
+         link forms are the app's own (brimm-ai release-1.0.1: data/partners.ts, utils/hotelLinks.ts, utils/partnerLinks.ts,
+         utils/partnerPicker.ts), each pointed at the partner's home page because a bio has no city or dates. -->
+    <div class="row">
+      <div class="grp s3"><span class="gl">Stays</span><div class="tiles">
+        <a class="tile" href="https://www.agoda.com/?cid=1979526" target="_blank" rel="noopener sponsored">Agoda</a>
+        <a class="tile" href="https://expedia.com/affiliate?siteid=1&amp;landingPage=https%3A%2F%2Fwww.expedia.com%2F&amp;camref=1110lRuft&amp;creativeref=1100l68075&amp;adref=PZsXvlrLhT" target="_blank" rel="noopener sponsored">Expedia</a>
+        <a class="tile" href="https://www.hotels.com/affiliate?landingPage=https%3A%2F%2Fwww.hotels.com%2F&amp;camref=1101l6uQQL&amp;creativeref=1011l66481&amp;adref=PZdMg8ryjr" target="_blank" rel="noopener sponsored">Hotels.com</a>
+      </div></div>
+    </div>
+    <div class="row">
+      <div class="grp s3"><span class="gl">Tours</span><div class="tiles">
+        <a class="tile" href="https://www.getyourguide.com/?partner_id=GKK1SCA&amp;utm_medium=online_publisher" target="_blank" rel="noopener sponsored">GetYourGuide</a>
+        <a class="tile" href="https://affiliate.klook.com/redirect?aid=139300&amp;aff_adid=1549957&amp;k_site=https%3A%2F%2Fwww.klook.com%2F" target="_blank" rel="noopener sponsored">Klook</a>
+        <a class="tile" href="https://tp.media/r?marker=748081&amp;p=2074&amp;u=https%3A%2F%2Fwww.tiqets.com%2F&amp;campaign_id=89" target="_blank" rel="noopener sponsored">Tiqets</a>
+      </div></div>
+    </div>
+    <div class="row">
+      <div class="grp s2"><span class="gl">Car hire</span><div class="tiles">
+        <a class="tile" href="https://www.discovercars.com/?a_aid=brimmai" target="_blank" rel="noopener sponsored">DiscoverCars</a>
+        <a class="tile" href="https://tp.media/r?marker=748081&amp;p=5996&amp;u=https%3A%2F%2Fgetrentacar.com%2F&amp;campaign_id=222" target="_blank" rel="noopener sponsored">GetRentacar</a>
+      </div></div>
+      <div class="grp s1"><span class="gl">Flights</span><div class="tiles">
+        <a class="tile" href="https://tp.media/r?marker=748081&amp;p=4114&amp;u=https%3A%2F%2Fwww.aviasales.com%2F&amp;campaign_id=100" target="_blank" rel="noopener sponsored">Aviasales</a>
+      </div></div>
+    </div>
+    <div class="row">
+      <div class="grp s1 mid"><span class="gl">eSIM</span><div class="tiles">
+        <a class="tile" href="https://tp.media/r?marker=748081&amp;p=8310&amp;u=https%3A%2F%2Fwww.airalo.com%2F&amp;campaign_id=541" target="_blank" rel="noopener sponsored">Airalo</a>
+      </div></div>
+    </div>
+  </section>
+
   <p class="fine"><span>We may earn a small commission.</span> <span>Your price is the same.</span></p>
-  <p class="copy">© Brimm Limited</p>
+  <p class="copy-line">© Brimm Limited</p>
 </main>
 <script>
   (function () {
-    function upgrade() {
-      document.querySelectorAll('[data-go-store]').forEach(function (el) {
-        var k = el.getAttribute('data-go-store');
-        if (!window.BRIMM_LIVE || !window.BRIMM_LIVE(k)) return;
-        var a = document.createElement('a');
-        a.className = el.className.replace(/\s*\bsoon\b/, '');
-        a.href = window.BRIMM_STORES[k].url; a.target = '_blank'; a.rel = 'noopener';
-        a.appendChild(el.querySelector('.t').cloneNode(true));
-        el.replaceWith(a);
-      });
-    }
-    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', upgrade); else upgrade();
+    // The store switch: a store that is on turns its button into the link (assets/stores.js decides, nothing here).
+    document.querySelectorAll('[data-go-store]').forEach(function (el) {
+      var k = el.getAttribute('data-go-store');
+      if (!window.BRIMM_LIVE || !window.BRIMM_LIVE(k)) return;
+      var a = document.createElement('a');
+      a.className = el.className.replace(/\s*\bsoon\b/, '');
+      a.href = window.BRIMM_STORES[k].url; a.target = '_blank'; a.rel = 'noopener';
+      a.appendChild(el.querySelector('.t').cloneNode(true));
+      el.replaceWith(a);
+    });
+    // The home page's photos, the home page's way: a chain, not a clock — the next photo is asked for only once the last has shown,
+    // nothing moves while the page is hidden, and the credit changes mid-fade so it is always the photo on screen.
+    var PHOTOS = [['/assets/hero/singapore-960.jpg?v=e000fc0c', 'Singapore', 'Hu Chen'], ['/assets/hero/dubai-960.jpg?v=b76ada80', 'Dubai, UAE', 'David Rodrigo'], ['/assets/hero/paris-960.jpg?v=29bad64f', 'Paris, France', 'Chris Karidis']];
+    var slides = document.getElementById('slides'), credit = document.getElementById('credit');
+    if (!slides || !credit || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    var cur = slides.querySelector('img.on');
+    var whenVisible = function (fn) { if (!document.hidden) return fn();
+      document.addEventListener('visibilitychange', function f() { if (!document.hidden) { document.removeEventListener('visibilitychange', f); fn(); } }); };
+    var show = function (k) {
+      var p = PHOTOS[k], im = new Image(); im.alt = ''; im.decoding = 'async';
+      im.onload = function () { whenVisible(function () {
+        slides.appendChild(im); void im.offsetWidth; im.classList.add('on'); cur.classList.remove('on');
+        var old = cur; cur = im;
+        setTimeout(function () { credit.innerHTML = '<b>' + p[1] + '</b> · ' + p[2] + ' on Unsplash'; }, 800);
+        setTimeout(function () { old.remove(); setTimeout(function () { whenVisible(function () { show((k + 1) % PHOTOS.length); }); }, 5200); }, 1800);
+      }); };
+      im.src = p[0];
+    };
+    setTimeout(function () { whenVisible(function () { show(0); }); }, 6000);
   })();
 </script>
 </body>
