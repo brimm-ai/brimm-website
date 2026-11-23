@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>brimm — Travel thoughts? brimm-it!</title>
+<meta name="description" content="Get brimm, the travel planner that checks your visa and plans your days.">
+<!-- The link-in-bio page (mock #319, founder-approved via PD #2302, 23 Nov 2026). Not for search: it repeats the home page's job for
+     people arriving from a social bio, so it is noindex, carries no canonical and is in no sitemap (tools/check-canonicals.js). -->
+<meta name="robots" content="noindex">
+<meta name="color-scheme" content="dark light">
+<meta name="theme-color" content="#070C16" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#F4F6FB" media="(prefers-color-scheme: light)">
+<link rel="icon" type="image/svg+xml" href="/assets/favicon.svg?v=bf8a6d0a">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png?v=e0c97112">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png?v=90fac137">
+<link rel="preload" href="/assets/fonts/NotoSerif-Bold-latin.woff?v=291db946" as="font" type="font/woff" crossorigin>
+<style>
+  /* Manrope and Noto Serif, served from this site (no third-party font call); SIL OFL: /assets/fonts/ */
+  @font-face{font-family:'Manrope';src:url('/assets/fonts/Manrope-Regular-latin.ttf?v=35083cda') format('truetype');font-weight:400 600;font-display:swap}
+  @font-face{font-family:'Manrope';src:url('/assets/fonts/Manrope-Bold-latin.ttf?v=0702f46a') format('truetype');font-weight:700 900;font-display:swap}
+  @font-face{font-family:'Noto Serif';src:url('/assets/fonts/NotoSerif-Bold-latin.woff?v=291db946') format('woff');font-weight:700;font-style:normal;font-display:swap}
+  /* Dark is the mock (#319); light is the same page on a pale ground — same order, same words, same gradient button. */
+  :root{
+    --bg:#070C16; --bg2:#0E1530; --ink:#F2F5FA; --sub:#C4CEDC; --mute:#8D9AB0;
+    --card:#111A30; --card-line:rgba(160,176,214,0.22); --kicker:#7EC8C8;
+    --glow-a:rgba(126,200,200,0.10); --glow-b:rgba(167,139,250,0.10);
+  }
+  @media (prefers-color-scheme: light){
+    :root{
+      --bg:#F4F6FB; --bg2:#E9EEF8; --ink:#0B1324; --sub:#3A475E; --mute:#5B6880;
+      --card:#FFFFFF; --card-line:rgba(20,32,64,0.14); --kicker:#2B6F70;
+      --glow-a:rgba(126,200,200,0.22); --glow-b:rgba(167,139,250,0.18);
+    }
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    min-height:100vh; min-height:100dvh;
+    background:radial-gradient(120% 70% at 15% 0%,var(--glow-a),transparent 60%),
+               radial-gradient(110% 60% at 100% 55%,var(--glow-b),transparent 60%),
+               linear-gradient(180deg,var(--bg2),var(--bg) 45%);
+    background-color:var(--bg); background-attachment:fixed;
+    color:var(--ink); font-family:'Manrope',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+    -webkit-font-smoothing:antialiased; line-height:1.35;
+  }
+  main{max-width:440px;margin:0 auto;padding:44px 24px calc(28px + env(safe-area-inset-bottom));display:flex;flex-direction:column;align-items:center;text-align:center}
+  .logo{display:flex;align-items:center;justify-content:center;gap:4px;text-decoration:none}
+  .logo .m{width:62px;height:62px;margin-right:-10px}
+  .logo .w{height:36px;width:auto}
+  h1{font-family:'Noto Serif',Georgia,'Times New Roman',serif;font-weight:700;font-size:clamp(19px,5.6vw,25px);letter-spacing:-.01em;line-height:1.25;margin-top:22px}
+  /* the tagline is two whole pieces: it may wrap between them, never at the hyphen (the app does the same) */
+  h1 .pc{white-space:nowrap}
+  .proof{font-size:15px;color:var(--sub);margin-top:8px}
+  .links{width:100%;display:flex;flex-direction:column;gap:11px;margin-top:30px}
+  .btn{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;min-height:54px;padding:12px 18px;
+    border-radius:16px;background:var(--card);border:1px solid var(--card-line);color:var(--ink);text-decoration:none;
+    -webkit-tap-highlight-color:transparent;transition:transform .12s ease}
+  a.btn:active{transform:scale(.985)}
+  a.btn:focus-visible{outline:2px solid var(--kicker);outline-offset:3px}
+  .btn .t{font-weight:700;font-size:17px;letter-spacing:-.005em}
+  .btn .s{font-weight:400;font-size:13px;color:var(--sub)}
+  /* the one filled button: the app's button pair, white words (the app's rule: white text on buttons) */
+  .btn.primary{background:linear-gradient(90deg,#357D7D,#7C52F8) border-box;border-color:transparent;color:#fff}
+  .btn.primary .s{color:rgba(255,255,255,.88)}
+  .btn.soon{cursor:default}
+  .kicker{margin-top:26px;margin-bottom:-1px;font-size:12px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--kicker)}
+  .fine{margin-top:26px;font-size:13px;color:var(--sub)}
+  .fine span{white-space:nowrap}
+  .copy{margin-top:22px;font-size:12px;color:var(--mute)}
+</style>
+<script src="/assets/stores.js?v=65cccb2f"></script>
+</head>
+<body>
+<main>
+  <a class="logo" href="https://brimm.ai/" aria-label="brimm home">
+    <img class="m" src="/assets/mark-dark-foreground.svg?v=88298876" alt="" width="62" height="62">
+    <img class="w" src="/assets/wordmark-dark.svg?v=b7c08c48" alt="brimm" width="124" height="36">
+  </a>
+  <h1><span class="pc">Travel thoughts?</span> <span class="pc">brimm-it!</span></h1>
+  <p class="proof">Visa? Checked. Days? Planned.</p>
+
+  <nav class="links" aria-label="brimm links">
+    <!-- THE STORE BUTTONS read the site's one store switch (assets/stores.js BRIMM_STORES): "Coming soon", never a link, until THAT
+         store is on; then the button becomes the link to it and the "Coming soon" line goes. Written as not-links, so a visitor
+         without scripts never gets a link to a listing they cannot open. -->
+    <div class="btn primary soon" data-go-store="play" aria-disabled="true">
+      <span class="t">Get brimm on Google Play</span><span class="s">Coming soon</span>
+    </div>
+    <div class="btn soon" data-go-store="ios" aria-disabled="true">
+      <span class="t">Get brimm on the App Store</span><span class="s">Coming soon</span>
+    </div>
+    <a class="btn" href="https://brimm.ai/"><span class="t">brimm.ai</span></a>
+
+    <p class="kicker">Book with our partners</p>
+    <!-- Partner links: the tracking id rides inside the link and is never shown (mock #319). A fixed order, never by commission. -->
+    <a class="btn" href="https://www.discovercars.com/?a_aid=brimmai" target="_blank" rel="noopener sponsored"><span class="t">Car hire</span><span class="s">DiscoverCars</span></a>
+    <a class="btn" href="https://www.agoda.com/?cid=1979526" target="_blank" rel="noopener sponsored"><span class="t">Hotels</span><span class="s">Agoda</span></a>
+    <a class="btn" href="https://www.getyourguide.com/?partner_id=GKK1SCA&amp;utm_medium=online_publisher" target="_blank" rel="noopener sponsored"><span class="t">Tours</span><span class="s">GetYourGuide</span></a>
+  </nav>
+
+  <p class="fine"><span>We may earn a small commission.</span> <span>Your price is the same.</span></p>
+  <p class="copy">© Brimm Limited</p>
+</main>
+<script>
+  (function () {
+    function upgrade() {
+      document.querySelectorAll('[data-go-store]').forEach(function (el) {
+        var k = el.getAttribute('data-go-store');
+        if (!window.BRIMM_LIVE || !window.BRIMM_LIVE(k)) return;
+        var a = document.createElement('a');
+        a.className = el.className.replace(/\s*\bsoon\b/, '');
+        a.href = window.BRIMM_STORES[k].url; a.target = '_blank'; a.rel = 'noopener';
+        a.appendChild(el.querySelector('.t').cloneNode(true));
+        el.replaceWith(a);
+      });
+    }
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', upgrade); else upgrade();
+  })();
+</script>
+</body>
+</html>

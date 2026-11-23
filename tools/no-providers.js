@@ -29,6 +29,10 @@ const ALLOWED = [
   { why: 'the database host the check calls', re: /https:\/\/oejnnujlcmtzlkyifzag\.supabase\.co\/functions\/v1\/api-proxy/g },
   { why: 'the database host, inside the bundled engine (its module and setting names)', re: /supabase/gi, only: 'assets/check-engine.js' },
   { why: 'open founder question: apply-link table keys', re: /"https:\/\/link\.travel-buddy\.ai\/\?link=[0-9A-Za-z]+"(?=:)/g, only: 'assets/check-engine.js' },
+  // The link-in-bio page (mock #319, founder-approved via PD #2302, 23 Nov 2026) names its booking partners by design: their two
+  // tracked link addresses and their two name labels, in exactly these shapes, on that one page. Any other mention, anywhere, still fails.
+  { why: 'link-in-bio partners (mock #319, PD #2302)', only: 'go/index.html',
+    re: /"https:\/\/www\.discovercars\.com\/\?a_aid=brimmai"|"https:\/\/www\.getyourguide\.com\/\?partner_id=GKK1SCA&amp;utm_medium=online_publisher"|<span class="s">(?:DiscoverCars|GetYourGuide)<\/span>/g },
 ];
 const TEXT = /\.(html?|js|json|xml|txt|css|svg|md)$/i;
 
@@ -49,10 +53,14 @@ if (process.argv.includes('--self-test')) {
     ['assets/check-engine.js', 'const u = "https://link.travel-buddy.ai/?link=1E2T1";'],   // the vendor address NOT as a table key
     ['check.html', 'Photos from Unsplash'], ['assets/x.js', 'Sentry.init()'], ['index.html', 'Book with GetYourGuide'],
     ['privacy.html', 'built with Claude'],
+    ['go/index.html', '<!-- tours by GetYourGuide -->'], ['index.html', '<span class="s">DiscoverCars</span>'],
+    ['go/index.html', 'href="https://www.getyourguide.com/s/?q=dubai"'],
   ];
   const clean = [
     ['index.html', 'Petra, Jordan · Photo: Emile Guillemot on Unsplash'], ['check.html', "url: 'https://oejnnujlcmtzlkyifzag.supabase.co/functions/v1/api-proxy'"],
     ['assets/check-engine.js', '{"https://link.travel-buddy.ai/?link=2E12T1":"https://icp.gov.ae/en"}'], ['assets/check-engine.js', 'const supabase_1=require("./supabase");'],
+    ['go/index.html', '<a href="https://www.discovercars.com/?a_aid=brimmai" target="_blank"><span class="s">DiscoverCars</span></a>'],
+    ['go/index.html', '<a href="https://www.getyourguide.com/?partner_id=GKK1SCA&amp;utm_medium=online_publisher"><span class="s">GetYourGuide</span></a>'],
   ];
   const missed = planted.filter(([f, s]) => !scanText(f, s).length), wrong = clean.filter(([f, s]) => scanText(f, s).length);
   if (missed.length || wrong.length) { console.error('no-providers self-test FAILED', { missed, wrong }); process.exit(1); }
