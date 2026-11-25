@@ -21,7 +21,7 @@ const path = require('path');
 const root = path.join(__dirname, '..');
 
 const RULES = [
-  ['a visa verdict', /\bvisa[- ]?free\b|\bvisa[- ]?waiver\b|\bon[- ]arrival\b|\be-?visa\b(?!\.)|\brequired\b|\bno visa\b|\bvisa not needed\b|\beTA\b/i],
+  ['a visa verdict', /\bvisa[- ]?free\b|\bvisa[- ]?waiver\b|\bon[- ]arrival\b|\be-?visa\b(?!\.[a-z])|\brequired\b|\bno visa\b|\bvisa not needed\b|\beTA\b(?!\.[a-z])/i],   // (?!\.[a-z]): the word followed by ".gov" is a web address (evisa.gov.az, eta.gov.lk — the official site under its link, HQ #2486); a sentence that ENDS on the word ("…an e-Visa.") is still a verdict — the old (?!\.) let that through
   ['a processing time or a fee', /\bprocessing\b|\bworking days\b|\bbusiness days\b|\bfees?\b|\bcosts? \d/i],
   ["a data provider's name", /travel ?buddy|rapid ?api|sherpa|visadb|\biata\b|timatic|anthropic|\bclaude\b|openai|unsplash|supabase|sentry|getyourguide|tiqets|kkday|klook|viator|airalo|discovercars|aviasales|booking\.com|expedia/i],
   // THE KASHMIR RULE (founder #304, 25 Oct 2026): selectable everywhere a traveller searches or picks (the check's own list), NEVER promoted
@@ -69,7 +69,7 @@ module.exports = { check, RULED, RULES, EXEMPT_PAGE, EXEMPT_TITLE, EXEMPT_SLUG }
 
 if (require.main === module) {
   if (process.argv.includes('--self-test')) {
-    const planted = ['<p>Georgia is visa-free for you</p>', '<p>Get a visa on arrival</p>', '<p>Apply for an e-Visa</p>', '<p>A visa is required</p>',
+    const planted = ['<p>Georgia is visa-free for you</p>', '<p>Get a visa on arrival</p>', '<p>Apply for an e-Visa</p>', '<p>Apply for an e-Visa.</p>', '<p>You need an eTA.</p>', '<p>A visa is required</p>',
       '<meta name="description" content="No visa for UAE residents">', '<p>Processing takes 3 working days</p>', '<p>The fee is small</p>',
       '<p>Data from Travel Buddy</p>', '<p>Kashmir</p>', '<p>Brimm checks it</p>', '<img alt="eVisa portal">',
       '<script type="application/ld+json">{"name":"Thailand visa-free"}</script>', '<p>A visa is required for all visitors</p>', '<p>Travel insurance is required for all tourists. A visa is required too.</p>',
@@ -77,7 +77,7 @@ if (require.main === module) {
       '<p>Travel health insurance is required for this visit. A visa is required too.</p>', '<p>Travel health insurance is required for all visitors</p>',   // #133: only the ruled sentence passes
       '<p>Plan a week in Srinagar</p>', '<img alt="Pangong Tso at dawn">', '<p>Leh is the base</p>',   // promoted content: the Kashmir rule
       '<p>Photos from Unsplash</p>', '<p class="lead">Rules on Unsplash</p>', '<p class="credit"><b>Srinagar, India</b> · A Name on Unsplash</p>'];   // the credit allowance is the credit line only, and its place is still read
-    const clean = ['<p>What decides your answer</p>', '<p class="credit"><b>Tbilisi, Georgia</b> · Anna Bannahyan on Unsplash</p>','<a href="https://www.evisa.gov.ge/GeoVisa/">Georgia’s official visa site ↗</a><span>evisa.gov.ge</span>',
+    const clean = ['<p>What decides your answer</p>', '<p class="credit"><b>Tbilisi, Georgia</b> · Anna Bannahyan on Unsplash</p>','<a href="https://www.evisa.gov.ge/GeoVisa/">Georgia’s official visa site ↗</a><span>evisa.gov.ge</span>', '<a href="https://eta.gov.lk/">Sri Lanka’s official visa site ↗</a><span>eta.gov.lk</span>',
       '<p>© 2026 Brimm Limited, UAE</p>', '<p class="ti">🩺 Travel insurance is required for all tourists</p>',
       '<p>Travel health insurance is required for this visit. Have proof ready — you may be asked for it.</p>', '<p class="ti">🩺 Travel health insurance is required for this visit</p>',
       '<li>Easier entry depends on your profession. Check the official list to see if yours qualifies.</li>', '<p>Lehigh Valley and Ashleigh Park</p>', '<style>.a{color:red}</style><p>Rules change. Always confirm with the official source before you book.</p>'];

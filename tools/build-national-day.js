@@ -139,7 +139,7 @@ ${CSS}
       <a class="go out" href="/check.html"><span class="nw">brimm-it!</span> ✈️</a></section>
     <section class="panel app" id="app"><p class="ph">✨ Make it yours in the brimm app</p><p class="pl">Your dates, your pace, your budget. Add what you love; brimm fits it in.</p>
       <div class="app-badges" data-app><span class="badge pending"><img class="gp" src="/assets/badges/google-play.png" alt="Google Play" width="167" height="65"><span class="soon-tag">Coming soon</span></span><span class="badge pending"><img src="/assets/badges/app-store.svg" alt="App Store" width="132" height="44"><span class="soon-tag">Coming soon</span></span></div>
-      <p class="qr" data-app-qr hidden><img src="/assets/play-qr.svg" alt="QR code for brimm on Google Play" width="112" height="112"><span>On your phone? Scan to get brimm.</span></p></section>
+      <p class="qr" data-app-qr hidden><img src="/assets/download-qr.svg" alt="QR code for brimm.ai/download" width="112" height="112"><span>On your phone? Scan to get brimm.</span></p></section>
     ${MORE.length ? `<section class="panel more"><p class="ph">More from brimm</p>${MORE.map(([s, t]) => `<a href="/itinerary/${s}/">${esc(t)} →</a>`).join('')}</section>` : ''}
   </aside>
 </main>
