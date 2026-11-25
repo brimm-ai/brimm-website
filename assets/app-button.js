@@ -1,8 +1,8 @@
 // THE STORE BADGES IN THE GUIDES' APP PANEL (founder, 1 Nov 2026 13:00, HQ #74; was one "Plan your trip in brimm" button, 25 Oct 2026).
 // Every city and visa guide marks its store spot in the "Make it yours in the brimm app" panel with `[data-app]`; this script puts the
 // official Google Play and App Store badges there, exactly as the home page shows them. WHICH badges show is the site's one rule,
-// assets/stores.js BRIMM_SHOWS: both, dimmed, "Coming soon" under each, until a store is live; then a phone sees its own store (iPhone
-// never a Play badge) and a computer both. A live badge links:
+// assets/stores.js BRIMM_SHOWS: both badges on every device since 25 Nov 2026 (HQ #2464), each "Coming soon"
+// until its store is live. A live badge links:
 //   Google Play on Android → ONE intent link: brimm installed → the app opens on "plan a new trip" (brimm://create-trip, the city
 //              picked when the page has one); not installed → its Google Play page (the intent's own fallback).
 //   Google Play on a computer → the Play page, plus the QR code to scan with the phone.

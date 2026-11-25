@@ -8,27 +8,25 @@
 // in brimm-ai): the doors show.
 window.BRIMM_CHECK = { on: true };   // ON 1 Nov 2026 (founder, HQ #500 19:58: "GO NOW, AS IS")
 window.BRIMM_STORES = {
-  play: { on: false, url: 'https://play.google.com/store/apps/details?id=ai.brimm.app', main: 'Get it on' },
-  ios:  { on: false, url: 'https://apps.apple.com/app/id6828996131', main: 'Download on the' },   // the live listing (Apple approved iOS 1.0, PD #2424); OFF = every badge still "Coming soon" until Friday. brimm.ai/download reads the url, not the switch (#2460)
+  play: { on: true,  url: 'https://play.google.com/store/apps/details?id=ai.brimm.app', main: 'Get it on' },
+  ios:  { on: true,  url: 'https://apps.apple.com/app/id6828996131', main: 'Download on the' },   // the live listing (Apple approved iOS 1.0, PD #2424); ON: publicly live (founder OK 25 Nov 15:33, HQ #2464). brimm.ai/download reads the url, not the switch (#2460)
 };
 
 // ═══ THE OFFICIAL STORE BADGES (founder, 28 Oct 2026 23:27; BADGES WITH "COMING SOON" UNTIL LIVE, 1 Nov 2026 13:00, HQ #74) ═══════════
 // Google's and Apple's own badge artwork (assets/badges/, unaltered). The home and the check page write each badge as
 // `.badge.soon[data-store]`, the guides as `.badge.pending` (assets/app-button.js redraws those), each with "Coming soon" under it, so
 // a visitor without scripts sees both badges, dimmed, no link. WHICH badges a visitor sees is ONE rule for
-// the whole site (home, check page, guides), BRIMM_SHOWS below (founder, HQ #74 + #71): before any store is live, everyone sees both;
-// once one is live, a phone sees only its own store (Android: Google Play; iPhone: the App Store, still "Coming soon" until it is live,
-// never a Play badge) and a computer sees both. ON (with a url), a store's badge becomes the link to that store, without the words.
+// the whole site (home, check page, guides), BRIMM_SHOWS below (founder, HQ #74 + #71): every device sees BOTH badges
+// (founder, 25 Nov 2026, HQ #2464 / mock #326 — replaced #74's "a phone sees only its own store"). ON (with a url), a store's badge becomes the link to that store, without the words.
 (function () {
   var ua = navigator.userAgent || '';
   window.BRIMM_DEVICE = /Android/i.test(ua) ? 'android'
     : (/iPhone|iPad|iPod/i.test(ua) || (/Macintosh/.test(ua) && 'ontouchend' in document)) ? 'ios' : 'desktop';
   window.BRIMM_LIVE = function (k) { var st = window.BRIMM_STORES[k]; return !!(st && st.on && st.url); };
-  window.BRIMM_SHOWS = function (k) {
-    if (!window.BRIMM_LIVE('play') && !window.BRIMM_LIVE('ios')) return true;
-    var d = window.BRIMM_DEVICE;
-    return d === 'desktop' || (d === 'android') === (k === 'play');
-  };
+  // BOTH BADGES ON EVERY DEVICE (founder OK 25 Nov 2026 15:33, HQ #2464: "same design as mock #326", which shows both on a phone —
+  // Q#680 = B; replaces #74's "a phone sees only its own store"). brimm.ai/download is the per-device door. Kept as a function so
+  // every caller (home, check page, guides) still asks ONE rule.
+  window.BRIMM_SHOWS = function () { return true; };
   function apply() {
     document.querySelectorAll('.badge[data-store]').forEach(function (el) {
       var k = el.getAttribute('data-store');

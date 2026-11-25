@@ -269,7 +269,7 @@
 
 <script src="/assets/check-search.js?v=a48c5021"></script>
 <script src="/assets/site.js?v=0e7df8ad"></script>
-<script src="/assets/stores.js?v=c07aac4c"></script>
+<script src="/assets/stores.js?v=5561c35d"></script>
 <script>
   // The thirteen approved hero photographs (the same set and credits as the home page). A destination shows ITS OWN photo when
   // the set has one; otherwise the plain night gradient — never a photo of somewhere else under another place's name.
@@ -582,7 +582,7 @@
     }
 
     // The store badges: which ones a visitor sees is ONE rule for the whole site (assets/stores.js BRIMM_SHOWS, founder 1 Nov 2026,
-    // HQ #74 + #71): both, each "Coming soon", until a store is live; then a phone sees its own store and a desktop both, plus the QR.
+    // HQ #74 + #71): both badges on every device (HQ #2464, 25 Nov 2026), each "Coming soon" until its store is live; a desktop also gets the QR.
     const ua = navigator.userAgent, android = /Android/i.test(ua), ios = /iPhone|iPad|iPod/i.test(ua) || (/Macintosh/.test(ua) && 'ontouchend' in document);
     const shows = window.BRIMM_SHOWS || (() => true);   // stores.js failed to load: both badges, still dimmed (its markup), never a dead page
     $('playBtn').hidden = !shows('play'); $('iosBtn').hidden = !shows('ios');
