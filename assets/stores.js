@@ -9,7 +9,7 @@
 window.BRIMM_CHECK = { on: true };   // ON 1 Nov 2026 (founder, HQ #500 19:58: "GO NOW, AS IS")
 window.BRIMM_STORES = {
   play: { on: false, url: 'https://play.google.com/store/apps/details?id=ai.brimm.app', main: 'Get it on' },
-  ios:  { on: false, url: '', main: 'Download on the' },
+  ios:  { on: false, url: 'https://apps.apple.com/app/id6828996131', main: 'Download on the' },   // the live listing (Apple approved iOS 1.0, PD #2424); OFF = every badge still "Coming soon" until Friday. brimm.ai/download reads the url, not the switch (#2460)
 };
 
 // ═══ THE OFFICIAL STORE BADGES (founder, 28 Oct 2026 23:27; BADGES WITH "COMING SOON" UNTIL LIVE, 1 Nov 2026 13:00, HQ #74) ═══════════

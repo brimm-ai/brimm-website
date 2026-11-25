@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Get brimm</title>
+<!-- brimm.ai/download — ONE link that opens the right store (founder OK 25 Nov 2026 14:52, HQ #2460). An iPhone or iPad goes to the
+     App Store, an Android phone to Google Play, at once. The addresses are read from the site's one store file (assets/stores.js
+     BRIMM_STORES[k].url) and its one device rule (BRIMM_DEVICE) — never typed here. This link opens the store whatever the badges' on/off
+     switch says: the founder ruled the link itself (#2460); the badges elsewhere keep their own switch.
+     A COMPUTER (or anything else) goes to the home page's download section until the computer page — both badges and a QR code — is
+     approved (HQ mock); it then replaces the line marked COMPUTER below. Not for search: noindex, no canonical, no sitemap. -->
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#060912">
+<noscript><meta http-equiv="refresh" content="0;url=/#get"></noscript>
+<script src="/assets/stores.js?v=c07aac4c"></script>
+<script>
+  (function () {
+    var S = window.BRIMM_STORES || {}, d = window.BRIMM_DEVICE;
+    var to = d === 'ios' ? S.ios && S.ios.url : d === 'android' ? S.play && S.play.url : '';
+    location.replace(to || '/#get');   // COMPUTER: the home page's download section, until the computer page is approved
+  })();
+</script>
+</head>
+<body style="background:#060912"></body>
+</html>
