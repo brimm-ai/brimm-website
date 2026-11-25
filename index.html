@@ -72,6 +72,18 @@
   .hero-in{position:relative;z-index:2;max-width:1180px;margin:0 auto;padding:0 20px;display:grid;gap:16px;align-items:center}
   .copy{min-height:calc(100svh - 150px);display:flex;flex-direction:column;justify-content:flex-end;padding:96px 0 26px}   /* the phone's top shows in the first screen */
   h1{font-size:clamp(46px,10vw,96px);line-height:.98;letter-spacing:-.045em;font-weight:800;text-shadow:0 4px 30px rgba(0,0,0,.35)}
+  /* THE LAUNCH PILL (HQ #2486, Fri 27 Nov 2026 10:00): one line above the headline, opening brimm.ai/download (which picks the visitor's store).
+     The store badges stay where they are, under the headline: nothing is said twice. */
+  .live{align-self:flex-start;display:inline-flex;align-items:center;gap:9px;margin-bottom:20px;padding:8px 16px 8px 12px;border-radius:999px;
+    background:rgba(6,9,18,.55);border:1px solid rgba(126,200,200,.5);color:#fff;font-weight:800;font-size:15px;letter-spacing:-.005em;text-decoration:none;
+    -webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);box-shadow:0 6px 24px rgba(0,0,0,.25)}
+  .live:focus-visible{outline:2px solid var(--teal);outline-offset:3px}
+  .live .dot{width:9px;height:9px;border-radius:50%;background:var(--teal);box-shadow:0 0 0 0 rgba(126,200,200,.6);animation:livepulse 2.4s ease-out infinite}
+  .live .arr{color:var(--teal)}
+  .live .short{display:none}
+  @media (max-width:600px){.live .full{display:none}.live .short{display:inline}}   /* a phone: one short line (the full sentence wrapped to two), the badges just below say which stores */
+  @keyframes livepulse{0%{box-shadow:0 0 0 0 rgba(126,200,200,.55)}70%{box-shadow:0 0 0 9px rgba(126,200,200,0)}100%{box-shadow:0 0 0 0 rgba(126,200,200,0)}}
+  @media (prefers-reduced-motion:reduce){.live .dot{animation:none}}
   .proof{margin-top:20px;font-size:clamp(20px,3vw,28px);font-weight:800;letter-spacing:-.01em}
   .proof b{color:var(--teal);font-weight:800}
   .sub{margin-top:10px;color:#D6DCEA;font-size:17px;max-width:440px;text-shadow:0 1px 12px rgba(0,0,0,.45)}
@@ -249,6 +261,7 @@
   <div class="scrim"></div>
   <div class="hero-in">
     <div class="copy">
+      <a class="live" href="/download"><span class="dot" aria-hidden="true"></span><span class="full">brimm is live on the App Store and Google Play</span><span class="short">brimm is now live</span><span class="arr" aria-hidden="true">→</span></a>
       <h1>Travel thoughts?<br><span class="grad" style="white-space:nowrap">brimm-it!</span></h1>
       <p class="proof">Visa? <b>Checked.</b> Days? <b>Planned.</b></p>
       <div class="ctas">
