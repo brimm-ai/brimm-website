@@ -22,7 +22,7 @@ h1,h2,h3,.tile b,.plan h3{font-family:'Noto Serif',Georgia,'Times New Roman',ser
 .site-head nav a.cta{background:linear-gradient(100deg,#357D7D,#7C52F8);color:#fff;padding:9px 16px;border-radius:999px;text-shadow:none}
 .site-head.solid{background:rgba(6,9,18,.86);-webkit-backdrop-filter:saturate(140%) blur(10px);backdrop-filter:saturate(140%) blur(10px);border-bottom:1px solid rgba(255,255,255,.07)}
 .site-head.solid .brand img{filter:none}
-@media (max-width:720px){.site-head nav .wide{display:none}.site-head nav{gap:16px;font-size:13.5px}}
+@media (max-width:720px){.site-head nav .wide{display:none}.site-head nav a.cta{display:none}.site-head nav{gap:16px;font-size:13.5px}}   /* a phone: no "Get the app" in the header (it wrapped to 3 lines on a 393 phone, 25 Nov 2026) — the store badges sit in the hero, as mock #326 */
 @media (max-width:360px){.site-head nav{display:none}}
 [hidden]{display:none!important}
 /* the older page styles say `nav{…}` and `footer{…}` for their own bars — those bars are gone, so the shared ones are kept clear of them */
