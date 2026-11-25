@@ -167,8 +167,16 @@
       var a = document.createElement('a');
       a.className = el.className.replace(/\s*\bsoon\b/, '');
       a.href = window.BRIMM_STORES[k].url; a.target = '_blank'; a.rel = 'noopener';
+      a.setAttribute('data-go-store', k);
       a.appendChild(el.querySelector('.t').cloneNode(true));
       el.replaceWith(a);
+    });
+    // THE FILLED BUTTON IS THE VISITOR'S OWN STORE (founder, 25 Nov 2026, HQ #2478 / Q#677): an iPhone or iPad fills the App Store,
+    // an Android phone Google Play; a computer fills both, equally. The device is the site's one rule (assets/stores.js BRIMM_DEVICE).
+    var d = window.BRIMM_DEVICE, own = d === 'ios' ? 'ios' : d === 'android' ? 'play' : null;
+    ['play', 'ios'].forEach(function (k) {
+      var b = document.querySelector('.links [data-go-store="' + k + '"]');
+      if (b) b.classList.toggle('primary', !own || own === k);
     });
     // The home page's photos, the home page's way: a chain, not a clock — the next photo is asked for only once the last has shown,
     // nothing moves while the page is hidden, and the credit changes mid-fade so it is always the photo on screen.

@@ -432,7 +432,7 @@
       const L = window.BRIMM_LIVE || (() => false), d = window.BRIMM_DEVICE;
       const live = d === 'android' ? L('play') : d === 'ios' ? L('ios') : L('play') || L('ios');
       return live ? 'That’s today’s 10 free checks. Come back tomorrow, or get the brimm app for unlimited checks.'
-        : 'That’s today’s 10 free checks. Come back tomorrow, or get the brimm app, coming soon to Google Play and the App Store.';
+        : 'That’s today’s 10 free checks. Come back tomorrow, or get the brimm app on Google Play or the App Store.';
     },
     web_too_fast: 'One moment, then check again.',
     checker_closed: null,
