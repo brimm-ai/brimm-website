@@ -13,7 +13,10 @@
 (function (root) {
   'use strict';
   const DIACRITICS = /[̀-ͯ]/g;
+  // #2526 (25 Nov 2026): the letters NFD cannot split, folded as the app's foldPlaceName folds them (ø, æ, œ, ß, ł, đ, ð, þ, ı).
+  const UNSPLIT = { 'ø': 'o', 'æ': 'ae', 'œ': 'oe', 'ß': 'ss', 'ł': 'l', 'đ': 'd', 'ð': 'd', 'þ': 'th', 'ı': 'i' };
   const fold = (s) => String(s || '').normalize('NFD').replace(DIACRITICS, '').toLowerCase()
+    .replace(/[øæœßłđðþı]/g, (c) => UNSPLIT[c] || c)
     .replace(/[‘’]/g, "'").replace(/\bste\.?\s+/g, 'sainte ').replace(/\bst\.?\s+/g, 'saint ');
   const aliasHit = (aliases, code, q) => {
     const list = (code && aliases && aliases[code]) || null;
