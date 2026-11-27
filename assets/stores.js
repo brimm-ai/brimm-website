@@ -12,6 +12,24 @@ window.BRIMM_STORES = {
   ios:  { on: true,  url: 'https://apps.apple.com/app/id6828996131', main: 'Download on the' },   // the live listing (Apple approved iOS 1.0, PD #2424); ON: publicly live (founder OK 25 Nov 15:33, HQ #2464). brimm.ai/download reads the url, not the switch (#2460)
 };
 
+// ═══ THE SOURCE TAG ON brimm.ai/download (Q#691 B, PD 26 Nov 2026; HQ #2630, #2659) ════════════════════════════════════════════════
+// brimm.ai/download?s=ig (tt, x, yt, fb, li) hands the tag to the STORE, which counts it in its own console: Google Play as an install
+// referrer (Play Console → acquisition), the App Store as a campaign token (App Store Connect → App Analytics → Campaigns). brimm keeps
+// NOTHING — no cookie, no request of ours, no storage; the page only rewrites the store address. ONLY a tag on this list is passed: anything
+// else (a typo, free text, a name) is dropped and the visitor still reaches the store, untagged — so nothing personal can ride a link into
+// a store's report. APPLE needs our provider token (`pt`) as well; until the PD posts it on HQ it is '' and iPhones go untagged (#691).
+window.BRIMM_TAGS = { sources: ['ig', 'tt', 'x', 'yt', 'fb', 'li'], applePt: '' };
+window.BRIMM_STORE_URL = function (k, tag) {
+  var st = window.BRIMM_STORES[k], T = window.BRIMM_TAGS;
+  if (!st || !st.url) return '';
+  var s = T.sources.indexOf(tag) >= 0 ? tag : '';
+  if (!s) return st.url;
+  var sep = st.url.indexOf('?') >= 0 ? '&' : '?';
+  if (k === 'play') return st.url + sep + 'referrer=' + encodeURIComponent('utm_source=' + s + '&utm_medium=social&utm_campaign=download');
+  if (k === 'ios') return T.applePt ? st.url + sep + 'pt=' + encodeURIComponent(T.applePt) + '&ct=' + s + '&mt=8' : st.url;
+  return st.url;
+};
+
 // ═══ THE OFFICIAL STORE BADGES (founder, 28 Oct 2026 23:27; BADGES WITH "COMING SOON" UNTIL LIVE, 1 Nov 2026 13:00, HQ #74) ═══════════
 // Google's and Apple's own badge artwork (assets/badges/, unaltered). The home and the check page write each badge as
 // `.badge.soon[data-store]`, the guides as `.badge.pending` (assets/app-button.js redraws those), each with "Coming soon" under it, so
