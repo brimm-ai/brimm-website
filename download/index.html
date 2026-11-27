@@ -18,8 +18,11 @@
   (function () {
     // ?s=<tag> is handed to the store by BRIMM_STORE_URL (assets/stores.js), only from its fixed list; brimm stores nothing (Q#691 B)
     var d = window.BRIMM_DEVICE, m = /[?&]s=([a-z]{1,3})(?:&|$)/.exec(location.search), tag = m ? m[1] : '';
-    var to = d === 'ios' ? window.BRIMM_STORE_URL('ios', tag) : d === 'android' ? window.BRIMM_STORE_URL('play', tag) : '';
-    location.replace(to || '/#get');   // COMPUTER: the home page's download section, until the computer page is approved
+    // the STORE APP, not its web page (HQ #2694; measured on the Pixel 27 Nov 2026 via /download/try?m=auto): BRIMM_OPEN_STORE in
+    // assets/stores.js — Chrome and Chrome tabs follow the intent link to the Play app; an in-app browser asks through an invisible frame
+    // and falls back to the web address after 1.5 s, so the worst case is the old behaviour
+    if (d === 'ios' || d === 'android') { window.BRIMM_OPEN_STORE(d === 'ios' ? 'ios' : 'play', tag); return; }
+    location.replace('/#get');   // COMPUTER: the home page's download section, until the computer page is approved
   })();
 </script>
 </head>
