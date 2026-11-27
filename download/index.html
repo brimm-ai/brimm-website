@@ -16,8 +16,9 @@
 <script src="/assets/stores.js?v=5350101b"></script>
 </head>
 <body style="background:#060912">
-<!-- the routine runs from the BODY (27 Nov 2026, measured): run from the head, before the page had a body, Chrome on the Pixel took the
-     intent link's fallback (Play's web page) instead of opening the Play app; from the body — as /download/try does — it opened the app -->
+<!-- the routine runs from the body, as /download/try does (its iframe needs a body). Measured on the Pixel, 27 Nov 2026: Chrome opens the
+     Play app from /download?s=x, tagged or not. (A first reading said "from the head, Chrome takes the fallback" — wrong: those runs had
+     loaded Chrome's cached copy of the OLD page; with the cache expired, both forms open the app.) -->
 <script>
   (function () {
     // ?s=<tag> is handed to the store by BRIMM_STORE_URL (assets/stores.js), only from its fixed list; brimm stores nothing (Q#691 B)
