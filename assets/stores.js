@@ -58,7 +58,9 @@ window.BRIMM_STORE_TAP_URL = function (k, tag) {
     return window.BRIMM_IN_APP ? window.BRIMM_STORE_APP_URL('play', tag, 'market')
       : window.BRIMM_STORE_APP_URL('play', tag, 'intent');
   }
-  if (k === 'ios' && d === 'ios' && window.BRIMM_IN_APP) return window.BRIMM_STORE_APP_URL('ios', tag);
+  // iPhone: ALWAYS the plain https App Store address (Apple's universal link), never itms-apps:// — the founder's iPhone, Facebook's
+  // browser, 27 Nov 2026 20:51 (#2830): itms-apps on the button did not reach the App Store; in-app browsers hand apps.apple.com to the
+  // App Store app on a user tap.
   return web;
 };
 /** The automatic step of /download. Returns true when the store was asked for at once (a normal browser). */
