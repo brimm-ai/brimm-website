@@ -37,37 +37,38 @@ window.BRIMM_STORE_APP_URL = function (k, tag, how) {
   if (k === 'ios') return web.replace(/^https:\/\//, 'itms-apps://');
   return web;
 };
-// OPEN THE STORE (HQ #2694, #2768): one routine for /download (and /download/try?m=auto).
-//  · Chrome and every other real browser gets Android's intent link itself — measured on the Pixel 27 Nov: the Play app opens (Chrome's
-//    own fallback is Play's web page).
-//  · An Android IN-APP browser (a WebView: "; wv)" in its user agent, or the app's own mark) gets it in three steps: an invisible frame
-//    first (Instagram honours it); 0.3 s later, if the page is still on screen, the intent link at the TOP of the page — X's browser ignored
-//    the frame and stayed on Play's web page (founder's own phone, 27 Nov 16:38, #2768); 2 s later, if still on screen, the store's web
-//    address. ⚠️ an in-app browser that neither handles intent links nor fails quietly would show its own error page for the top-level
-//    step; the "Open Google Play" button the PD asked for (#2768, mocked first) is the visitor's way on from there.
-//  · An iPhone: Safari gets the App Store's web address (iOS opens the App Store app); an in-app browser (the app's own mark in its user
-//    agent) gets itms-apps:// — the App Store app — then the web address 1.5 s later if still on screen. Not measured: no iPhone here.
-// Every fallback fires only if the page is still on screen (the store app opening hides it).
+// OPEN THE STORE — THE FOUNDER'S RULE (27 Nov 2026 18:2x, HQ #2794; approved page mock #385; measured #2719, #2792):
+//  · A NORMAL BROWSER (Chrome, Safari…) opens the store by itself: Android gets the intent link (the Play app opens — measured on the
+//    Pixel), an iPhone the App Store's web address (iOS opens the App Store app).
+//  · INSIDE AN APP'S MINI-BROWSER (X, Instagram, TikTok, Facebook, LinkedIn… — "; wv)" or the app's mark in the user agent) nothing jumps
+//    to Play's WEB page any more: X ignored every automatic jump and its Play web page sent the founder back to us (a loop, #2792/#2793).
+//    The visitor stays on the /download page and its ONE button opens the store APP on a tap (BRIMM_STORE_TAP_URL). Android still makes
+//    one harmless invisible try first (an app that honours it — Instagram did — opens the Play app with no tap; one that ignores it shows
+//    nothing). An iPhone mini-browser makes no automatic try.
 window.BRIMM_IN_APP = /; wv\)|Instagram|FBAN|FBAV|FB_IAB|Twitter|musical_ly|Bytedance|TikTok|LinkedInApp|Line\//i.test(navigator.userAgent || '');
+/** The link a TAP should open for store k on this device: the store APP where the device can ask for it, the web address otherwise. */
+window.BRIMM_STORE_TAP_URL = function (k, tag) {
+  var web = window.BRIMM_STORE_URL(k, tag), d = window.BRIMM_DEVICE;
+  if (!web) return '';
+  if (k === 'play' && d === 'android') {
+    var q = web.split('?')[1] || '';
+    // a mini-browser gets NO web fallback inside the link (it would land on Play's web page, the loop); Chrome keeps Chrome's own fallback
+    return window.BRIMM_IN_APP ? 'intent://details?' + q + '#Intent;scheme=market;package=com.android.vending;end'
+      : window.BRIMM_STORE_APP_URL('play', tag, 'intent');
+  }
+  if (k === 'ios' && d === 'ios' && window.BRIMM_IN_APP) return window.BRIMM_STORE_APP_URL('ios', tag);
+  return web;
+};
+/** The automatic step of /download. Returns true when the store was asked for at once (a normal browser). */
 window.BRIMM_OPEN_STORE = function (k, tag) {
   var web = window.BRIMM_STORE_URL(k, tag);
   if (!web) return false;
-  var later = function (ms, fn) { setTimeout(function () { if (!document.hidden) fn(); }, ms); };
-  if (k !== 'play') {
-    if (window.BRIMM_IN_APP) { later(1500, function () { location.replace(web); }); location.href = window.BRIMM_STORE_APP_URL(k, tag); }
-    else location.replace(web);
-    return true;
-  }
-  var app = window.BRIMM_STORE_APP_URL('play', tag, 'intent');
-  if (window.BRIMM_IN_APP) {
-    var f = document.createElement('iframe'); f.style.display = 'none'; f.src = app;
+  if (!window.BRIMM_IN_APP) { location.replace(window.BRIMM_STORE_TAP_URL(k, tag)); return true; }
+  if (k === 'play') {
+    var f = document.createElement('iframe'); f.style.display = 'none'; f.src = window.BRIMM_STORE_TAP_URL(k, tag);
     (document.body || document.documentElement).appendChild(f);
-    later(300, function () { location.href = app; });
-    later(2000, function () { location.replace(web); });
-  } else {
-    location.replace(app);
   }
-  return true;
+  return false;
 };
 window.BRIMM_STORE_URL = function (k, tag) {
   var st = window.BRIMM_STORES[k], T = window.BRIMM_TAGS;
@@ -101,7 +102,7 @@ window.BRIMM_STORE_URL = function (k, tag) {
       el.hidden = el.hidden || !window.BRIMM_SHOWS(k);
       if (!window.BRIMM_LIVE(k)) return;
       var a = document.createElement('a');
-      a.className = 'badge'; a.href = window.BRIMM_STORES[k].url; a.rel = 'noopener';
+      a.className = 'badge'; a.href = (k === 'play' && window.BRIMM_DEVICE === 'android') || (k === 'ios' && window.BRIMM_DEVICE === 'ios') ? window.BRIMM_STORE_TAP_URL(k, '') : window.BRIMM_STORES[k].url; a.rel = 'noopener';   // #2794: a phone's own store opens as the APP on a tap
       if (el.id) a.id = el.id;
       a.hidden = el.hidden;
       var img = el.querySelector('img').cloneNode(true);
