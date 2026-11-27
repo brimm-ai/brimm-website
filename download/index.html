@@ -4,30 +4,51 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Get brimm</title>
-<!-- brimm.ai/download — ONE link that opens the right store (founder OK 25 Nov 2026 14:52, HQ #2460). An iPhone or iPad goes to the
-     App Store, an Android phone to Google Play, at once. The addresses are read from the site's one store file (assets/stores.js
-     BRIMM_STORES[k].url) and its one device rule (BRIMM_DEVICE) — never typed here. This link opens the store whatever the badges' on/off
-     switch says: the founder ruled the link itself (#2460); the badges elsewhere keep their own switch.
-     A COMPUTER (or anything else) goes to the home page's download section until the computer page — both badges and a QR code — is
-     approved (HQ mock); it then replaces the line marked COMPUTER below. Not for search: noindex, no canonical, no sitemap. -->
+<!-- brimm.ai/download — ONE link that opens the right store (founder OK 25 Nov 2026 14:52, HQ #2460). The addresses come from the site's one
+     store file (assets/stores.js) and its one device rule (BRIMM_DEVICE) — never typed here. Not for search: noindex, no canonical, no sitemap.
+     THE FOUNDER'S RULE (27 Nov 2026 18:2x, HQ #2794; page = approved mock #385): a NORMAL browser opens the store by itself (this page is
+     only seen for a moment); INSIDE an app's mini-browser (X, Instagram, TikTok…) the page stays, and its ONE button opens the store APP on a
+     tap — never Play's web page, which sent the founder back here in a loop (#2792/#2793). A COMPUTER goes to the home page's download
+     section, as before. The source tag (?s=…, paid tags included) rides every path; brimm stores nothing. -->
 <meta name="robots" content="noindex">
 <meta name="theme-color" content="#060912">
 <noscript><meta http-equiv="refresh" content="0;url=/#get"></noscript>
-<script src="/assets/stores.js?v=3a03e1cc"></script>
+<link rel="preload" href="/assets/fonts/Manrope-Bold-latin.ttf?v=0702f46a" as="font" type="font/ttf" crossorigin>
+<style>
+  @font-face{font-family:'Manrope';src:url('/assets/fonts/Manrope-Regular-latin.ttf?v=35083cda') format('truetype');font-weight:400 600;font-display:swap}
+  @font-face{font-family:'Manrope';src:url('/assets/fonts/Manrope-Bold-latin.ttf?v=0702f46a') format('truetype');font-weight:700 900;font-display:swap}
+  :root{--night:#060912;--ink:#F4F7FA;--muted:rgba(244,247,250,.72);--faint:rgba(244,247,250,.52)}
+  html,body{margin:0;height:100%;background:var(--night);color:var(--ink);font-family:Manrope,system-ui,sans-serif}
+  main{min-height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px 16px;box-sizing:border-box;text-align:center;
+    background:radial-gradient(60% 40% at 50% 38%,rgba(124,82,248,.18),transparent 70%)}
+  img.mark{width:72px;height:72px}
+  h1{font-size:28px;font-weight:800;margin:18px 0 6px;letter-spacing:-.3px}
+  p.sub{margin:0 0 28px;color:var(--muted);font-size:15px}
+  a.go{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;max-width:340px;min-height:56px;border-radius:16px;
+    background:linear-gradient(90deg,#357D7D,#7C52F8);color:#fff;font-weight:800;font-size:17px;text-decoration:none;box-shadow:0 8px 28px rgba(124,82,248,.35)}
+  p.wait{margin:18px 0 0;color:var(--faint);font-size:13px}
+</style>
+<script src="/assets/stores.js?v=22857902"></script>
 </head>
-<body style="background:#060912">
-<!-- the routine runs from the body, as /download/try does (its iframe needs a body). Measured on the Pixel, 27 Nov 2026: Chrome opens the
-     Play app from /download?s=x, tagged or not. (A first reading said "from the head, Chrome takes the fallback" — wrong: those runs had
-     loaded Chrome's cached copy of the OLD page; with the cache expired, both forms open the app.) -->
+<body>
+<main>
+  <img class="mark" src="/assets/mark-dark-foreground.svg?v=88298876" alt="">
+  <h1>Get brimm</h1>
+  <p class="sub">Your trip, visa-checked, day by day.</p>
+  <a class="go" id="go" href="/#get">Get the app</a>
+  <p class="wait" id="wait">Opening the store…</p>
+</main>
 <script>
   (function () {
-    // ?s=<tag> is handed to the store by BRIMM_STORE_URL (assets/stores.js), only from its fixed list; brimm stores nothing (Q#691 B)
+    // ?s=<tag> is handed to the store by assets/stores.js, only from its fixed list (Q#691 B, #2736)
     var d = window.BRIMM_DEVICE, m = /[?&]s=([a-z]{1,5})(?:&|$)/.exec(location.search), tag = m ? m[1] : '';
-    // the STORE APP, not its web page (HQ #2694; measured on the Pixel 27 Nov 2026 via /download/try?m=auto): BRIMM_OPEN_STORE in
-    // assets/stores.js — Chrome and Chrome tabs follow the intent link to the Play app; an in-app browser asks through an invisible frame
-    // and falls back to the web address after 1.5 s, so the worst case is the old behaviour
-    if (d === 'ios' || d === 'android') { window.BRIMM_OPEN_STORE(d === 'ios' ? 'ios' : 'play', tag); return; }
-    location.replace('/#get');   // COMPUTER: the home page's download section, until the computer page is approved
+    if (d !== 'ios' && d !== 'android') { location.replace('/#get'); return; }   // COMPUTER: the home page's download section
+    var k = d === 'ios' ? 'ios' : 'play', go = document.getElementById('go');
+    go.textContent = k === 'ios' ? 'Open the App Store' : 'Open Google Play';
+    go.href = window.BRIMM_STORE_TAP_URL(k, tag);   // the store APP on a tap (#2794)
+    window.BRIMM_OPEN_STORE(k, tag);
+    // the line says what is happening, and stops saying it once nothing more will happen by itself (copy that lies is worse than none)
+    setTimeout(function () { var w = document.getElementById('wait'); if (w && !document.hidden) w.style.visibility = 'hidden'; }, 2500);
   })();
 </script>
 </body>
