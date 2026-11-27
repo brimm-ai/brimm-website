@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Get brimm · test</title>
+<!-- brimm.ai/download/try — A MEASURING PAGE, NOT A PAGE FOR VISITORS (HQ #2694, 27 Nov 2026). It tries each way of opening the STORE APP
+     from an app's in-app browser, so /download can use only what is measured to work. Nothing links here; not for search.
+       ?m=intent  Android: the intent link (Play Store app, Play's web page as its fallback)
+       ?m=market  Android: market:// (the app, no fallback of its own)
+       ?m=itms    iPhone: itms-apps:// (the App Store app)
+       ?m=web     today's /download (the store's web address)
+     Every mode keeps the source tag (?s=x …) exactly as /download does, and falls back to the web address after 1.5 s if the page is still
+     on screen — so a mode that does nothing leaves the visitor where /download would have. No mode: a list of the four, to tap by hand.
+     brimm keeps nothing: no cookie, no request of ours. -->
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#060912">
+<script src="/assets/stores.js?v=98bfe760"></script>
+<style>body{background:#060912;color:#F4F7FA;font:16px/1.5 system-ui,sans-serif;margin:0;padding:24px 16px}a{display:block;margin:12px 0;padding:14px;border:1px solid #7EC8C8;border-radius:12px;color:#7EC8C8;text-decoration:none;font-weight:700}p{color:rgba(244,247,250,.72);font-size:14px}</style>
+</head>
+<body>
+<p id="who"></p>
+<div id="menu"></div>
+<script>
+  (function () {
+    var d = window.BRIMM_DEVICE, q = location.search, s = /[?&]s=([a-z]{1,3})(?:&|$)/.exec(q), tag = s ? s[1] : '';
+    var m = (/[?&]m=([a-z]+)/.exec(q) || [])[1] || '';
+    var k = d === 'ios' ? 'ios' : d === 'android' ? 'play' : '';
+    document.getElementById('who').textContent = 'device: ' + d + ' · tag: ' + (tag || 'none') + ' · ' + navigator.userAgent;
+    if (!k) { location.replace('/#get'); return; }
+    var web = window.BRIMM_STORE_URL(k, tag);
+    var go = m === 'web' ? web : m === 'intent' || m === 'market' ? (k === 'play' ? window.BRIMM_STORE_APP_URL(k, tag, m) : '') : m === 'itms' ? (k === 'ios' ? window.BRIMM_STORE_APP_URL(k, tag) : '') : '';
+    if (go) {
+      setTimeout(function () { if (!document.hidden) location.replace(web); }, 1500);
+      location.href = go;
+      return;
+    }
+    var modes = k === 'play' ? ['intent', 'market', 'web'] : ['itms', 'web'];
+    document.getElementById('menu').innerHTML = modes.map(function (x) {
+      var href = x === 'web' ? web : window.BRIMM_STORE_APP_URL(k, tag, x);
+      return '<a href="' + href.replace(/"/g, '&quot;') + '">' + x + '</a>';
+    }).join('');
+  })();
+</script>
+</body>
+</html>

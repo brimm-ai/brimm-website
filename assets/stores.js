@@ -19,6 +19,22 @@ window.BRIMM_STORES = {
 // else (a typo, free text, a name) is dropped and the visitor still reaches the store, untagged — so nothing personal can ride a link into
 // a store's report. APPLE needs our provider token (`pt`) as well; until the PD posts it on HQ it is '' and iPhones go untagged (#691).
 window.BRIMM_TAGS = { sources: ['ig', 'tt', 'x', 'yt', 'fb', 'li'], applePt: '' };
+// THE STORE APP, NOT ITS WEB PAGE (HQ #2694, founder 27 Nov 2026): from an app's in-app browser (X, Instagram, TikTok…) the web address
+// opens the store's WEB page inside that app — one tap more. Android's intent link asks the system for the Play Store app directly, with
+// the same referrer and Play's web page as its own fallback (S.browser_fallback_url); market:// is the same request without the fallback;
+// itms-apps:// asks iOS for the App Store app. Which of these each in-app browser honours is MEASURED on /download/try/ before
+// /download uses any of them.
+window.BRIMM_STORE_APP_URL = function (k, tag, how) {
+  var web = window.BRIMM_STORE_URL(k, tag);
+  if (!web) return '';
+  if (k === 'play') {
+    var q = web.split('?')[1] || '';   // id=ai.brimm.app[&referrer=…] — the same query the web address carries
+    if (how === 'market') return 'market://details?' + q;
+    return 'intent://details?' + q + '#Intent;scheme=market;package=com.android.vending;S.browser_fallback_url=' + encodeURIComponent(web) + ';end';
+  }
+  if (k === 'ios') return web.replace(/^https:\/\//, 'itms-apps://');
+  return web;
+};
 window.BRIMM_STORE_URL = function (k, tag) {
   var st = window.BRIMM_STORES[k], T = window.BRIMM_TAGS;
   if (!st || !st.url) return '';
