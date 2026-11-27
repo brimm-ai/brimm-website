@@ -30,6 +30,15 @@ const RULES = [
   ['a Kashmir-region place (promoted content)', /\b(kashmir|srinagar|jammu|katra|vaishno devi|ladakh|pahalgam|gulmarg|sonamarg|leh|nubra valley|pangong tso)\b/i],
   ['a capital Brimm', /\bBrimm\b(?! Limited)/],
 ];
+// THE ANSWER BOX ON A VISA ROUTE PAGE (founder, 27 Nov 2026 12:1x, HQ #692 = B — "dated visa answers ARE allowed on the visa route pages,
+// only there"): on a page at visa/<country>-for-<nationality>-passport-holders-in-the-uae/ ONE box marked data-route-answer may carry the
+// app's answer, and only while it says "Last confirmed <date>" and "check the official page before you book" (#366's words). The box is
+// still read by every OTHER rule (a fee, a provider, Kashmir, a capital Brimm); only the verdict rule is lifted, inside the box. Anywhere
+// else on that page — the title, the description, the tiles, the structured data — a verdict word is refused as on every guide.
+const ROUTE_PAGE = /^visa\/[a-z0-9-]+-passport-holders-in-the-uae\/index\.html$/;
+const ANSWER_BOX = /<section class="panel answer" data-route-answer>([\s\S]*?)<\/section>/g;
+const ANSWER_DATED = /Last confirmed \d{1,2} [A-Z][a-z]{2} \d{4}/;
+const ANSWER_ADVICE = 'check the official page before you book';
 const EXEMPT_SLUG = 'visa-free-countries-for-uae-residents', EXEMPT_PAGE = `visa/${EXEMPT_SLUG}/index.html`, EXEMPT_TITLE = 'Visa-free countries for UAE residents';
 
 const RULED = [
@@ -58,14 +67,28 @@ function visible(html, exemptTitles) {
 }
 /** The faults on one page — [] when clean. `rel` is the page's path from the site root. */
 function check(html, rel) {
-  const v = visible(html, rel.replace(/\\/g, '/') === EXEMPT_PAGE);
-  const bad = [];
+  const r = rel.replace(/\\/g, '/'), bad = [];
+  const boxes = [...html.matchAll(ANSWER_BOX)];
+  if (boxes.length) {
+    if (!ROUTE_PAGE.test(r)) bad.push(`${rel}: an answer box on a page that is not a visa route page`);
+    else if (boxes.length > 1) bad.push(`${rel}: more than one answer box`);
+    else {
+      const inner = boxes[0][1];
+      if (!ANSWER_DATED.test(inner)) bad.push(`${rel}: the answer box carries no "Last confirmed <date>"`);
+      if (!inner.includes(ANSWER_ADVICE)) bad.push(`${rel}: the answer box does not say "${ANSWER_ADVICE}"`);
+      // the box's own text, read by every rule but the verdict one
+      const t = visible(inner, false);
+      for (const line of t.split('\n')) for (const [what, re] of RULES.slice(1)) { const m = line.match(re); if (m) bad.push(`${rel}: ${what} (answer box) — "${line.trim().slice(0, 70)}"`); }
+      html = html.replace(ANSWER_BOX, ' ');
+    }
+  }
+  const v = visible(html, r === EXEMPT_PAGE);
   for (const line of v.split('\n')) for (const [what, re] of RULES) {
     const m = line.match(re); if (m) bad.push(`${rel}: ${what} — "${line.trim().slice(Math.max(0, m.index - 30), m.index + 40)}"`);
   }
   return bad;
 }
-module.exports = { check, RULED, RULES, EXEMPT_PAGE, EXEMPT_TITLE, EXEMPT_SLUG };
+module.exports = { check, RULED, RULES, EXEMPT_PAGE, EXEMPT_TITLE, EXEMPT_SLUG, ROUTE_PAGE };
 
 if (require.main === module) {
   if (process.argv.includes('--self-test')) {
@@ -87,8 +110,21 @@ if (require.main === module) {
     const title = '<title>Visa-free countries for UAE residents | brimm</title><h1>Visa-free countries for UAE residents</h1><meta property="og:url" content="https://brimm.ai/visa/visa-free-countries-for-uae-residents/">';
     const exemptOk = !check(title, EXEMPT_PAGE).length && check(title, 'visa/georgia-for-uae-residents/index.html').length > 0
       && check(title + '<p>Thailand is visa-free</p>', EXEMPT_PAGE).length > 0;
-    if (missed.length || flagged.length || !exemptOk) { console.error('no-verdicts self-test FAILED — missed:', missed, 'flagged clean:', flagged, 'exemption ok:', exemptOk); process.exit(1); }
-    console.log(`no-verdicts self-test: all ${planted.length} planted cases refused, ${clean.length} clean texts pass, the one title exemption holds only on its page`);
+    // the route answer box (#692 = B): passes dated + advised on a route page; refused undated, unadvised, twice, on another page, with a
+    // verdict outside it, or with another rule's fault inside it
+    const RP = 'visa/thailand-for-pakistani-passport-holders-in-the-uae/index.html';
+    const box = (inner) => `<section class="panel answer" data-route-answer>${inner}</section>`;
+    const good = box('<span class="vpill">e-Visa</span><p class="vline">Apply online before you travel</p><p class="dated"><b>Last confirmed 23 Nov 2026</b> · <a href="https://www.thaievisa.go.th/">check the official page before you book</a></p>');
+    const routeOk = !check(good, RP).length
+      && check(box('<span>e-Visa</span><p>check the official page before you book</p>'), RP).length > 0
+      && check(box('<span>e-Visa</span><p>Last confirmed 23 Nov 2026</p>'), RP).length > 0
+      && check(good + good, RP).length > 0
+      && check(good, 'visa/thailand-for-uae-residents/index.html').length > 0
+      && check(good + '<p>Thailand is visa-free</p>', RP).length > 0
+      && check('<meta name="description" content="Thailand visa-free for Pakistanis">' + good, RP).length > 0
+      && check(box('<span>e-Visa</span><p>The fee is small. Last confirmed 23 Nov 2026 · check the official page before you book</p>'), RP).length > 0;
+    if (missed.length || flagged.length || !exemptOk || !routeOk) { console.error('no-verdicts self-test FAILED — missed:', missed, 'flagged clean:', flagged, 'exemption ok:', exemptOk, 'route box ok:', routeOk); process.exit(1); }
+    console.log(`no-verdicts self-test: all ${planted.length} planted cases refused, ${clean.length} clean texts pass, the one title exemption holds only on its page, the route answer box passes only dated and advised on a route page`);
     process.exit(0);
   }
   const dir = path.join(root, 'visa');
