@@ -37,22 +37,33 @@ window.BRIMM_STORE_APP_URL = function (k, tag, how) {
   if (k === 'ios') return web.replace(/^https:\/\//, 'itms-apps://');
   return web;
 };
-// OPEN THE STORE (HQ #2694): one routine for /download (and /download/try?m=auto, where it was measured first).
-//  · An Android IN-APP browser (a WebView: "; wv)" in its user agent, or the app's own mark) asks for the Play app through an invisible
-//    frame, so an app that ignores the request shows no error page: the visitor simply goes to the web address after 1.5 s, as before.
-//  · Chrome and every other real browser gets the intent link itself — Chrome follows it, or its built-in fallback (Play's web page).
-//  · An iPhone goes to the App Store's web address, which iOS hands to the App Store app in Safari (in-app browsers: measured on try).
-// The fallback fires only if the page is still on screen (the store app opening hides it).
+// OPEN THE STORE (HQ #2694, #2768): one routine for /download (and /download/try?m=auto).
+//  · Chrome and every other real browser gets Android's intent link itself — measured on the Pixel 27 Nov: the Play app opens (Chrome's
+//    own fallback is Play's web page).
+//  · An Android IN-APP browser (a WebView: "; wv)" in its user agent, or the app's own mark) gets it in three steps: an invisible frame
+//    first (Instagram honours it); 0.3 s later, if the page is still on screen, the intent link at the TOP of the page — X's browser ignored
+//    the frame and stayed on Play's web page (founder's own phone, 27 Nov 16:38, #2768); 2 s later, if still on screen, the store's web
+//    address. ⚠️ an in-app browser that neither handles intent links nor fails quietly would show its own error page for the top-level
+//    step; the "Open Google Play" button the PD asked for (#2768, mocked first) is the visitor's way on from there.
+//  · An iPhone: Safari gets the App Store's web address (iOS opens the App Store app); an in-app browser (the app's own mark in its user
+//    agent) gets itms-apps:// — the App Store app — then the web address 1.5 s later if still on screen. Not measured: no iPhone here.
+// Every fallback fires only if the page is still on screen (the store app opening hides it).
 window.BRIMM_IN_APP = /; wv\)|Instagram|FBAN|FBAV|FB_IAB|Twitter|musical_ly|Bytedance|TikTok|LinkedInApp|Line\//i.test(navigator.userAgent || '');
 window.BRIMM_OPEN_STORE = function (k, tag) {
   var web = window.BRIMM_STORE_URL(k, tag);
   if (!web) return false;
-  if (k !== 'play') { location.replace(web); return true; }
+  var later = function (ms, fn) { setTimeout(function () { if (!document.hidden) fn(); }, ms); };
+  if (k !== 'play') {
+    if (window.BRIMM_IN_APP) { later(1500, function () { location.replace(web); }); location.href = window.BRIMM_STORE_APP_URL(k, tag); }
+    else location.replace(web);
+    return true;
+  }
   var app = window.BRIMM_STORE_APP_URL('play', tag, 'intent');
   if (window.BRIMM_IN_APP) {
-    setTimeout(function () { if (!document.hidden) location.replace(web); }, 1500);
     var f = document.createElement('iframe'); f.style.display = 'none'; f.src = app;
     (document.body || document.documentElement).appendChild(f);
+    later(300, function () { location.href = app; });
+    later(2000, function () { location.replace(web); });
   } else {
     location.replace(app);
   }
