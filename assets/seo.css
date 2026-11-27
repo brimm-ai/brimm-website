@@ -139,3 +139,5 @@ footer a{color:var(--teal);font-weight:700}
 .panel.answer .dated{font-size:13px;color:var(--muted);margin-top:12px}
 .panel.answer .dated b{color:#FFC24D;font-weight:700}
 .panel.answer .dated a{color:var(--teal);font-weight:700}
+/* THE ROUTE HUB'S PASSPORT CHIPS (/visa/uae-residents/, mock #370): the picked passport, as the mock draws it. */
+.guides a.on{background:rgba(126,200,200,.18);border-color:#7EC8C8}
