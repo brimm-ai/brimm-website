@@ -28,7 +28,7 @@
     background:linear-gradient(90deg,#357D7D,#7C52F8);color:#fff;font-weight:800;font-size:17px;text-decoration:none;box-shadow:0 8px 28px rgba(124,82,248,.35)}
   p.wait{margin:18px 0 0;color:var(--faint);font-size:13px}
 </style>
-<script src="/assets/stores.js?v=eed8fc34"></script>
+<script src="/assets/stores.js?v=da813581"></script>
 </head>
 <body>
 <main>
@@ -42,10 +42,16 @@
   (function () {
     // ?s=<tag> is handed to the store by assets/stores.js, only from its fixed list (Q#691 B, #2736)
     var d = window.BRIMM_DEVICE, m = /[?&]s=([a-z]{1,5})(?:&|$)/.exec(location.search), tag = m ? m[1] : '';
+    // the counter (#2866): the page opened, under its source tag as written (tt-ad counts as ttad); nothing about the visitor is sent
+    var c = /[?&]s=([^&]*)/.exec(location.search), ctag = '';
+    try { ctag = c ? decodeURIComponent(c[1]) : ''; } catch (e) { ctag = 'other'; }
+    window.BRIMM_COUNT(ctag, 'open');
     if (d !== 'ios' && d !== 'android') { location.replace('/#get'); return; }   // COMPUTER: the home page's download section
     var k = d === 'ios' ? 'ios' : 'play', go = document.getElementById('go');
     go.textContent = k === 'ios' ? 'Open the App Store' : 'Open Google Play';
     go.href = window.BRIMM_STORE_TAP_URL(k, tag);   // the store APP on a tap (#2794)
+    go.addEventListener('click', function () { window.BRIMM_COUNT(ctag, 'tap'); });
+    if (!window.BRIMM_IN_APP) window.BRIMM_COUNT(ctag, 'auto');   // a normal browser is about to be sent to the store by itself
     window.BRIMM_OPEN_STORE(k, tag);
     // the line says what is happening, and stops saying it once nothing more will happen by itself (copy that lies is worse than none)
     setTimeout(function () { var w = document.getElementById('wait'); if (w && !document.hidden) w.style.visibility = 'hidden'; }, 2500);

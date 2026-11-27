@@ -27,6 +27,8 @@ const NAMES = /travel[\s_-]?buddy|rapidapi|visa-requirement\.p|anthropic|\bclaud
 const ALLOWED = [
   { why: 'photo credit', re: /\bon Unsplash\b/g },
   { why: 'the database host the check calls', re: /https:\/\/oejnnujlcmtzlkyifzag\.supabase\.co\/functions\/v1\/api-proxy/g },
+  // the anonymous tap counter's door (PD #2866): the beacon must call that address, visible in any network tab; only in the store file
+  { why: 'the database host the tap counter calls', re: /https:\/\/oejnnujlcmtzlkyifzag\.supabase\.co\/functions\/v1\/download-count/g, only: 'assets/stores.js' },
   { why: 'the database host, inside the bundled engine (its module and setting names)', re: /supabase/gi, only: 'assets/check-engine.js' },
   { why: 'open founder question: apply-link table keys', re: /"https:\/\/link\.travel-buddy\.ai\/\?link=[0-9A-Za-z]+"(?=:)/g, only: 'assets/check-engine.js' },
   // THE LINK-IN-BIO PAGE IS THE ONE PAGE ALLOWED TO NAME PARTNERS (founder, #670 via PD #2323, 23 Nov 2026): every partner whose link
