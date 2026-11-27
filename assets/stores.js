@@ -52,8 +52,10 @@ window.BRIMM_STORE_TAP_URL = function (k, tag) {
   if (!web) return '';
   if (k === 'play' && d === 'android') {
     var q = web.split('?')[1] || '';
-    // a mini-browser gets NO web fallback inside the link (it would land on Play's web page, the loop); Chrome keeps Chrome's own fallback
-    return window.BRIMM_IN_APP ? 'intent://details?' + q + '#Intent;scheme=market;package=com.android.vending;end'
+    // a mini-browser gets market:// — the plain "open the Play app" request — and never a web fallback (Play's web page is the loop). Not
+    // intent://: X's browser does not understand it and says "No apps can perform this action" (founder's tap, 27 Nov 2026 ~20:00, HQ
+    // #2810 area / PD 19:5x). Chrome keeps the intent link, measured to open the Play app with Chrome's own fallback.
+    return window.BRIMM_IN_APP ? window.BRIMM_STORE_APP_URL('play', tag, 'market')
       : window.BRIMM_STORE_APP_URL('play', tag, 'intent');
   }
   if (k === 'ios' && d === 'ios' && window.BRIMM_IN_APP) return window.BRIMM_STORE_APP_URL('ios', tag);
