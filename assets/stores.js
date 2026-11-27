@@ -74,6 +74,19 @@ window.BRIMM_OPEN_STORE = function (k, tag) {
   }
   return false;
 };
+// ═══ THE ANONYMOUS TAP COUNTER (PD #2866, FOUNDER APPROVED 27 Nov 2026 23:2x) ══════════════════════════════════════════════════════
+// /download and the store badges send ONE fire-and-forget beacon of three short words — the source tag, the device word (android · ios ·
+// desktop) and what happened (open · auto = the store was asked for by itself · tap). The server adds 1 to that day's count and keeps
+// NOTHING else: no cookie, no stored id, no IP, no user agent, nothing per person (the download-count door, in brimm-ai). It never
+// waits and never throws — a lost count is a lost count, the visitor's way to the store is untouched.
+window.BRIMM_COUNT = function (tag, ev) {
+  try {
+    var body = 't=' + String(tag || '').toLowerCase().replace(/[^a-z]/g, '').slice(0, 8) + '&p=' + (window.BRIMM_DEVICE || 'desktop') + '&e=' + ev;
+    var u = 'https://oejnnujlcmtzlkyifzag.supabase.co/functions/v1/download-count';
+    if (navigator.sendBeacon) navigator.sendBeacon(u, body);
+    else if (window.fetch) fetch(u, { method: 'POST', body: body, keepalive: true, mode: 'no-cors' }).catch(function () {});
+  } catch (e) { /* never in the visitor's way */ }
+};
 window.BRIMM_STORE_URL = function (k, tag) {
   var st = window.BRIMM_STORES[k], T = window.BRIMM_TAGS;
   if (!st || !st.url) return '';
@@ -112,6 +125,8 @@ window.BRIMM_STORE_URL = function (k, tag) {
       var img = el.querySelector('img').cloneNode(true);
       img.alt = k === 'play' ? 'Get it on Google Play' : 'Download on the App Store';
       a.appendChild(img);
+      // the counter (#2866): a tap on a store badge — 'home' on the home page, 'site' on every other page
+      a.addEventListener('click', function () { window.BRIMM_COUNT(/^\/(index\.html)?$/.test(location.pathname) ? 'home' : 'site', 'tap'); });
       el.replaceWith(a);
     });
   }
