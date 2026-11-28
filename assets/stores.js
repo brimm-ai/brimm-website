@@ -46,6 +46,9 @@ window.BRIMM_STORE_APP_URL = function (k, tag, how) {
 //    one harmless invisible try first (an app that honours it — Instagram did — opens the Play app with no tap; one that ignores it shows
 //    nothing). An iPhone mini-browser makes no automatic try.
 window.BRIMM_IN_APP = /; wv\)|Instagram|FBAN|FBAV|FB_IAB|Twitter|musical_ly|Bytedance|TikTok|LinkedInApp|Line\//i.test(navigator.userAgent || '');
+// TIKTOK'S OWN BROWSER (PD #2878, 28 Nov 2026 — the TikTok leak): on an iPhone it is the one in-app browser where the page now asks for the
+// App Store by itself (below), because its visitors were measured not reaching the store: 8 opens, 0 taps, 0 automatic.
+window.BRIMM_TIKTOK = /musical_ly|Bytedance|TikTok/i.test(navigator.userAgent || '');
 /** The link a TAP should open for store k on this device: the store APP where the device can ask for it, the web address otherwise. */
 window.BRIMM_STORE_TAP_URL = function (k, tag) {
   var web = window.BRIMM_STORE_URL(k, tag), d = window.BRIMM_DEVICE;
@@ -63,16 +66,23 @@ window.BRIMM_STORE_TAP_URL = function (k, tag) {
   // App Store app on a user tap.
   return web;
 };
-/** The automatic step of /download. Returns true when the store was asked for at once (a normal browser). */
-window.BRIMM_OPEN_STORE = function (k, tag) {
-  var web = window.BRIMM_STORE_URL(k, tag);
-  if (!web) return false;
-  if (!window.BRIMM_IN_APP) { location.replace(window.BRIMM_STORE_TAP_URL(k, tag)); return true; }
+/** The automatic step of /download. `before(kind)` is called just BEFORE the store is asked for — 'auto' (a normal browser is sent there),
+ *  'try' (an app's browser gets the page's own attempt) — so the counter's beacon leaves before the page does. Returns the kind, or ''. */
+window.BRIMM_OPEN_STORE = function (k, tag, before) {
+  var web = window.BRIMM_STORE_URL(k, tag), say = typeof before === 'function' ? before : function () {};
+  if (!web) return '';
+  if (!window.BRIMM_IN_APP) { say('auto'); location.replace(window.BRIMM_STORE_TAP_URL(k, tag)); return 'auto'; }
   if (k === 'play') {
+    say('try');
     var f = document.createElement('iframe'); f.style.display = 'none'; f.src = window.BRIMM_STORE_TAP_URL(k, tag);
     (document.body || document.documentElement).appendChild(f);
+    return 'try';
   }
-  return false;
+  // iPhone, TikTok's browser only (#2878): ask for the App Store's own address. TikTok hands it to the App Store app, or shows Apple's
+  // listing page with its own "View in App Store" button — either is nearer the store than a page nobody tapped. Every other iPhone
+  // in-app browser keeps the button only: each was proven on the founder's iPhone (#2845) and is not touched.
+  if (k === 'ios' && window.BRIMM_TIKTOK) { say('try'); location.href = web; return 'try'; }
+  return '';
 };
 // ═══ THE ANONYMOUS TAP COUNTER (PD #2866, FOUNDER APPROVED 27 Nov 2026 23:2x) ══════════════════════════════════════════════════════
 // /download and the store badges send ONE fire-and-forget beacon of three short words — the source tag, the device word (android · ios ·

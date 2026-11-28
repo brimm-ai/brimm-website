@@ -28,7 +28,7 @@
     background:linear-gradient(90deg,#357D7D,#7C52F8);color:#fff;font-weight:800;font-size:17px;text-decoration:none;box-shadow:0 8px 28px rgba(124,82,248,.35)}
   p.wait{margin:18px 0 0;color:var(--faint);font-size:13px}
 </style>
-<script src="/assets/stores.js?v=da813581"></script>
+<script src="/assets/stores.js?v=f932e55d"></script>
 </head>
 <body>
 <main>
@@ -51,8 +51,13 @@
     go.textContent = k === 'ios' ? 'Open the App Store' : 'Open Google Play';
     go.href = window.BRIMM_STORE_TAP_URL(k, tag);   // the store APP on a tap (#2794)
     go.addEventListener('click', function () { window.BRIMM_COUNT(ctag, 'tap'); });
-    if (!window.BRIMM_IN_APP) window.BRIMM_COUNT(ctag, 'auto');   // a normal browser is about to be sent to the store by itself
-    window.BRIMM_OPEN_STORE(k, tag);
+    // 'away' (#2878): the page went into the background within 15 s of opening — the store app came up (or the person switched away).
+    // Without it, a visitor an app's browser sent to the store by the page's own attempt looked exactly like one stuck here.
+    var t0 = Date.now(), gone = false;
+    document.addEventListener('visibilitychange', function () {
+      if (!gone && document.visibilityState === 'hidden' && Date.now() - t0 < 15000) { gone = true; window.BRIMM_COUNT(ctag, 'away'); }
+    });
+    window.BRIMM_OPEN_STORE(k, tag, function (kind) { window.BRIMM_COUNT(ctag, kind); });   // 'auto' or 'try', counted before it happens
     // the line says what is happening, and stops saying it once nothing more will happen by itself (copy that lies is worse than none)
     setTimeout(function () { var w = document.getElementById('wait'); if (w && !document.hidden) w.style.visibility = 'hidden'; }, 2500);
   })();
