@@ -20,7 +20,8 @@ window.BRIMM_STORES = {
 // a store's report. APPLE needs our provider token (`pt`) as well; until the PD posts it on HQ it is '' and iPhones go untagged (#691).
 // PAID TAGS (HQ #2736, founder's first boost 27 Nov 2026): the same platforms with "ad" on the end, so the store reports tell a paid tap
 // from an organic one — by the source itself AND by utm_medium=paid (organic tags say social).
-window.BRIMM_TAGS = { sources: ['ig', 'tt', 'x', 'yt', 'fb', 'li', 'igad', 'ttad', 'xad', 'ytad', 'fbad'], applePt: '' };
+// STORY TAGS (28 Nov 2026): igs / fbs — the link stickers on Instagram and Facebook Stories (#2848, #2927) — reach the store tagged too
+window.BRIMM_TAGS = { sources: ['ig', 'tt', 'x', 'yt', 'fb', 'li', 'igad', 'ttad', 'xad', 'ytad', 'fbad', 'igs', 'fbs'], applePt: '' };
 // THE STORE APP, NOT ITS WEB PAGE (HQ #2694, founder 27 Nov 2026): from an app's in-app browser (X, Instagram, TikTok…) the web address
 // opens the store's WEB page inside that app — one tap more. Android's intent link asks the system for the Play Store app directly, with
 // the same referrer and Play's web page as its own fallback (S.browser_fallback_url); market:// is the same request without the fallback;
